@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#### SUBLIME TEXT ####
+
 # open sublime text, open thesis folder, open main.tex
 subl .
 subl main.tex
@@ -13,7 +15,7 @@ tell application "Sublime Text"
 end tell
 EOF
 
-# make fullscreen
+# make fullscreen # old command:  subl --command toggle_full_screen .
 osascript <<EOF
 tell application "Sublime Text"
     tell application "System Events"
@@ -22,9 +24,12 @@ tell application "Sublime Text"
 end tell
 EOF
 
-# open PDF in full screen
+#### PDF DISPLAY ####
+
+# open PDF
 open main.pdf 
 
+# in full screen
 osascript <<EOF
 tell application "Preview"
     activate
@@ -33,5 +38,3 @@ tell application "Preview"
     end tell
 end tell
 EOF
-
-# old command:  subl --command toggle_full_screen .

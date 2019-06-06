@@ -1,3 +1,5 @@
+\usepackage{suthesis-2e}
+
 \section{Conventional Particle Accelerators}
 
 \section{Dielectric Laser Acceleration}
@@ -18,7 +20,7 @@ Several recently demonstrated candidate DLA structures consist of a planar diele
 These structures are then side-illuminated by laser pulses. Fig.~\ref{fig:system} shows a schematic of the setup, with a laser pulse incident from the bottom.
 
 \begin{figure}[htb!]
-\centering\includegraphics[width=\textwidth]{Fig1.pdf}
+\centering\includegraphics[width=\textwidth]{figures/DLA_definition.pdf}
 \caption{Diagram outlining the system setup for side-coupled DLA with an arbitrary dielectric structure $\eps(x,y)$ (green).  A charged particle moves through the vacuum gap with speed $\beta c_0$.  The periodicity is set at $\beta \lambda$ where $\lambda$ is the central wavelength of the laser pulse.}
 \label{fig:system}
 \end{figure}
@@ -70,7 +72,7 @@ Since we have arbitrarily control over our input laser phase, this does not impo
 To simplify the following derivations, we define the following inner product operation involving the integral over two vector quantities $\va$ and $\vb$ over a single period volume $V'$
 
 \begin{equation}
-\bracket{\va}{\vb} = \int_{V'} dv \  \left(\va \cdot \vb \right) = \int_0^{\beta\lambda}dx\int_{-\infty}^\infty dy \   \left(\va\cdot\vb\right).
+\bracket{\va}{\vb} = \int_{V'} dv \  \left(\va \cdot \vb \right) = \int_0^{\beta\lambda}dx\int_{-\infty}^\infty dy \left(\va\cdot\vb\right).
 \end{equation} 
 With this definition, we then have the gradient
 
@@ -162,18 +164,18 @@ By the chain rule, this gives
 To evaluate \eq{eq:dGdgamma_2}, we define a second simulation with source term $-\pfrac{J}{\bfx}^T$,
 
 \begin{equation}
-A^T\bfx_{aj} = A\bfx_{aj} = -\pfrac{J}{\bfx}^T,
+A^T\bfx_\aj = A\bfx_\aj = -\pfrac{J}{\bfx}^T,
 \label{eq:adjoint_source}
 \end{equation}
-then the field solution, $\bfx_{aj} = -A^{-1}\pfrac{J}{\bfx}^T$, can be easily identified in \eq{eq:dGdgamma_2}, which gives the expression
+then the field solution, $\bfx_\aj = -A^{-1}\pfrac{J}{\bfx}^T$, can be easily identified in \eq{eq:dGdgamma_2}, which gives the expression
 
 \begin{equation}
-\dfrac{G}{\bfphi} = \real{ \bfx_{aj} \pfrac{A}{\bfphi} \bfx }.
+\dfrac{G}{\bfphi} = \real{ \bfx_\aj^T \pfrac{A}{\bfphi} \bfx }.
 \label{eq:final_form_DGdgamma}
 \end{equation}
 
 The only quantity in this expression that depends on the parameter $\bfphi$ is $\pfrac{A}{\bfphi}$.  As we will soon discuss, this quantity will generally be trivial to compute.
-On the other hand, the full field calculations of $\bfx$ and $\bfx_{aj}$ are computationally expensive, but may be computed once and used for an arbitrarily large set of parameters $\bfphi_i$.
+On the other hand, the full field calculations of $\bfx$ and $\bfx_\aj$ are computationally expensive, but may be computed once and used for an arbitrarily large set of parameters $\bfphi_i$.
 This gives the adjoint method significant scaling advantage with respect to traditional direct sensitivity methods, such as finite difference, which require a separate full-field calculation for each parameter being investigated.
 
 \subsection{Application to Accelerator}
