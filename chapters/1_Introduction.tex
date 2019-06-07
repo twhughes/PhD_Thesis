@@ -9,7 +9,7 @@ This endeavor has given rise to countless technologies of great practical and sc
 Most prominently, the use of light as an information carrier has enabled high speed and low loss communications through the use of optical fiber technologies \cite{agrawal_fiber-optic_2012}.
 Light is also used extensively for precise detection and measurement in  scientific studies.  
 For example, X-ray radiation is now used to observe femtosecond dynamics in chemical reactions \cite{kern_structures_2018}, and laser interferometry was recently used to measure gravitational waves emitted from black hole mergers \cite{ligo_scientific_collaboration_and_virgo_collaboration_observation_2016}.
-Apart from these, there are many applications of photonics with significant practical importance ranging from renewable energy \cite{carlson_amorphous_1976,yu_fundamental_2010} to heat transfer \cite{raman_passive_2014,hsu_radiative_2016}.
+Apart from these, there are many applications of photonics with significant practical importance ranging from renewable energy \cite{carlson_amorphous_1976,yu_fundamental_2010} to passive refrigeration \cite{raman_passive_2014,hsu_radiative_2016}.
 
 One of the most important achievements of photonics in the past few decades has been the development of \textit{integrated} photonic devices [integrated].
 In this paradigm, rather than constructing devices using macroscopic components, such as lenses and mirrors, they are created on the surface of a chip using techniques common to the semiconductor industry.
@@ -46,7 +46,7 @@ In this scheme, the overall performance of the device is defined mathematically 
 This approach allows for automated design of photonic devices that are often more compact and higher performance than their traditionally designed alternatives.
 Furthermore, this approach allows one to search through a much larger parameter space, typically on the order of thousands to millions of design variables, which allows the design algorithms to often find structures with complexities often extending beyond the intuition of the designer.
 
-The use of inverse design has a long history in other fields, such as mechanics [mech], aerodynamics [aero], and heat transfer [heat].
+The use of inverse design has a long history in other fields, such as mechanics \cite{tanaka_inverse_1998}, aerodynamics \cite{jameson_aerodynamic_nodate}, and heat transfer [heat].
 However, in the past decade, it has been applied successfully to many photonics problems.
 A few early examples include the use of inverse design to engineer wavelength splitters [WDM], perfect 90 degree bends in dielectric waveguides [90 Deg], or the design of photonic crystals [PhC].
 More recently, it was applied to engineer more exotic phenomena, such as the photonic crystal band structure [PhC band], nonlinear optical responses [nonlin Zin], and metasurfaces [meta].
@@ -71,7 +71,7 @@ For this purpose, the adjoint method allows one to calculate the gradient of the
 Crucially, this gradient may be obtained with the computational cost of solving only one additional linear system $\hat{A}^T \bar{\bfx} = -\pfrac{J}{\bfx}^T$, which is often called the `adjoint' problem.
 
 As we will show, this method may be readily applied to the inverse design of electromagnetic devices.
-In this case, $A$ represents Maxwell's equations describing the device, $\bfx$ are the electromagnetic fields, and $\bfb$ is the electric current source.
+In this case, $A$ represents Maxwell's equations describing the device, $\bfx$ are the electromagnetic fields, and $\bfb$ is the electric current source driving the system.
 
 \section{Thesis Overview}
 
