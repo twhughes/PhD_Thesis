@@ -1,5 +1,23 @@
-% text things
-\newcommand{\eq}[1]{Eq. (\ref{#1})}
+
+% referencing equations
+\newcommand{\eq}[1]{Eq. (\ref{eq:#1})}
+% defining equations
+\newcommand{\eqdef}[2]{
+    \begin{equation}
+        #2
+        \label{eq:#1}
+    \end{equation}
+}
+
+% referencing figures
+\newcommand{\fig}[1]{Fig. (\ref{fig:#1})}
+% defining figures
+\newcommand{\figdef}[3]{
+        \begin{figure}[htb!] \centering\includegraphics[width=\textwidth]{figures/#1}
+        \caption{#3}
+        \label{fig:#2}
+    \end{figure}
+}
 
 % adjoint math
 \newcommand{\bfx}{\mathbf{x}}

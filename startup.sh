@@ -27,7 +27,7 @@ EOF
 #### PDF DISPLAY ####
 
 # open PDF
-open main.pdf 
+open main.pdf
 
 # in full screen
 osascript <<EOF

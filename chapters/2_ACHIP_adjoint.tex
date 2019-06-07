@@ -1,4 +1,4 @@
-\usepackage{suthesis-2e}
+%!TEX root = ../main.tex
 
 \section{Conventional Particle Accelerators}
 
@@ -19,11 +19,7 @@ To achieve high energy gain in a compact size, it is of principle interest to de
 Several recently demonstrated candidate DLA structures consist of a planar dielectric structure that is periodic along the particle axis with either an semi-open geometry or a narrow (micron to sub-micron) vacuum gap in which the particles travel \cite{plettner2006proposed, peralta2013demonstration, mcneur2016elements, leedle2015dielectric, chang2014silicon, breuer2014dielectric, breuer2014dielectric2, kozak2016dielectric}.
 These structures are then side-illuminated by laser pulses. Fig.~\ref{fig:system} shows a schematic of the setup, with a laser pulse incident from the bottom.
 
-\begin{figure}[htb!]
-\centering\includegraphics[width=\textwidth]{figures/DLA_definition.pdf}
-\caption{Diagram outlining the system setup for side-coupled DLA with an arbitrary dielectric structure $\eps(x,y)$ (green).  A charged particle moves through the vacuum gap with speed $\beta c_0$.  The periodicity is set at $\beta \lambda$ where $\lambda$ is the central wavelength of the laser pulse.}
-\label{fig:system}
-\end{figure}
+\figdef{DLA_definition.pdf}{DLA_def}{Diagram outlining the system setup for side-coupled DLA with an arbitrary dielectric structure $\eps(x,y)$ (green).  A charged particle moves through the vacuum gap with speed $\beta c_0$.  The periodicity is set at $\beta \lambda$ where $\lambda$ is the central wavelength of the laser pulse.}
 
 The laser field may also be treated with a pulse front tilt \cite{hebling1996derivation, akturk2004pulse} to enable group velocity matching over a distance greater than the laser's pulse length.
 For acceleration to occur, the dielectric structure must be designed such that the particle feels an electric field that is largely parallel to its trajectory over many optical periods.
@@ -40,20 +36,14 @@ In addition, our work approximates the incident laser pulse as a monochromatic p
 
 In a general DLA system, we may define the acceleration gradient `$G$' over a time period `$T$' mathematically as follows:
 
-\begin{equation}
-G = \frac{1}{T}\int_0^{T}{ E_{||}(\vr(t),t)\ dt}
-\label{eq:Gintro}
-\ ,
-\end{equation} 
+\eqdef{Gintro}{G = \frac{1}{T}\int_0^{T}{ E_{||}(\vr(t),t)\ dt},}
+%
 where $\vr(t)$ is the position of the electron and $E_{||}$ signifies the (real) electric field component parallel to the electron trajectory at a given time.
 
 Since the structure is invariant in the $\hat{z}$ direction, we work in two dimensions, examining only the $H_z$, $E_x$ and $E_y$ field components.
 For an approximately monochromatic input laser source with angular frequency $\omega$, the electric fields are, in general, of the form
 
-
-\begin{equation}
-\bfx(\vr,t) = \real{\bfx(\vr)e^{i\omega t}},
-\end{equation}
+\eqdef{}{\bfx(\vr,t) = \real{\bfx(\vr)e^{i\omega t}},}
 where now $\bfx$ is complex.
 
 Let us assume the particle we wish to accelerate is moving on the line $y=0$ with velocity $\vec{v} = \beta c_0 \hat{x}$, where $c_0$ is the speed of light in vacuum and $\beta \leq 1$.
@@ -61,30 +51,33 @@ The $x$ position of the particle as a function of time is given by $x(t) = x_0 +
 For normal incidence of the laser (laser propagating in the $+\hat{y}$ direction), phase velocity matching between the particle and the electromagnetic fields is established by introducing a spatial periodicity in our structure of period $\beta \lambda$ along $\hat{x}$ , where $\lambda$ is the laser wavelength.
 In the limit of an infinitely long structure (or equivalently, $T \to \infty $) we may rewrite our expression for the gradient in Eq. (\ref{eq:Gintro}) as an integral over one spatial period, given by
 
-\begin{equation}
-G = \frac{1}{\beta\lambda}\real{ e^{-i\phi_0}\int_0^{\beta\lambda}{dx \ }E_x(x,0)e^{i\frac{2\pi}{\beta\lambda}x}}.
-\end{equation}
-%
+\eqdef{}{
+    G = \frac{1}{\beta\lambda}\real{ e^{-i\phi_0}\int_0^{\beta\lambda}{dx \ }E_x(x,0)e^{i\frac{2\pi}{\beta\lambda}x}}.
+}
+
 Here the quantity $\phi_0 = \frac{2\pi x_0}{\beta\lambda}$ is representative of the phase of the particle as it enters the spatial period.
 In further calculations, we set $\phi_0 = 0$, only examining the acceleration gradients experienced by particles entering the accelerator with this specific phase.
 Since we have arbitrarily control over our input laser phase, this does not impose any constraint on the acceleration gradient attainable.
 
 To simplify the following derivations, we define the following inner product operation involving the integral over two vector quantities $\va$ and $\vb$ over a single period volume $V'$
+%
+\eqdef{}{
+    \bracket{\va}{\vb} = \int_{V'} dv \  \left(\va \cdot \vb \right) = \int_0^{\beta\lambda}dx\int_{-\infty}^\infty dy \left(\va\cdot\vb\right).
+}
 
-\begin{equation}
-\bracket{\va}{\vb} = \int_{V'} dv \  \left(\va \cdot \vb \right) = \int_0^{\beta\lambda}dx\int_{-\infty}^\infty dy \left(\va\cdot\vb\right).
-\end{equation} 
 With this definition, we then have the gradient
-
-\begin{equation}
-G = \real{\bracket{\vE}{\veta}},
-\label{eq:G}
-\end{equation}
+%
+\eqdef{G}{
+    G = \real{\bracket{\vE}{\veta}},
+}
+%
 where
+\eqdef{}{
+    \veta(x,y) = \frac{1}{\beta\lambda}e^{i\frac{2\pi}{\beta\lambda}x}\delta(y)\hat{x}.
+}
 
-\begin{equation}
-\veta(x,y) = \frac{1}{\beta\lambda}e^{i\frac{2\pi}{\beta\lambda}x}\delta(y)\hat{x}.
-\end{equation}
+
+\figdef{eta_definition.png}{eta_def}{Defining Eta}
 
 Our goal in designing the accelerator is thus to create a permittivity distribution that maximizes $G$ subject to a few constraints.
 First, we require that a small gap exist for the electron to travel through the structure.
@@ -128,59 +121,54 @@ This remarkable efficiency is largely responsible for the success of inverse des
 The adjoint method is typically introduced for linear optical systems, although, as we will show in a later chapter, it may be extended to nonlinear systems without much additional effort.
 In the frequency domain, Maxwell's equations may be written as
 
-\begin{equation}
-\dcurl \vE (\vr)\ -\ k_0^2\ \eps_r(\vr)\ \vE(\vr) \equiv A\vE(\vr) = -i\mu_0\omega\vJ(\vr),
-\label{eq:FDFD_analytical}
-\end{equation}
+\eqdef{FDFD_analytical}
+{\dcurl \vE (\vr)\ -\ k_0^2\ \eps_r(\vr)\ \vE(\vr) \equiv A\vE(\vr) = -i\mu_0\omega\vJ(\vr),}
 %
 Here, $\vE(\vr)$ and $\vJ(\vr)$ are the electric field and electric current distributions, respectively. $k_0 = \omega/c_0$, $\eps_r$ is the relative permittivity and a non-magnetic material is assumed ($\mu = \mu_0$)
 
-More abstractly, we may write Eq. (\ref{eq:FDFD_analytical}) as
+More abstractly, we may write \eq{FDFD_analytical} as
 %
-\begin{equation}
-A \bfx = \bfb,
-\label{eq:FDFD_simple}
-\end{equation}
+\eqdef{FDFD_simple}{
+    A \bfx = \bfb,
+}
+
 %
 where $A$ is a sparse, complex symmetric matrix that encodes Maxwell's equations on the device.  
-$\bfx$ is a vector containing the electromagnetic fields at each position in the domain, which are the solution to Eq. (\ref{eq:FDFD_simple}) given the vector $\bfb$ describing the electric current source distribution in the domain.
+$\bfx$ is a vector containing the electromagnetic fields at each position in the domain, which are the solution to \eq{FDFD_simple} given the vector $\bfb$ describing the electric current source distribution in the domain.
 
 Our device is described by a set of design variables $\bm{\phi}$, which influence the system matrix, $A = A(\bfphi)$.
-Differentiating \eq{eq:FDFD_analytical} with respect to $\bfphi$, and assuming that the current source, $\bfb$, does not depend on $\bfphi$, we may recover the change in the solution with respect to the parameters as
+Differentiating \eq{FDFD_analytical} with respect to $\bfphi$, and assuming that the current source, $\bfb$, does not depend on $\bfphi$, we may recover the change in the solution with respect to the parameters as
 %
-\begin{equation}
-\dfrac{\bfx}{\bfphi} = -\invA \pfrac{A}{\bfphi} \invA \bfb = -\invA \pfrac{A}{\bfphi}\bfx
-\label{eq:dEdgamma}.
-\end{equation}
+\eqdef{dEdgamma}{
+    \dfrac{\bfx}{\bfphi} = -\invA \pfrac{A}{\bfphi} \invA \bfb = -\invA \pfrac{A}{\bfphi}\bfx
+}
+
 %
 Now, we consider differentiating an objective function $J = J(\bfx)$ that depends explicitly on the field solution.
 By the chain rule, this gives
 
-\begin{equation}
-\dfrac{J}{\bfphi} =  - \real{ \pfrac{J}{\bfx} \dfrac{\bfx}{\bfphi} } = - \real{ \pfrac{J}{\bfx} A^{-1} \pfrac{A}{\bfphi} \bfx }
-\label{eq:dGdgamma_2}.
-\end{equation}
+\eqdef{dGdgamma_2}{
+    \dfrac{J}{\bfphi} =  - \real{ \pfrac{J}{\bfx} \dfrac{\bfx}{\bfphi} } = - \real{ \pfrac{J}{\bfx} A^{-1} \pfrac{A}{\bfphi} \bfx }
+}
 
-To evaluate \eq{eq:dGdgamma_2}, we define a second simulation with source term $-\pfrac{J}{\bfx}^T$,
 
-\begin{equation}
-A^T\bfx_\aj = A\bfx_\aj = -\pfrac{J}{\bfx}^T,
-\label{eq:adjoint_source}
-\end{equation}
-then the field solution, $\bfx_\aj = -A^{-1}\pfrac{J}{\bfx}^T$, can be easily identified in \eq{eq:dGdgamma_2}, which gives the expression
+To evaluate \eq{dGdgamma_2}, we define a second simulation with source term $-\pfrac{J}{\bfx}^T$,
 
-\begin{equation}
-\dfrac{G}{\bfphi} = \real{ \bfx_\aj^T \pfrac{A}{\bfphi} \bfx }.
-\label{eq:final_form_DGdgamma}
-\end{equation}
+\eqdef{adjoint_source}{
+    A^T\bfx_\aj = A\bfx_\aj = -\pfrac{J}{\bfx}^T,
+}
+
+then the field solution, $\bfx_\aj = -A^{-1}\pfrac{J}{\bfx}^T$, can be easily identified in \eq{dGdgamma_2}, which gives the expression
+
+\eqdef{final_form_DGdgamma}{
+    \dfrac{G}{\bfphi} = \real{ \bfx_\aj^T \pfrac{A}{\bfphi} \bfx }.
+}
 
 The only quantity in this expression that depends on the parameter $\bfphi$ is $\pfrac{A}{\bfphi}$.  As we will soon discuss, this quantity will generally be trivial to compute.
 On the other hand, the full field calculations of $\bfx$ and $\bfx_\aj$ are computationally expensive, but may be computed once and used for an arbitrarily large set of parameters $\bfphi_i$.
 This gives the adjoint method significant scaling advantage with respect to traditional direct sensitivity methods, such as finite difference, which require a separate full-field calculation for each parameter being investigated.
 
 \subsection{Application to Accelerator}
-
-
 
 \section{Inverse design of Dielectric Laser Accelerator}{}
 
