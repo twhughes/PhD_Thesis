@@ -11,10 +11,10 @@ Light is also used extensively for precise detection and measurement in  scienti
 For example, X-ray radiation is now used to observe femtosecond dynamics in chemical reactions \cite{kern_structures_2018}, and laser interferometry was recently used to measure gravitational waves emitted from black hole mergers \cite{ligo_scientific_collaboration_and_virgo_collaboration_observation_2016}.
 Apart from these, there are many applications of photonics with significant practical importance ranging from renewable energy \cite{carlson_amorphous_1976,yu_fundamental_2010} to passive refrigeration \cite{raman_passive_2014,hsu_radiative_2016}.
 
-One of the most important achievements of photonics in the past few decades has been the development of \textit{integrated} photonic devices [integrated].
+One of the most important achievements of photonics in the past few decades has been the development of \textit{integrated} photonic devices \cite{pollock_integrated_2010}.
 In this paradigm, rather than constructing devices using macroscopic components, such as lenses and mirrors, they are created on the surface of a chip using techniques common to the semiconductor industry.
-Such an approach is appealing as it allows for compact, low cost, and highly functional devices that are also easier to integrate with existing electronic platforms based on composite metal on semiconductor (CMOS) technology [CMOS].
-The field of `Silicon photonics' has especially generated much interest in recent years, in which photonic devices integrated on Silicon are employed in applications ranging from optical interconnects for fast data transfer between microchips to large scale integrated photonic circuits [cite Si Pho].
+Such an approach is appealing as it allows for compact, low cost, and highly functional devices that are also easier to integrate with existing electronic platforms based on composite metal on semiconductor (CMOS) technology \cite{weste_principles_1985}.
+The field of `Silicon photonics' has especially generated much interest in recent years, in which photonic devices integrated on Silicon are employed in applications ranging from optical interconnects for fast data transfer between microchips to large scale integrated photonic circuits \cite{jalali_silicon_2006}.
 
 Here, we will primarily explore two emerging technologies based on integrated photonics, (1) Laser-driven particle accelerators on a chip, and (2) optical hardware for machine learning applications.
 The approach to laser-driven particle acceleration examined here is referred to as `dielectric laser acceleration', in which charged particles are accelerated by the near field of a patterned dielectric structure driven by an external laser.
@@ -41,22 +41,22 @@ For example, if one were to designing a device for tailored diffraction or trans
 
 \subsection{Inverse Design Approach}
 
-\textit{Inverse design} is a radically different approach that has become popularized in photonics within the past decade [inv des].  
+\textit{Inverse design} is a radically different approach that has become popularized in photonics within the past decade \cite{molesky_inverse_2018}.  
 In this scheme, the overall performance of the device is defined mathematically through an \textit{objective function}, which is then either maximized or minimized using computational and mathematical optimization techniques.
 This approach allows for automated design of photonic devices that are often more compact and higher performance than their traditionally designed alternatives.
 Furthermore, this approach allows one to search through a much larger parameter space, typically on the order of thousands to millions of design variables, which allows the design algorithms to often find structures with complexities often extending beyond the intuition of the designer.
 
-The use of inverse design has a long history in other fields, such as mechanics \cite{tanaka_inverse_1998}, aerodynamics \cite{jameson_aerodynamic_nodate}, and heat transfer [heat].
+The use of inverse design has a long history in other fields, such as mechanics \cite{tanaka_inverse_1998}, aerodynamics \cite{jameson_aerodynamic_nodate}, and heat transfer \cite{ozisik_inverse_2018}.
 However, in the past decade, it has been applied successfully to many photonics problems.
-A few early examples include the use of inverse design to engineer wavelength splitters [WDM], perfect 90 degree bends in dielectric waveguides [90 Deg], or the design of photonic crystals [PhC].
-More recently, it was applied to engineer more exotic phenomena, such as the photonic crystal band structure [PhC band], nonlinear optical responses [nonlin Zin], and metasurfaces [meta].
-For a thorough overview of the progress of inverse design in photonics at the time of publishing, we refer the reader to Ref. [A-Rod].
+A few early examples include the use of inverse design to engineer wavelength splitters \cite{piggott_inverse_2015,kingma_adam:_2014}, perfect 90 degree bends in dielectric waveguides \cite{jensen_topology_2005}, or the design of photonic crystals \cite{borel_topology_2004}.
+More recently, it was applied to engineer more exotic phenomena, such as the photonic crystal band structure [PhC band], nonlinear optical responses \cite{lin_cavity-enhanced_2016}, and metamaterials \cite{sigmund_systematic_2009}.
+For a thorough overview of the progress of inverse design in photonics at the time of publishing, we refer the reader to Ref. \citenum{molesky_inverse_2018}.
 
 \section{Introduction to Adjoint Method}
 
 As we will explore in detail, the ability to perform inverse design is largely enabled by the ability to efficiently search such a large parameter space.
 Typically, this is performed using \textit{gradient-based optimization} techniques, which use local gradient information to iteratively progress through the design space.
-In design problems with several degrees of freedom, gradient-based methods typically converge on local minima much faster than more general optimization techniques such as particle swarm optimization or genetic algorithms [cite], which don't typically use local gradient information.
+In design problems with several degrees of freedom, gradient-based methods typically converge on local minima much faster than more general optimization techniques such as particle swarm optimization \cite{noauthor_particle_nodate} or genetic algorithms \cite{whitley_genetic_1994}, which don't typically use local gradient information.
 
 In problems constrained by physics described by linear systems or differential equations, the \textit{adjoint method} is used to compute these gradients.
 The adjoint method allows one to compute gradients of the objective function with respect to each of the design parameters in a complexity that is (in practice) independent on the size of the design space.
@@ -64,7 +64,7 @@ As such, it is the cornerstone of the inverse design works in photonics and othe
 
 Here we give a brief introduction to the mathematics behind the adjoint method.
 Many engineering systems can be described by a linear system of equations $A(\bfphi) \bfx = \bfb$, where $A$ is a sparse matrix that depends on a set of parameters describing the system, $\bfphi$.
-Solving this equation with source $\bfb$ results in the solution $\bfx$, from which an objective function $J=J(\bfx)$ can be computed. 
+Solving this equation with source $\bfb$ results in the solution $\bfx$, from which an objective function $J=J(\bfx)$ can be computed.
 
 The optimization of this system corresponds to maximizing or minimizing $J$ with respect to the set of parameters $\bfphi$.
 For this purpose, the adjoint method allows one to calculate the gradient of the objective function $\nabla_\bfphi J$ for an arbitrary number of parameters.

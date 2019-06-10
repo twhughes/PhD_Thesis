@@ -10,7 +10,7 @@
 }
 
 % referencing figures
-\newcommand{\fig}[1]{Fig. (\ref{fig:#1})}
+\newcommand{\fig}[1]{Fig. \ref{fig:#1}}
 % defining figures
 \newcommand{\figdef}[3]{
         \begin{figure}[htb!] \centering\includegraphics[width=\textwidth]{figures/#1}
@@ -22,6 +22,7 @@
 % adjoint math
 \newcommand{\bfx}{\mathbf{x}}
 \newcommand{\bfb}{\mathbf{b}}
+\newcommand{\bfeta}{\bm{\eta}}
 \newcommand{\bfphi}{\bm{\phi}}
 \newcommand{\invA}{A^{-1}}
 \newcommand{\va}{\vec{a}}
@@ -30,6 +31,7 @@
 
 % physical quantities
 \newcommand{\vE}{\vec{E}}
+\newcommand{\tE}{\tilde{E}}
 \newcommand{\vH}{\vec{H}}
 \newcommand{\vJ}{\vec{J}}
 \newcommand{\vr}{\vec{r}}
@@ -40,6 +42,6 @@
 
 % more complicated math
 \newcommand{\pfrac}[2]{\ensuremath{\frac{\partial #1}{\partial #2}}}
-\newcommand{\dfrac}[2]{\ensuremath{\frac{d #1}{d #2}}}
+\newcommand{\ddfrac}[2]{\ensuremath{\frac{d #1}{d #2}}}
 \newcommand{\real}[1]{\ensuremath{ \Re \left\{ #1 \right\} }}
 \newcommand{\bracket}[2]{\ensuremath{ \langle #1 , #2 \rangle }}
