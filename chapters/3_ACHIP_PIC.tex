@@ -1,8 +1,252 @@
 %!TEX root = ../main.tex
 
-\section{Motivation}
+In the previous chapter, we discussed the basic working principles of DLA and described its optimization using the adjoint method.
+Here, we will describe the use of integrated optics to power and control such a device over an extended length.
 
 \section{On-Chip Laser Coupling Device}
+
+As mentioned, since DLA structures are already driven at their damage thresholds, apart from finding methods to increase material damage thresholds, achieving high total energy gain from DLA will fundamentally require extending the interaction length between the incoming laser pulse and the particle beam.
+This interaction length is limited not only by the longitudinal and transverse stability of the electron beam \cite{niedermayer2017beam, naranjo2012stable}, but also by the laser delivery system, which is the focus of this work.
+Several proof of principle DLA experiments \cite{wootton2017recent, peralta2013demonstration} have demonstrated high acceleration gradients using free-space manipulation of the laser pulse, including lensing, pulse-front-tilting \cite{hebling1996derivation, akturk2004pulse, cesar2018optical}, or multiple driving lasers \cite{kenleedle, mcneur2016elements}.
+However, these techniques require extensive experimental effort to perform and the system is exceedingly sensitive to angular alignment, thermal fluctuations, and mechanical noise.
+By replacing free-space manipulation with precise nano-fabrication techniques, an on-chip laser power delivery system would allow for orders of magnitude increases in the achievable interaction lengths and energy gains from DLA.
+
+In designing any laser power delivery system for DLA, there are a few major requirements to consider.
+(1) The optical power spatial profile must have good overlap with the electron beam side profile.
+(2) The laser pulses must be appropriately delayed along the length of the accelerator to arrive at the same time as the moving electron bunches.
+(3) The optical fields along each section of the accelerator must, ideally, be of the correct phase to avoid dephasing between the electrons and incoming laser fields.
+To accomplish all three of these requirements, we introduce a method for on-chip power delivery, which is based on a fractal \textit{tree-network} geometry.
+Furthermore, we provide a systematic study of the structure's operating principles, the optimal range of operating parameters, and the fundamental trade-offs that must be considered for any on-chip laser coupling strategy of the same class \cite{hughes_-chip_2018}.
+Through detailed numerical modeling of this design, we estimate that the proposed structure may achieve 1\,MeV of energy gain over a distance less than 1\,cm by sequentially illuminating 49 identical structures.
+
+\figdef{tree_coupling_structure}{struct}{
+    Two stages of the DLA laser coupling `tree-network' structure.
+    The electron beam travels along the z-axis through the center of this structure.
+    The laser pulses are side coupled with optical power shown in red.
+    Black regions define the on-chip waveguide network.
+    Blue circles represent the optical phase shifters used to tune the phase of the laser pulse.
+    This geometry serves to reproduce the pulse-front-tilt laser delivery system outlined in \cite{cesar2018optical} in an integrated optics platform.
+}
+
+We first introduce the proposed \textit{tree-network} waveguide geometry, which is diagrammed in \fig{struct}.
+The electron beam to be accelerated is propagating along the z-axis in the central accelerator gap.
+We first couple the laser pulses to the on-chip dielectric waveguides by use of input couplers.
+The optical power is then split a series of times and directed by waveguide bends to illuminate the entire length of the accelerator gap.
+Integrated phase shifters are used to tune the phase of each pulse upon exiting the waveguides and may be optimized for maximum acceleration.
+The accelerating structures are placed adjacent to the waveguide outputs.
+In this study, we choose to investigate silicon dual-pillar accelerator structures, similar to those used in \cite{leedle2015dielectric}.
+The entire device is mirrored over the center plane and is driven by laser inputs on each side.
+Two stages of the structure are shown in \fig{struct}, although several more may be implemented in series, assuming availability of several phase-locked laser sources.
+Electron beam focusing elements may be implemented between stages as needed.
+
+We will now discuss the individual components involved in the on-chip laser coupling system.
+
+\subsection{Input Coupling}
+The proposed structure first requires a strategy to couple light from the pump laser to the on-chip optical waveguides.
+We focus on free-space coupling to the input facet via a surface grating, eliminating the need for single mode fiber delivery.
+Our laser and macroscopic optical components are capable of handling pulse energies far beyond enough to cause damage to the structure.
+Bare single mode fibers also have damage thresholds high enough to withstand these laser pulses, but the large amount of dispersion introduced (associated with the relatively long length of $>$ 1 mm) will make them unsuitable for delivery to the chip.
+ 
+
+In general, couplers must have (1) high coupling efficiency, (2) a bandwidth large enough to couple entire pulse spectrum, and (3) high power handling and minimized hot spots.
+Input coupling may be accomplished by use of end coupling, focusing the laser beam directly onto the waveguide cross section, or vertical coupling schemes, such as grating couplers.
+In SOI systems, end coupling can achieve insertion losses as low as $0.66\;\text{dB (85.9\%)}$ over a bandwidth of roughly 10 THz \cite{pu2010ultra}, but is cumbersome to perform experimentally for a large number of inputs and constrains the input and output coupling ports to be located on the edges of the chip.
+Vertical couplers provide the benefit of relative flexibility in alignment and positioning on chip.
+The coupling efficiency of these devices varies drastically depending on the complexity of the grating coupler design, from an efficiency of $>30\%$ to $>90\%$ \cite{taillaert2006grating}.
+However, highly efficient broadband couplers capable of sustaining large bandwidths still provide design challenges, with the state-of-the-art fully-etched structures able to provide $67\%$ coupling efficiency with a 3 dB bandwidth of 60 nm at 1550 nm \cite{ding2013ultrahigh}.
+
+In this study, we assume a coupling power efficiency of $60\%$ with a substantially wide bandwidth to accommodate that of our pulse (up to about 117 nm for a 50 fs pulse), which is reasonably achievable with end coupling.
+Additional investigation into the design of ultra-broadband vertical couplers must be considered to guarantee coupling of the femtosecond pulsed lasers.
+
+% Waveguides
+\subsection{Waveguides}
+Waveguides are a critical component of laser coupling.
+Schematics of the waveguide cross-sections and their field distributions are shown in \fig{waveguides}.
+We have explored two general classes of wave-guiding systems: (1) tightly confined systems and (2) weakly confined systems.
+Weakly confined waveguide modes have a small difference between mode effective index and cladding index, which results in the optical power being spread over a larger area and into the cladding material, which generally has preferable damage and nonlinearity properties.
+However, as we will discuss in the next section, our simulations show that weakly confined modes, with $n_{\rm{eff}} - n_{\rm{core}}$ of about 0.1, have almost 0$\%$ power transmission for bend radii less than 10 $\mu$m.
+In our tree-network structure, we  require bend radii on this order to achieve the required pulse delay to matching to the electron bunch, therefore weakly guided waveguides were not considered for the particular tree-network structure in this parameter study.
+
+\figdef{tree_waveguides}{waveguides}{
+    Waveguide geometries and corresponding horizontal electric field components \cite{fallahkhair2008vector}.
+    (a-b) Strongly confined modes.
+    (c-d) Weakly confined modes.
+    (a) and (c) are SOI material platforms whereas (b) and (d) are Si$_3$N$_4$/SiO$_2$ materials.
+    Waveguide core heights in (a-d) are given by 220, 400, 60, and 100 nm, respectively.
+    Waveguide core widths are given by 0.78, 1.6, 2, and 4 $\mu$m, respectively.
+}
+
+We explored material systems of SOI and Si$_3$N$_4$/SiO$_2$ due to their common use as waveguide core materials.
+SOI-based waveguides would be simpler to integrate with the silicon DLA structure and electron gun and there exists a much larger body of previous work on fabrication of silicon material systems for applications such as phase control, especially in the LIDAR community \cite{yaacobi2014integrated, kwong20111}.
+However, Si$_3$N$_4$/SiO$_2$ waveguides have favorable nonlinear and damage properties when compared to SOI.
+As mentioned, there are several other material systems that could also be explored for low loss, low nonlinearity, and high damage thresholds.
+Ta$_2$O$_5$ \cite{belt2017ultra} and Ga$_2$O$_3$ are promising candidates that will be investigated in future studies.
+
+% Splitters
+\subsection{Splitters}
+After the initial input coupling step, splitters are used to distribute the laser power along the DLA structure.
+Splitters further contribute to insertion loss.
+Experimental characterization of Y-splitters indicate losses on the order of $1\;\text{dB}$ \cite{zhang2013compact}.
+However, recent advances in topology optimization techniques have allowed for new designs with much higher efficiencies.
+Using \textit{particle swarm optimization} \cite{eberhart1995new}, devices have been produced with theoretical insertion losses of $0.13\;\text{dB}$ and an experimentally determined value of $0.28 \pm 0.02\;\text{dB}$ \cite{zhang2013compact}.
+As even more sophisticated techniques of optimization have been developed, the insertion loss of simulated designs has reached $0.07\;\text{dB}$ \cite{lalau2013adjoint}.
+Adjoint-based optimization methods have been further expanded to enforce fabrication constraints on the permitted designs, thus allowing one to expect greater agreement between simulated and fabricated structures \cite{piggott2017fabrication}.
+As a consequence of the rapid progress made in this field and the efforts to ensure robustness of device to fabrication tolerance, we have used an insertion loss per splitter of $0.22\;\text{dB}$, or $95\%$ efficiency, for the parameter study.
+
+% Bends
+\subsection{Bends}
+
+The bending radius is uniquely chosen to give enough extra propagation distance to provide a delay of the pulse between different output ports, which is matched to the electron velocity.
+We derive conditions on the radius of curvature required for each bend for the particular tree-network structure in Appendix \ref{appx:treebranch}.
+The required radius depends on the electron velocity ($\beta c_0$) and group index of the waveguide mode ($n_g$), and becomes smaller as the waveguides approach the DLA structure.
+Assuming the tree-network geometry used in this work, there is a condition on the group index of the waveguide system that may achieve the required delay given an electron speed
+%
+\eqdef{}{
+    n_g\beta \geq 1.
+}
+%
+Thus, for sub-relativistic electrons ($\beta < 1$), higher index materials are required for the waveguides.
+For example, for a $\beta$ of $1/3$, a group index of $n_g > 3$ is required, which may not be satisfied by a standard SiN waveguide geometry.
+Thus, in sub-relativistic regimes, SOI waveguides are the optimal choice.
+
+\figdef{tree_bends}{bend}{
+    (a) Electric field amplitude for a strongly guiding SOI waveguide.
+    (b) Electric field amplitude for a weakly guiding SOI waveguide.
+    (c) Comparison of bending loss as a function of bend radius for the 4 waveguides from \fig{waveguides}.
+}
+
+\fig{bend} shows the optical power transmission through a series of bends and waveguide geometries using the finite-difference frequency-domain method (FDFD) \cite{shin2012choice} and an established two-dimensional approximation to the three-dimensional structure \cite{smotrova2005cold}.
+For tightly confined SOI waveguide modes, the bending radius can reach as low as 2 $\mu$m before there is significant loss.
+However, for weakly confined SOI modes and strongly confined SiN modes, the power transmission is less than 50$\%$ until the radius exceeds 20\,$\mu$m.
+For our purposes, this kind of bending loss is unacceptable as radii on the order of $10$\,$\mu$m are required close to the DLA structure to perfectly match the electron velocity.
+However, if we relax the delay requirement in favor of larger bend radii, we may still use strongly confined SiN modes.
+Based on a calculation following Appendix \ref{appx:treebranch}, if we wish to keep all SiN waveguides above 40\,$\mu$m radius of curvature, we will experience a 25\,fs mismatch in peak pulse arrival to electron arrival.
+For a pulse duration of 250\,fs, this will have negligible effect on the acceleration gradient.
+Therefore, in our parameter study, we assume strongly confined waveguide modes and bends that are large enough to achieve transmission of 95\%.
+Many of these issues may be reconciled by choosing a hybrid waveguide system, as shown in Fig.~\ref{fig:PhC}, in which different materials and waveguide modes are used at different distances from the central DLA structure.
+We did not consider these options directly in our following parameter study.
+
+% Phase Shifters
+\subsection{Phase Shifters}
+Phase shifters are an essential component in the DLA system for ensuring proper phase matching between the electrons and photons.
+While it is simple to do phase tuning in free-space for a single stage DLA with macroscopic delay stages, waveguide-integrated phase shifters for long interaction or multi-stage DLAs will be experimentally complicated.
+To achieve a sizable energy gain and gradient over a given interaction length, a high level of precision and stability in the phase of each section is required.
+
+To illuminate the importance of precision phase shifters, a Monte Carlo simulation was performed in which the output phase of each waveguide was perturbed from its optimal value by a random amount.
+This study found that, for a stage length of 1 mm, phase stability and precision of greater than 1/100 of a radian (0.16\% of a cycle) was required to achieve sustained energy gain within 90\% of the maximum achievable amount.
+
+There are a few strategies to implement integrated phase shifters, including the use of (1) thermal/thermal-optic effect \cite{kwong20111,kwong2014chip}, (2) electro-optic effect, and (3) mechanical techniques, such as piezo controlled elements \cite{poot2014broadband}.
+For this application, we will require a full $2\pi$ range of phase control of each output port with a resolution of 1/100 of a radian, and a modulation bandwidth of $\sim$~1 kHz to correct for environmental perturbations.
+% The first term on the right describes the thermal effect due to the material thermal expansion and second term describes thermal-optic effect due to the temperature dependence of material refractive index
+
+% \eqdef{}{
+% \frac{d\Phi}{dT}=n_{\rm{eff}}k_0\alpha L+ \left(\frac{dn_{\rm{eff}}}{dT}\right)k_0L.
+% \label{eq:thermal}
+% }
+
+% Here, $\alpha$ is the material coefficient of thermal expansion (CTE), $L$ is the waveguide length.
+% For Si waveguide with $\sim10\rm{\mu m}$ feature length, $dn_{\rm{eff}}/dT\sim 2\times10^{-4}$ from room temperature to 550 K \cite{cocorullo1999temperature}, which is an order of magnitude larger than that from thermal expansion ($\alpha n_{\rm{eff}}\sim 10^{-5}$).
+
+% (2) Additionally, the electro-optic effect can be used to apply an optical phase shift by applying a constant electric field on a $\chi^{(2)}$ material such as Lithium Niobate [cite].
+% This approach would require integrating an electro-optic material to the chip, which could introduce experimental complications.
+% Furthermore, in most implementations, for 1 V of applied bias, [x] mm of length is required for a $\pi$ phase shift.
+% This extra length added to the structure would greatly worsen the effect of self-focusing and pulse dispersion.
+
+% (3) Mechanical techniques, such as piezo controlled elements [], have the potential to give reasonable phase shifts in a compact space.
+% However, integration will be challenging and the resulting system may be especially sensitive to thermal and vibrational noise.
+
+% (4) If we decide to try an optical power coupling technique based on an array of vertical (grating) couplers, each with their own waveguide, then the possibility arises to do the phase control off-chip, perhaps by use of spatial-light modulators or other systems.
+
+Rather than supplying each waveguide output port with a phase shifter with these properties, it may be possible to have dedicated `fine' and `coarse' phase shifters as we move through the splitting structure.
+Furthermore, some degree of relative fixed phase between output ports may be accomplished by precision fabrication.
+
+\figdef{tree_phase_control}{phase}{
+    Idealized schematic of a feedback system for automatic phase control.
+    A dedicated light extraction section is added to the accelerator.
+    Light is radiated from the electron beam transversing the DLA structures and the frequency content and/or timing of the light is sent to a controller.
+    The phase shifts of each waveguide are optimized with respect to either the frequency or the delay of the signal.
+}
+
+To further mitigate the challenges associated with operating these multiple phase shifters during acceleration, we may implement a feedback control loop, which is described in \fig{phase}.
+In this setup, the quantity of interest, such as electron energy gain, can be measured at the end of a section and optimized with respect to the individual phase shifters in the power delivery system without explicit knowledge of the electron beam dynamics.
+
+\subsection{DLA Structures\label{sec:DLA}}
+
+\figdef{tree_DLA}{tree_DLA}{
+    (a) A schematic of the waveguide to DLA connection.
+    Silicon dual pillars of optimized radius of 981 nm and gap size of 400 nm are used.
+    (b) The accelerating electric field during one time step.
+    (c) Absolute value of the transverse magnetic field.
+    (d) Absolute value of the acceleration gradient as a function of frequency, normalized by the peak electric field in the waveguide.
+    A Lorentzian line shape is fit to the square of this plot.
+    The square root of this fit is shown in red.
+    Based on the Lorentzian fit, a Q-factor of $152 \pm 29$ was determined.
+    As computed following the derivation in \cite{plettner2006proposed}, but with the waveguide mode impedance and effective area in place of the plane wave values, this structure has a shunt impedance, $Z_S$, of 449.1 $\Omega$ over 3 periods and a $Z_S/Q$ value of 2.95 $\Omega$.
+}
+
+We assume silicon dual-pillar DLA structures in the parameter study, but the choice is arbitrary and can be changed to other materials or designs depending on the fabrication constraints.
+In \fig{tree_DLA}, we show an example of the setup considered in the parameter study, simulated with FDFD.
+The pillar radius is 981 nm and the gap width is 400 nm.
+3 periods of DLA are powered by a single waveguide and periodic boundary conditions are used in the z direction.
+Wakefields and transverse deflections are ignored for simplicity as these simulations are intended to provide an estimate of the resonant enhancement, acceleration gradient, and accelerator damage threshold.
+The waveguide refractive index was approximated using \cite{smotrova2005cold}.
+% To model the frequency response of our structure, following the discussion in Appendix \ref{appx:resonances}, a frequency scan was performed and fit to a Lorentzian.
+
+Resonant enhancement in the dual pillars is clearly visible and can be accomplished by optimizing the spacing and radius parameters.
+ It is also clear that the two surrounding DLA cells are slightly out of phase with the center cell.
+ This effect is caused by the lack of translational symmetry in the input optical beam in the z direction and will lower the acceleration gradient.
+  From our Lorentzian fit, a Q value of $152 \pm 29$ was determined.
+
+%\onecolumngrid
+
+
+Coupling efficiently from waveguides to DLA structures may be done by optimizing the structure parameters.
+For an optimized structure, back reflection may be minimized.
+It will be of great importance in future experiments to integrate the waveguide system and the DLA structure on the same chip.
+Thus, the height of the pillar structure may be constrained to be equal to that of the waveguide core and 500 nm thick SOI platforms may be a good starting point for testing these integrated systems.
+
+
+One waveguide is able to serve multiple DLA periods.
+ However, simulations suggest that additional periods of DLA per waveguide do not significantly increase the total energy gain achievable from a single waveguide.
+ Thus, the spacing between waveguides must be large enough to eliminate cross-talk, but small enough to ensure high acceleration gradients.
+
+\subsection{Beam Loading and Longitudinal Wakes}
+
+The fundamental unit cell of the proposed accelerator design, depicted in Fig.
+\ref{fig:DLA}, consists of a structure segment of three periods $\Delta z = 3 \lambda$ fed by a single laser pulse of the multi-branch network with duration $\tau$ = 250 fs.
+ It is shown in Ref.
+\cite{plettner2006proposed} that the coupling efficiency of the laser field to a point charge $q$ for the side-coupled geometry used here is analogous to Eq.
+(7) of Ref.
+\cite{Siemann:PRSTB04}, which considers a traveling wave mode in a cylindrical structure with group velocity $\beta_g c$, under the substitution $\beta_g / (1-\beta_g) \rightarrow \Delta z / \tau c$, which gives a coupling efficiency $\eta_q = q G \Delta z / P \tau$.
+ Here $P$ is the laser mode power and $G = G_0 - G_H$ is the loaded gradient where $G_0$ is the unloaded value and $G_H$ is a retarding field that accounts for the longitudinal wake induced in the structure by the beam.
+ These may be written
+\eqdef{}{
+G_0 = \sqrt{ \frac {Z_C P}{\lambda^2}}\ \ \ \ ,\ \ \    G_H = \frac{q c Z_H}{\lambda^2}.
+}
+where $Z_C$ is the characteristic impedance and $Z_H$ is the Cherenkov wake impedance.
+ A conservative approximation for the latter $Z_H \approx \pi Z_0 \lambda^2 / (16 a^2)$ is provided by Ref.
+\cite{Bane:PRSTB2015} for the case of a flat (2D) geometry with a beam charge $q$ in a narrow channel, where $Z_0$ is the impedance of free space and we take $a$ = 200\,nm to be the half-width of the accelerating channel.
+ The resulting efficiency $\eta_q$ is then quadratic in the charge $q$.
+ Solving for the maximal value gives optimal bunch charge and efficiency
+\eqdef{}{
+q_\text{opt} = \frac{G_0 \lambda^2}{2 c Z_H}\ \ \ , \ \ \ \eta_{q_\text{opt}} = \frac{1}{4} \frac{\Delta z}{c \tau} \frac{Z_C}{Z_H} .
+}
+For the present case, with $Z_C$ = 149\,$\Omega$, $Z_H$ = 7402\,$\Omega$, $G_0$ = 108\,MV/m, we obtain $q_\text{opt} \approx 0.1$\,fC and $\eta_{q_\text{opt}} \approx 0.04 \%$, corresponding to a retarding gradient  $G_H$ = 54 MV/m and thus a beam loaded gradient $G = G_0/2$.
+ The optimal charge corresponds to 608 electrons, which is consistent with achieved laser-triggered emission from nanotip electron sources.
+ As shown in \cite{Siemann:PRSTB05} under multi-bunch operation with structures designed for higher gradients, efficiencies can theoretically be in the tens of percents.
+ The structure design considered here was intended to illustrate the basic principles of constructing a multi-guided wave system and was not optimized for efficient beam coupling.
+ Even so, efficiencies this order are still acceptable for possible near-term applications, such as a 1 to 10 MeV medical linac, where requisite beam powers are less than 1 Watt.
+ 
+
+\subsection{Heat Dissipation}
+The laser input pulse energy at each stage of length $L$ = 192 $\mu$m is $E_p$ = 11 nJ for the SiN case of Table \ref{tab:results}.
+ We assume a repetition rate $f_\text{rep}$ = 10 MHz, which is consistent with commercially available solid state fiber lasers at micro-Joule pulse energies.
+ Given that there are two input laser couplings per stage of length $L$ in the configuration of Fig.
+\ref{fig:struct}, the average laser power per unit length of accelerator is $dP/dz \approx$ 11 W/cm.
+ Making a conservative assumption that all of this power passes through solid silicon, which has an absorption coefficient of $\alpha_\text{Si}$ = 0.027 $\text{cm}^{-1}$ at $\lambda$ = 2 $\mu$m, the corresponding absorbed power is of order 6 mW/$\text{cm}^2$.
+ This is more than 5 orders of magnitude lower than the technological limit for heat dissipation from planar surfaces where 1 kW/$\text{cm}^2$ is typical \cite{eggleston:1984,rutherford:2000}.
+ Prior work has shown that near-critical coupling to silicon dielectric accelerator structures using SOI waveguides is possible with appropriate phase adjustment to produce a traveling wave match between input and output couplers \cite{wu:2014}.
+ The latter work was for a structure design based on a 3D photonic crystal, but illustrates the principle that more sophisticated power handling techniques can potentially be employed in future designs to remove laser power from the wafer and safely dump it away from the accelerator.
 
 \section{Parameter Study}
 

@@ -91,7 +91,7 @@ where we define the vector field `$\veta$' to signify the position and phase of 
 }
 The physical interpretation of $\veta$ is digrammed in \fig{eta_def}.
 
-\figdef{eta_definition.png}{eta_def}{
+\figdef{DLA_eta_definition.png}{eta_def}{
     Definition of the vector field, $\veta$, which defines the position of the electron in the frequency domain.
     The green regions represent domains where we will optimize the material properties using the adjoint method.
     The central gap is constrained to vacuum to allow passage of the electron beam.
@@ -126,7 +126,7 @@ While the performance of gradient-based optimization is hard to directly compare
 
 For gradient-based optimization to be useful, one would like an efficient means to compute the gradient of the figure of merit with respect to the design parameters.
 For neural networks, the gradient is computed analytically and then evaluated using the \textit{backpropagation} algorithm \cite{rumelhart_learning_1985}.
-For photonic devices, one may perform a similar technique using the \texit{adjoint method}, which allows one to analytically compute the gradient directly from Maxwell's Equations and evaluate the result with only one additional electromagnetic simulation.
+For photonic devices, one may perform a similar technique using the \textit{adjoint method}, which allows one to analytically compute the gradient directly from Maxwell's Equations and evaluate the result with only one additional electromagnetic simulation.
 This remarkable efficiency is largely responsible for the success of inverse design in photonics.
 
 The adjoint method is typically introduced for linear optical systems, although, as we will show in a later chapter, it may be extended to nonlinear systems without much additional complication.
@@ -212,13 +212,12 @@ In the time domain, we can represent the current density of this particle as
 %
 To express this in the frequency domain, we the Fourier transform of $\vJ_\textrm{rad}$ with respect to time, giving
 %
-\eqdef{point-current}{
-    \begin{align}
-        \vec{J}_{rad}(x,y;\omega) &= q \beta c_0 \delta(y)\hat{x}\int _{-\infty}^{\infty}{dt\ }\exp(-i\omega t)\delta(x-x_0-c_0\beta t)\\
-        &= q\ \exp\Big(i\frac{\omega\ (x-x_0)}{c_0 \beta}\Big)\delta(y)\hat{x}\\
-        &= q\ \exp\Big(i\frac{2\pi}{ \beta\lambda}x\Big)\ \exp(-i\phi_0)\delta(y)\hat{x}.
-    \end{align}
-}
+\begin{align}
+    \vec{J}_{rad}(x,y;\omega) &= q \beta c_0 \delta(y)\hat{x}\int _{-\infty}^{\infty}{dt\ }\exp(-i\omega t)\delta(x-x_0-c_0\beta t)\\
+    &= q\ \exp\Big(i\frac{\omega\ (x-x_0)}{c_0 \beta}\Big)\delta(y)\hat{x}\\
+    &= q\ \exp\Big(i\frac{2\pi}{ \beta\lambda}x\Big)\ \exp(-i\phi_0)\delta(y)\hat{x}.
+\label{eq:point-current}
+\end{align}
 %
 Comparing with the source of our adjoint problem, $\vJ_\aj = \frac{-i}{\omega\mu_0}\veta$, we can see that 
 %
@@ -227,7 +226,7 @@ Comparing with the source of our adjoint problem, $\vJ_\aj = \frac{-i}{\omega\mu
 }
 
 This finding shows that the adjoint field solution ($\vE_\aj$) corresponds (up to a complex constant) to the field radiating from a test particle flowing through the accelerator structure.
-To put this another way, in order to calculate the acceleration gradient sensitivity with the adjoint problem, we must simulate the same structure operating both as an accelerator ($\A\vE=-i\omega\mu_0\vJ_\textrm{acc}$) and as a radiator ($A\vE_\aj=-i\omega\mu_0\vJ_\aj$).
+To put this another way, in order to calculate the acceleration gradient sensitivity with the adjoint problem, we must simulate the same structure operating both as an accelerator ($A\vE=-i\omega\mu_0\vJ_\textrm{acc}$) and as a radiator ($A\vE_\aj=-i\omega\mu_0\vJ_\aj$).
 
 It is understood that one way to create acceleration is to run a radiative process in reverse.
 Indeed, this is the working principle behind accelerator schemes such as inverse free electron lasers \cite{musumeci2005high, courant1985high}, inverse Cherenkov accelerators \cite{kimura1995laser, fontana1983high}, and inverse Smith-Purcell accelerators \cite{bae1992experimental, mizuno1987experimental}.
@@ -267,14 +266,12 @@ The two methods agree with excellent precision, which confirms that the adjoint 
 
 Extending this example to the general case of perturbing the permittivity at an arbitrary position $\vr$, we see that
 
-\eqdef{}{
-    \begin{align}
-        \ddfrac{G}{\epsilon}(\vr) &= -k_0^2 \ \real{ \int{d^2\vr'}.
-        \vE(\vr') \cdot \vE_\aj(\vr').
-        \delta(\vr-\vr') } \\
-        &= -k_0^2 \ \real{ \vE(\vr) \cdot \vE_\aj(\vr) }.
-    \end{align}
-}
+\begin{align}
+    \ddfrac{G}{\epsilon}(\vr) &= -k_0^2 \ \real{ \int{d^2\vr'}.
+    \vE(\vr') \cdot \vE_\aj(\vr').
+    \delta(\vr-\vr') } \\
+    &= -k_0^2 \ \real{ \vE(\vr) \cdot \vE_\aj(\vr) }.
+\end{align}
 
 \section{Inverse design of Dielectric Laser Accelerator}
 
@@ -295,7 +292,7 @@ Here, $\alpha$ is a step parameter that we can tune.
 We need $\alpha$ to be small enough to find local maxima, but large enough to have the optimization run in reasonable amount of time.
 This process is repeated until convergence on $G$, as diagrammed in \fig{opt_loop}.
 
-\figdef{optimization_routine.png}{opt_loop}{Optimization routine for DLA.}
+\figdef{DLA_optimization_routine.png}{opt_loop}{Optimization routine for DLA.}
 
 During the course of optimization, the permittivity distribution is considered as a continuous variable, which is not realistic in physical devices.
 To address this issue, we employ a permittivity capping scheme during optimization.
@@ -373,7 +370,7 @@ If $a$ is too large, the calculation may induce floating point overflow or round
 
 
 Using this smooth-max function, one may calculate $\ddfrac{f_{A}}{\epsilon_i}$ analytically and perform structure optimizations in the same way that was discussed previously.
-The derivation of the adjoint source term is especially complicated and omitted for brevity, although the end result is expressed solely in terms of the original fields, the adjoint fields, and the $\frac{d\A}{d\gamma}$ operator, as before.
+The derivation of the adjoint source term is especially complicated and omitted for brevity, although the end result is expressed solely in terms of the original fields, the adjoint fields, and the $\ddfrac{A}{\gamma}$ operator, as before.
 Two structures with identical parameters but optimized, respectively, for maximum $G$ and $f_A$ are shown in Fig. \ref{fig:optimization-results_fAC}.
 On the left, we see that the $G$ maximized structure shows the characteristic dielectric mirrors, giving resonant field enhancement.
 On the right is the structure optimized for $f_A$, which has eliminated most of its dielectric mirrors and also introduces interesting pillar shapes.
@@ -393,7 +390,7 @@ Our technique may be invaluable in designing structures with tailor-made quality
     $\epsilon_m = 2.1$, corresponding to SiO$_2$.
     In (a), the high gradients are achieved using reflective dielectric mirrors to confine and enhance the fields in the center region.
     In (b), these dielectric mirrors are removed and the pillar structures are augmented.
-    The structure in (b) shows a 23\% increase in the acceleration factor in the material region when compared to (a).}
+    The structure in (b) shows a 23\% increase in the acceleration factor in the material region when compared to (a).
 }
 
 \begin{table}[ht!]

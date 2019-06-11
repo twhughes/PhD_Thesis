@@ -67,7 +67,7 @@ Many engineering systems can be described by a linear system of equations $A(\bf
 Solving this equation with source $\bfb$ results in the solution $\bfx$, from which an objective function $J=J(\bfx)$ can be computed.
 
 The optimization of this system corresponds to maximizing or minimizing $J$ with respect to the set of parameters $\bfphi$.
-For this purpose, the adjoint method allows one to calculate the gradient of the objective function $\nabla_\bfphi J$ for an arbitrary number of parameters.
+For this purpose, the adjoint method allows one to calculate the gradient of the objective function $\nabla_{\bfphi} J$ for an arbitrary number of parameters.
 Crucially, this gradient may be obtained with the computational cost of solving only one additional linear system $\hat{A}^T \bar{\bfx} = -\pfrac{J}{\bfx}^T$, which is often called the `adjoint' problem.
 
 As we will show, this method may be readily applied to the inverse design of electromagnetic devices.
