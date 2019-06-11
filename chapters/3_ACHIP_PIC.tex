@@ -569,13 +569,14 @@ From \fig{param1}, we see that, for a given geometry, there is an optimal combin
 
 There are several competing effects that lead to the existence of this optimal point. First, for a given pulse peak power, shorter pulse durations will generally lead to higher acceleration gradients because the materials will exhibit higher electric field damage thresholds. However, this effect is limited by the occurrence of SPM at a certain input field. Furthermore, if the pulse is too short with respect to the Q-factor of the DLA structures, the pulse will not couple efficiently to the accelerator gap due to the pulse bandwidth being larger than the structural bandwidth. Secondly, higher Q-factors lead to resonantly enhanced fields inside of the DLA structure and higher acceleration gradients as a result \cite{deng2017design}. However, if the Q-factor is too high, these enhanced fields will cause the accelerator structures to damage.
 
-%This parameter set was further simulated using a full nonlinear Schr\"{o}dinger equation (NLSE) solver, as described in Appendix \ref{appx:nonlinear}.  The respective energy gains and gradients observed for the structure in \ref{fig:param1} are found to be 5.3 and 13.2 keV at 28 and 69 MV/m gradients for SOI and SiN, respectively. The differences are likely due to the presence of pulse dispersion, which is not modeled in the simplified approximations because waveguide lengths are short ($<$ 1 mm) compared to the dispersion length of our waveguides (few tens of mm).
+To investigate how these results depend on the stage length, we run several of these simulations over a range of structures with different numbers of splits, keeping track of the optimal $\tau$, $Q$, acceleration gradient, and energy gain of each structure.  The results are presented in \fig{param2} where the red dotted line corresponds to the stage length used in this study (192 $\mu$m).
 
-
-To investigate how these results depend on the stage length, we run several of these simulations over a range of structures with different numbers of splits, keeping track of the optimal $\tau$, $Q$, acceleration gradient, and energy gain of each structure.  The results are presented in Fig.~\ref{fig:param2}.
-
-\figdef{tree_scaling.eps}{param2}{
-    Scaling of optimal parameters as a function of the stage length.  The red dotted line corresponds to a stage length of 192 $\mu$m, which is the length used in Fig. \ref{fig:param1}.  (a) The optimal energy gains and acceleration gradients as a function of stage length for both SOI and SiN structures.  (b) The optimal set of pulse duration and Q-factor corresponding to the highest energy gain and acceleration gradient at each stage length.  The curves for SOI and SiN are overlaid.  (c) The number of stages required to reach 1 MeV of total energy gain as a function of individual stage length.
+\figdef{tree_scaling}{param2}{
+    Scaling of optimal parameters as a function of the stage length.
+(a) The optimal energy gains and acceleration gradients as a function of stage length for both SOI and SiN structures.
+(b) The optimal set of pulse duration and Q-factor corresponding to the highest energy gain and acceleration gradient at each stage length.
+The curves for SOI and SiN are overlaid.
+(c) The number of stages required to reach 1 MeV of total energy gain as a function of individual stage length.
 }
 
 From \fig{param2}a, we note that as the stage lengths become longer, the achievable acceleration gradients decrease due to the increased losses introduced by the greater number of splits, combined with the increased nonlinearities and concentration of optical power at the input facet. On the other hand, the energy gain increases with greater stage length. Thus, there is an intrinsic trade-off between having a high acceleration gradient and a large energy gain per laser input, suggesting that the choice of stage length should be determined by the acceleration gradients and energy gains required by the application. For instances where high acceleration gradient is preferred, a smaller stage length per laser is optimal, meaning less splits. However, for applications where high total energy gain is a more important figure of merit, it may be beneficial to use a coupling structure with many splits and long stage length, but lower acceleration gradient.  These metrics will also depend on the availability of several phase-locked laser sources and the experimental difficulties associated with coupling them to several input couplers.  Because of the challenges introduced by concentrating the optical power at a single input facet, there would be significant improvement on these results by considering input schemes that may couple a single beam directly into several waveguides.  While this is outside of the scope of this study, it is a promising avenue to explore for these systems.
@@ -607,16 +608,247 @@ We conclude that an on-chip laser coupling system is a promising avenue of explo
 
 \section{Automatic Controlled Power Delivery Systems}
 
-\subsection{Phase Control Mechanism}
+The \textit{tree-network} design proposed in the previous section has two serious limitations.  First, the design relies on a single input facet to couple the laser beam to a single waveguide before it is split.  The optical power concentration in the input facet thus creates a bottleneck leading to optical damage and nonlinearities, which limits the maximum input power and, in turn, energy gain of the accelerator.  Secondly, while the phase of each output pulse is tuned using integrated optical phase shifters, the power distribution of the output waveguides is fixed by the fabrication of the splits and bends in the structure and may not be easily tuned later if there are errors.
 
-\subsection{Power Control Mechanism using Reconfigurable Circuit}
+Therefore, an ideal laser coupling scheme for DLA would involve a coupling scheme that directly couples a single laser pulse into several waveguides.  This would greatly ease the input power limitations present in the power-splitting proposal of Ref. \cite{hughes2018chip} by eliminating the optical damage and nonlinearity bottleneck of the input coupler.  While such coupling techniques exist in the form of grating coupler arrays \cite{van2011optical} or combined grating coupler and splitter devices \cite{spuesens2016grating}, a tunable $\textit{power}$ distribution system would also be necessary to mitigate the variations in input coupling efficiency, fabrication errors, and drift experienced during the experiment.  In conjunction with optical phase control and long-range beam-focusing \cite{niedermayer_alternating_2018}, a reconfigurable power distribution mechanism would be an essential component for scaling DLA from proof-of principle length scales of 100's of $\mu$m to the scale of modern accelerators.
 
-\subsubsection{Deterministic Tuning Algorithm}
+To accomplish this, we propose and present a numerical analysis of an integrated power distribution system and corresponding protocol for accomplishing automated, on-chip phase and power control for DLA and other applications \cite{hughes_reconfigurable_2019}. For this, we utilize a mesh of integrated Mach-Zehnder interferometers (MZIs), a device that allows for reconfigurable unitary operations on-chip \cite{miller_self-configuring_2013,miller_perfect_2015}.  MZI meshes are becoming a fundamental component in integrated, reconfigurable optics for mode sorting \cite{miller_sorting_2015,annoni_unscrambling_2017,miller_setting_2017,miller_self-configuring_2018}, quantum information processing \cite{harris_quantum_2017,metcalf_multiphoton_2013,aspuru-guzik_photonic_2012,obrien_photonic_2009}, and optical machine learning \cite{shen_deep_2017, hughes2018training}.  Here, we explore the novel application of these reconfigurable optics systems to high power pulse delivery and control for accelerators on a chip, which brings its own interesting set of constraints and challenges.  In conjunction with Ref. \cite{hughes2018chip}, this study gives a roadmap for transitioning the control of DLA systems away from hand-tuned, free-space optical setups to precise, automatically configured integrated optical components.  As such, our work points to the opportunity for the use of on-chip reconfigurable optics to dramatically scale up the acceleration length and energy gains of DLA, which is of crucial importance in realizing the exciting applications of these miniature accelerators.
 
-\subsubsection{Scaling Gains}
 
-\section{Experimental Efforts}
+\begin{figure}
+\centering
+\includegraphics[width=\columnwidth]{figures/MZI_direct}
+\caption{\label{fig:setup} \textbf{Schematic of the proposed DLA laser delivery control system.}  Comparison of setup from Ref \cite{hughes2018chip} (\textbf{a}) and this work (\textbf{b}).  \textbf{a}, In the splitting structure of Ref. \cite{hughes2018chip}, an input pulse (large red arrow) is focused to a single grating coupler on the chip surface.  The pulse is split a series of times and bends in the waveguide to create group velocity delay.  The phase of the pulses are corrected before injection into the accelerator.  \textbf{b}, In the schematic proposed in this work, the pulse is directly coupled into several waveguides through a grating coupler array. To mitigate the large variance in coupled powers, the pulses next enter a mesh of MZIs, which is sequentially adjusted, using the protocol from this paper, to provide uniform powers in each waveguide.  As before, phase control and group delay are performed using integrated phase shifters and lithographically-defined bends before couping to the accelerator channel.  The second scheme eliminates the damage and nonlinearity bottleneck present in $\textbf{a}$ directly after the input coupler.}
+\end{figure}
 
-\subsection{Waveguide Damage and Nonlinearity Measurements}
+Here we will give an overview of the proposed reconfigurable laser coupling scheme for DLA.  A schematic of our system is shown in Fig. \ref{fig:setup}.  The system consists of sequential stages for input coupling, power distribution, phase control, group delay control, and electron acceleration. 
 
-\subsection{Demonstration of Waveguide-Coupled Acceleration}
+In our design, the driving laser pulse is first focused onto an input element that directly splits the optical power into several waveguides.  Compared with schemes where the laser is first coupled to a single waveguide, as in Ref \cite{hughes2018chip}, this coupling strategy can greatly improve the power that can be safely supplied by the driving laser. This element could take the form of a grating coupler array or combined grating coupler and power splitter geometry \cite{spuesens_grating_2016}.  Adjoint-based optimization techniques \cite{sapra2019inverse} may be employed to design novel input coupling components with improved coupling efficiency, less variation between powers, or significantly more output waveguides, although this is outside the focus of this work.
+
+\begin{figure}
+\includegraphics[width=1\columnwidth]{figures/MZI_MZI}
+\caption{\label{fig:mesh} \textbf{Diagram of MZI mesh for power distribution.} \textbf{a}, Diagram of a single MZI consisting of two input ports and two output ports.  Where the two arms come together, a 50-50 beam-splitter operation is performed.  The blue regions indicate tunable optical phase shifters with added phases marked as $\theta$ and $\phi$.  \textbf{b}, The MZI represents a tunable unitary transformation on its inputs $[u_1, u_2]^T$ to give outputs $[v_1, v_2]^T$.  \textbf{c}, Simplified diagram representing an MZI in the following figures.  One may think of this element as a tunable power switch. \textbf{d}, Individual MZIs are combined into meshes, which may implement tunable unitary operations on several inputs.  Shown is a 'Clements' Mesh geometry, which was used in this work. \textbf{e}, Schematic of the Clements mesh in \textbf{d} using the simple MZI diagram in \textbf{c}.}
+\end{figure}
+
+After coupling, due to fabrication and alignment errors, there will be variation in the power distribution of each waveguide. To ensure that an equal amount of power is supplied to the accelerator, we introduce a power distribution component that is comprised of a mesh of MZIs.  As diagrammed in Fig. \ref{fig:mesh} \textbf{a}-\textbf{c}, each individual MZI is comprised of two beam-splitters and two optical phase shifters, $\theta$ and $\phi$, which can be electrically adjusted to perform the following unitary operation on its two inputs \cite{reck_experimental_1994,clements_optimal_2016,shen_deep_2017,pai2018matrix}
+\begin{align}
+\begin{split}
+    \begin{bmatrix}
+      v_1 \\ v_2
+    \end{bmatrix}
+    =&~U(\theta, \phi) 
+    \begin{bmatrix}
+      u_1 \\ u_2
+    \end{bmatrix}
+    \\
+    =&~e^{i\frac{\theta}{2}} e^{i\frac{\phi}{2}}
+    \begin{bmatrix}
+      e^{i\frac{\phi}{2}}\cos{\frac{\theta}{2}} &
+      e^{i\frac{\phi}{2}}\sin{\frac{\theta}{2}} \\
+      - e^{i\frac{\phi}{2}}\sin{\frac{\theta}{2}} & 
+      e^{-i\frac{\phi}{2}}\cos{\frac{\theta}{2}}
+    \end{bmatrix}
+    \begin{bmatrix}
+      u_1 \\ u_2
+    \end{bmatrix}.
+\end{split}
+\label{eq:U}
+\end{align}
+%
+
+As shown in Figs. \ref{fig:mesh} \textbf{d},\textbf{e}, several MZIs may be combined in a mesh, which is capable of performing unitary operations over an arbitrary large number of inputs.  There are several possible configurations of the MZI mesh, each with their own benefits and drawbacks.  In this application, the mesh must be compact enough to fit on the chip and also have a bandwidth large enough to handle sub-picosecond pulses.  Whereas many meshes are capable of performing arbitrary unitary operations, for this power delivery problem it is only necessary to sort a single random input into a uniform output.  With these considerations in mind, the `Clements' mesh geometry \cite{clements_optimal_2016}, in which MZIs are configured in a rectangular mesh, is best suited for this application.   As diagrammed in Fig. \ref{fig:mesh} \textbf{d},\textbf{e}, the Clements mesh requires fewer layers than other designs \cite{reck_experimental_1994} and also is more robust to optical losses because of its symmetric layout.  Furthermore, it may be implemented in a `shallow' mesh with fewer layers than input ports.  This is especially useful for DLA power distribution problem as we will show that only a few layers are required for adequate power equalization.  %more details in supplementary?
+
+The MZI meshes used in previous demonstrations \cite{annoni_unscrambling_2017, shen_deep_2017} were fabricated using Silicon waveguide platforms.  In these works, electrically controlled thermal heating was used to implement the tunable phase shifters.  In the system presented in this work, the presence of ultra-fast, high power pulses will introduce constraints on the fabrication.  For example, Si$_3$N$_4$ or SiO$_2$ materials would be preferred to Si for their high damage and nonlinearity thresholds.  Also, thermal phase shifters might suffer from drift or shot-to-shot variations when high power pulses are used.  While phase shifters using the electro-optic effect are another option, there may be unwanted interaction between the pulses and the phase shifter.  While these issues will explored in a future study, one promising option may be mechanical phase shifters \cite{han2015large} based on MEMS actuation, which are likely to be less sensitive to pulse propagation, more compact, and have a large enough bandwidth for DLA applications.
+
+In the following Section we describe a sequential protocol for optimizing the Clements mesh for power distribution. As our protocol uses local information about the power within the network, we require the inclusion of integrated optical photodetectors within the MZI mesh, such as those used in \cite{annoni_unscrambling_2017}.  Alternatively, an imaging system, in conjunction with scattering elements, may be used to gather information about the power distribution from above the chip.
+
+Once the power in each waveguide is equalized, we may use integrated optical phase shifters to correct the phase of each laser pulse such that it is synchronous with the electron beam. While the phase shifters may be adjusted to maximize energy gain, they may also be used to incorporate other functionality, such as beam focusing, total beam transmission, deflection, or diagnostics \cite{soong2014electron, ye2018deep}.  Beam energy measurements, performed periodically along the accelerator, may be used as a signal to automatically configure the optical phase shifters.
+
+% \subsection{group delay}
+Once the power and phase are sufficiently controlled, we must delay the laser pulse in each waveguide so that it arrives at the accelerator gap the same time as the moving electron beam. To do this, we introduce lithographically-defined bends in the waveguides to provide a delay that is matched to the electron arrival, producing the integrated optics analogue of a pulse-front tilt \cite{cesar_optical_2018}. The mathematical details of the bend design are described in the supplementary material of Ref. \cite{hughes2018chip}.
+
+% \subsection{DLA coupling}
+The final stage involves coupling the waveguide mode into the acceleration channel.  Ideally, an inverse taper may be placed at the end of each waveguide to spread the mode area to match the spot size of the laser pulse to the dimensions of the DLA.  Then, an accelerator structure may be placed adjacent to the end of the waveguides.  Alternatively, the accelerator structures and tapers may be part of the same system and may be designed following ideas from proposed buried grating structures \cite{chang_silicon_2014}, or using inverse design techniques, such as what was shown Ref. \cite{hughes_method_2017} for free-space coupling.  Dielectric mirrors may be used to design the resonance of the acceleration cavity and provide back reflection if a single-sided drive is used \cite{yousefi2019dielectric} (as pictured in Fig. \ref{fig:setup}).  Ref. \cite{hughes2018chip} argued that a moderately resonant acceleration cavity with quality factor of several hundred would be necessary to lower the input power to mitigate the input facet bottleneck introduced by that design.  However, in this proposal, because that bottleneck is eliminated, one might not require such a resonant structure.
+
+\section{\label{sec:algo}Power Distribution Protocol}
+
+With the control system defined, here we describe a power distribution protocol that may be implemented on a Clements mesh to optimally equalize the power coming from a random input source.  The goal of this power equalization stage is to find the settings of each of the integrated phase shifters such that, given an input to the mesh, there is an equal power in each output port.  A naive implementation of this may involve performing a global optimization over each of the phase shifters.  However, when the number of degrees of freedom increases (for example, for a very large accelerator), this becomes unfeasible as the dimension of the search space scales linearly with the number of MZIs. Fortunately, the protocol presented in this work allows each MZI to be tuned individually and in sequence, layer by layer, from input to output.
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=0.6\columnwidth]{figures/MZI_tune}
+\caption{\label{fig:algo} \textbf{Sequential algorithm for tuning single MZI.} The red square outlines the MZI being tuned.  Black arrows on the left indicate input power to the current layer, black arrows on the right indicate desired output powers (uniform in this case).  The dotted line separates the mesh into powers above and below the MZI.  \textbf{a} When there is more power needed in the ports above the MZI than are supplied in the ports leading into the MZI and above, the MZI should output all of its power to its top output port. \textbf{b} When there is more power needed in the ports below the MZI than are supplied in the ports leading into the MZI and below, the MZI should send all of its power to the bottom output port.  \textbf{c} In the intermediate case, the MZI should output just enough power to its top and bottom output ports to match the target power requirements.}
+\end{figure}
+
+Our protocol is diagrammed in Fig. \ref{fig:algo}, in which we show how to tune a single MZI (red) in a given layer of the network based purely on information about the powers coming into that layer.  For generality, we assume that we wish to tune this mesh to achieve an arbitrary target output power distribution $T_\textrm{out}^{(i)}$ for each of the $N$ ports $i~\in~\{1~..~N\}$.  Here in Fig. 3 the top port is at index $1$ and the bottom port is at index $N$.  We also assume that we have knowledge of the power at each of the ports coming into this layer, labelled $P_\textrm{in}^{(i)}$.
+
+The essential idea of the protocol is to tune each MZI to locally direct power to either its top output port or its bottom output port depending on where power is deficient in the input to this layer and where it is needed in the final output layer. To visually represent this idea, in Fig. \ref{fig:algo}, we show a horizontal line bisecting the mesh through the MZI in question.  Assuming that the MZI is located vertically within the mesh with its top input  port at index $j$, we may define the sum of power input to this specific MZI as
+%
+\begin{equation}
+    P_\textrm{MZI} \equiv P_\textrm{in}^{(j)} + P_\textrm{in}^{(j+1)}.
+\end{equation}
+%
+The sum of the powers input to this layer both above and below this MZI, respectively, are defined as
+%
+\begin{align}
+    P_\textrm{in}^{(\uparrow)} &\equiv \sum_{i=1}^{j-1} P_\textrm{in}^{(i)}\\
+    P_\textrm{in}^{(\downarrow)} &\equiv \sum_{i=j+2}^N P_\textrm{in}^{(i)}.
+\end{align}
+%
+Finally, the target powers above and below this MZI, respectively, are defined as
+%
+\begin{align}
+    T_\textrm{out}^{(\uparrow)} &\equiv \sum_{i=1}^j T_\textrm{out}^{(i)} \\
+    T_\textrm{out}^{(\downarrow)} &\equiv \sum_{i=j+1}^N T_\textrm{out}^{(i)}.
+\end{align}
+%
+Now, using these values, we give a prescription for directing the power out of the MZI to optimally match the target.  We notice that there are three distinct cases to consider.  These are each diagrammed separately in the subplots of Fig. \ref{fig:algo}.  
+
+Case 1 (Fig. \ref{fig:algo}\textbf{a}):  the sum of power supplied to the MZI and the ports \textit{above} it is less than the sum of power needed at the final output \textit{above} the MZI.  This is also written as
+\begin{equation}
+    P_\textrm{MZI} < T_\textrm{out}^{(\uparrow)} -  P_\textrm{in}^{(\uparrow)}.
+\end{equation}
+In this case, we require that the MZI direct all of its power to the \textit{top} output port, as shown in the red box of Fig. \ref{fig:algo}\textbf{a}.
+
+Case 2 (Fig. \ref{fig:algo}\textbf{b}):  the sum of power supplied to the MZI and the ports \textit{below} it is less than the sum of power needed at the final output \textit{below} the MZI.  This is also written as
+\begin{equation}
+    P_\textrm{MZI} < T_\textrm{out}^{(\downarrow)} - P_\textrm{in}^{(\downarrow)}.
+\end{equation}
+In this case, we require that the MZI directs all of its power to the \textit{bottom} output port, as shown in the red box of Fig. \ref{fig:algo} \textbf{b}.
+
+Case 3 (Fig. \ref{fig:algo}\textbf{c}):  when neither of the two cases above are satisfied, i.e.:
+\begin{align}
+\begin{split}
+    P_\textrm{MZI} &\geq T_\textrm{out}^{(\uparrow)} -  P_\textrm{in}^{(\uparrow)} ~~~~~\textrm{and} \\
+    P_\textrm{MZI} &\geq T_\textrm{out}^{(\downarrow)} - P_\textrm{in}^{(\downarrow)},
+\end{split}
+\end{align}
+we require the MZI only supply $T_\textrm{out}^{(\uparrow)} - P_\textrm{in}^{(\uparrow)}$ of its power to the top port.  The leftover power may be transmitted to the down port, which, by power conservation, will be equal to $T_\textrm{out}^{(\downarrow)} - P_\textrm{in}^{(\downarrow)}$ since $\sum_{i=1}^{N}P_\textrm{in}^{(i)} = \sum_{i=1}^{N}T_\textrm{out}^{(i)}$.  This is demonstrated in Fig \ref{fig:algo}\textbf{c} where the MZI performs a partial splitting of power.
+
+With this protocol, one may thus optimize each MZI sequentially through the mesh.  To do this optimally, the MZIs must be tuned layer-by-layer from input to output.  Within each layer, a set of integrated photodetectors must be used to measure $P_\textrm{in}^{(i)}$ for all ports $i$.  Then, the individual MZIs in this layer may be tuned in parallel or in any order desired.
+
+While the algorithm presented above assumes lossless components, in practice, variations in loss between MZIs in each layer will introduce discrepancies between the expected and measured output power.  Therefore, to compensate for this, in practice, a calibration of each MZI’s loss, and corresponding update to the algorithm, may be necessary to achieve good performance.
+
+\section{\label{sec:demo}Numerical Demonstration}
+
+\begin{figure}[htp]
+\centering
+\includegraphics[width=1\columnwidth]{figures/MZI_random}
+\caption{\label{fig:equalization} \textbf{Demonstration of mesh optimization for equal power distribution.} \textbf{a}-\textbf{f} The powers in each port after optimizing the mesh for uniform output power given several random input powers.  The colorbar represents the fractional power in each port, where the total power is normalized to 1. The vertical axis represents the input port index and the horizontal axis represents the layer index.  Power flows from left to right.  Equalization is achieved, on average, after only around 5 layers given this network with 30 ports.}
+\end{figure}
+
+To demonstrate our protocol, we perform numerical simulations of a Clements mesh and optimize it for power equalization from random inputs to uniform outputs. A software package \cite{hughes2018DLA_Control} was written to simulate the mesh and perform the optimizations. This package was written such that it may eventually be augmented to interface with a physical MZI mesh to act as a control mechanism.  The result of 6 independent runs is shown in Fig \ref{fig:equalization}, in which we plot the power in each port within the network after it is optimized using this procedure.
+
+For each run, we initialize a Clements mesh with $N = 30$ input ports and $M = 10$ layers.  Then, we generate a vector of random input powers to couple to the mesh, $P_\textrm{in}$.  When constructing $P_\textrm{in}$, each element is chosen uniformly at random between 0 and 1 and then the whole vector is normalized such that it sums to 1.  The phase of each input mode is set to 0.  For demonstration purposes, we optimize the mesh to output to a uniform output target $T_\textrm{out}$, where each element of $T_\textrm{out}$ is equal to $1/N$, such that both the input and target powers are normalized to each sum to 1.  Although a uniform output target was chosen as it is most applicable to DLA applications, the same protocol may be equally applied to other targets with similar results.
+
+We then step through the mesh from input to output, tuning all MZIs in a given layer according to the protocol introduced in the previous section before moving to the next layer.  To perform the tuning, we use a simple downhill simplex algorithm \cite{avriel_nonlinear_2003} to tune the phase shifters ($\theta$ and $\phi$ in Eq. \ref{eq:U}) in the MZI until they output the correct power as described by the protocol.  From Fig. \ref{fig:equalization}, we notice that equalization is achieved after only around 5 layers on average.
+
+To understand how the device operation scales with the number of layers, we studied the performance of the equalization routine as the number of ports are increased.  The results are shown in Fig. \ref{fig:scaling} where we show the mean-squared-error between the power in each layer, defined as 
+\begin{equation}
+    MSE = \frac{1}{N}\sum_{i=1}^N \left( P_\textrm{in}^{(i)} - T_\textrm{out}^{(i)} \right)^2.
+\end{equation}
+We then sweep through different mesh sizes and average the data for each mesh over 5 runs with different random inputs.  The number of layers needed for equalization grows slowly as the network size is increased.  This suggests that for very large networks (with $>$ 100-1000 ports), only tens of layers of MZIs may be needed in the Clements mesh to perform power equalization.
+
+As evidenced by Fig. \ref{fig:equalization}, extreme input conditions, such as the full power concentrated at a single port on the edge of the mesh, will need a full quadratic mesh to fully equalize power.  However, these edge cases are not only far less likely than the more uniform input conditions, but also represent failure modes caused by severely distorted input laser modes, which are likely to damage the structure.  In practice, we therefore do not expect the MZI mesh to compensate for them.
+
+\begin{figure}
+\centering
+\includegraphics[width=1\columnwidth]{figures/MZI_scale}
+\caption{\label{fig:scaling} \textbf{Analysis of mesh performance vs. number of input ports}.  We plot the mean-squared-error between the power in each layer and the target power after the mesh has been optimized.  These are averaged over 5 random input values.  We see that the number of layers ($M$) needed to equalize the power in the mesh increases slowly with respect to the number of ports ($N$).}
+\end{figure}
+
+\section{\label{sec:DLA_analysis}Application to DLA}
+To quantify the benefit of this new power distribution component, we now compare the performance of a DLA with the power splitting approach of Ref. \cite{hughes2018chip} to one with direct coupling and power control from this work and as diagrammed in Fig. \ref{fig:setup}.  For each of these approaches, we give an estimate of the acceleration gradient, number of output waveguides, and acceleration length needed to achieve a given energy gain with a single driving laser.  
+
+Following the analysis of Ref. \cite{hughes2018chip}, we first consider a splitting design in which a single input waveguide is split $N_s$ times to cover the full length of acceleration.  We assume that an optical pulse with energy $\Ud$ and temporal duration $\tau$ is coupled into the input waveguide.  We must ensure that $\Ud$ is below the damage and nonlinearity limit of the waveguides, which was recently measured to be 20 nJ in SiN waveguies using pulses of duration of 250 fs \cite{tan2019silicon}.  This corresponds to a fluence of 0.12 $J/cm^2$ for a mode area of 17.2 $\mu m^2$, as used in this reference. We then assume that this initial waveguide is split $N_s$ times, in a binary fashion, to couple to $N = 2^{N_s}$ final waveguides, which are directly coupled to the accelerator. The power coupling efficiency factors corresponding to waveguide splitting and bending loss are denoted by $\eta_s$ and $\eta_b$ respectively. The values used for these efficiencies are given in Table \ref{tab:params} and are consistent with those of Ref. \cite{hughes2018chip}.
+
+Next, we assume each waveguide powers $\Np$ periods of the accelerator, each of height $h$ and width $\beta \lamo$ to satisfy the synchronicity condition, where $\beta$ is the ratio of the electron speed to the speed of light and $\lamo$ is the free space wavelength of the driving laser.  This gives a total acceleration length of
+%
+\begin{equation}
+    L = N \Np \beta \lamo
+    \label{eq:L}
+\end{equation}
+
+In terms of these parameters and  the peak electric field of the laser pulse incident on the accelerator channel $(E_0)$, the corresponding power intercepting the DLA is $P_0 \simeq \zeta E_0^2 h N_p \lambda \beta n/ (2 Z_0)$, where $Z_0 = 377 \Omega$ is the impedance of free space, $n$ is the refractive index, and $\zeta$ is a dimensionless factor of order unity (for a Gaussian $\zeta = \pi/2$). Considering losses between the input coupling of a pulse with energy $U_d$ and duration $\tau$, we may compute an expression for $P_0$ and solve for $E_0$ to obtain
+\begin{equation}
+    \Eo = \sqrt{\frac{2 \Ud Z_0 (\eta_s \eta_b)^{N_s}}{2^{N_s} \zeta \Np \tau \lamo \beta h n}},
+    \label{eq:E0}
+\end{equation}
+
+The acceleration gradient, defined as the energy gain ($\DE$) per unit length, may be written in terms of the acceleration length $L$, input electric field $\Eo$, and elementary charge $e$ as
+
+\begin{equation}
+    G = \frac{\DE}{eL} = \kappa \Eo,
+    \label{eq:G}
+\end{equation}
+%
+The proportionality constant or \textit{structure factor} $\kappa$ is a dimensionless quantity that denotes the coupling of incident field to the structure. Structure factors of $\kappa = 0.2$ have been experimentally demonstrated \cite{cesar_optical_2018} and $\kappa = 1.34$ theoretically predicted \cite{bar2019design} for various structure designs, and by use of a resonant structure with a quality factor $Q$ it can be further enhanced as $\sqrt{Q}$ \cite{hughes2018chip}. We here assume a moderate value of $\kappa = 1$. With the expression above for the gradient, along with Eqs. (\ref{eq:L}) and (\ref{eq:E0}), we may solve for the number of waveguide splits required to accomplish the energy gain of $\DE$ as
+\begin{equation}
+    N_s = \log_2 \left[ \frac{\DE^2 \tau h n \zeta}{2  \kappa^2 \Ud \Np \beta \lamo Z_0} \right] / \log_2 (2 \eta_s \eta_b)
+    \label{eq:N}
+\end{equation}
+The total number of waveguides feeding the DLA is then $N = 2^{N_s}$. We can see that in the limit where the efficiency terms are equal to unity, $N$ reduces to the quantity contained inside the first logarithm in Eq. (\ref{eq:N}).
+
+In contrast, using a direct coupling method with power distribution components introduced in this work, there is no need for on-chip splitting of the optical power.  Because of this, we may couple $\eta_\textrm{MZI} \times \Ud$ of optical energy separately into each waveguide, where $\eta_\textrm{MZI}$ is the throughput efficiency of the MZI. In the experimental demonstrations of Ref. \cite{annoni_unscrambling_2017,shen_deep_2017}, less than 50\% of power loss was demonstrated for a 4-layer MZI mesh. As a conservative estimate, we assume here $\eta_\textrm{MZI} = 0.25$ for 10 layers.  Additionally, negligible amounts of reflection and internal backscattering were observed in these implementations, and therefore are not considered in this analysis.  Following a similar analysis, the electric field incident on the accelerator, given by Eq. (\ref{eq:E0}), loses its $N$ dependence and thus the number of required output waveguides needed scales as 
+\begin{equation}
+    N^{(\textrm{direct})} =  \frac{\DE}{\kappa} \sqrt{\frac{\zeta \tau h n}{2 \Ud \eta_\textrm{MZI} \Np \beta \lamo Z_0 }}.
+    \label{eq:N_direct}
+\end{equation}
+
+In Fig. \ref{fig:plots} we show the scaling of the acceleration gradient, number of output waveguides, and acceleration length as a function of required energy gain for a DLA given realistic parameters, which are supplied in Table \ref{tab:params}.  Based on previous demonstrations of these components \cite{annoni_unscrambling_2017, shen_deep_2017} the reflection and backscattering is negligible, and therefore not considered in this analysis.
+
+To connect these results with prior work, we note that for the split waveguide approach, Eqs. (\ref{eq:L}), (\ref{eq:E0}), (\ref{eq:G}), (\ref{eq:N}) give nearly identical results as those of the more involved analysis of \cite{hughes2018chip} for the case of silicon nitride waveguides for a single-stage energy gain of 20 keV, when the same input parameters are used. 
+In Ref. \cite{tan2019silicon}, the damage and nonlinearity constraints using similar pulse parameters was studied experimentally. It was found that a silicon nitride waveguide could sustain a pulse of 20 nJ for several milimeters of propagation distance.  Therefore, while this proposed power equalization system includes more components (beam splitters and phase shifters), it is likely to be well within the damage threshold.
+
+However, the results in Fig. \ref{fig:plots} for the split waveguide approach (solid blue curves) are somewhat more optimistic than those of the prior work, as recent experiments \cite{tan2019silicon, bar2019design} have provided evidence for larger values of $U_d$ and $\kappa$ than were previously assumed. These more optimistic parameters are reflected in Table \ref{tab:params}. However, due to the $N_s$ scaling of the power loss for the split waveguide approach, higher energy gains per stage rapidly become prohibitive as the resulting gradient drops exponentially and the number of required waveguides increases. In Ref. \cite {hughes2018chip} this difficulty was addressed by cascading multiple laser-coupled stages in series to achieve a reasonable energy gain of 1 MeV.  In contrast, as seen in Fig. \ref{fig:plots} the direct coupling approach can in principle achieve this with one acceleration stage and one input laser, requiring 144 waveguides over a length of 2.8 mm with a gradient of 350 MeV/m. These are promising numbers for a DLA structure and may be improved primarily by optimizing for higher values of $\kappa$ and $\Np$, which may be accomplished using inverse design techniques \cite{hughes_method_2017}.
+
+\begin{table}[!h]
+% Table captions go at the top.
+\centering
+\begin{tabular}{lccc}
+\hline
+Metric & Description & Value & Units \\
+\hline
+$\beta$ & $e^{-}$ speed / $c_0$ & 1 & - \\
+$\lamo$ & free space wavelength & 2 & $\mu$m \\
+$\Np$ & \# DLA periods / waveguide & 10 & - \\
+$\kappa$ & structure coupling factor & 1 & - \\
+$\Ud$ & input pulse energy & 20 & nJ \\
+$\tau$ & input pulse duration & 250 & fs \\
+$h$ & DLA structure height & 2 & $\mu$m \\
+$n$ & waveguide refractive index & 2 & - \\
+$\eta_s$ & waveguide splitting efficiency & 0.95 & - \\
+$\eta_b$ & bend loss efficiency & 0.95 & - \\
+$\eta_\textrm{MZI}$ & MZI transmission efficiency & 0.25 & - \\
+$\zeta$ & geometrical mode factor & $\pi$/2 & - \\
+\hline
+\end{tabular}
+\caption{\label{tab:params} Set of parameters used in the analysis of Fig. \ref{fig:plots}}.
+\end{table}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=0.7\columnwidth]{figures/MZI_param}
+\caption{\label{fig:plots} \textbf{Figure of merit scaling for different laser coupling architectures.} Solid blue lines refer to the results using the system of Ref \cite{hughes2018chip}, in which all optical power is initially coupled at a single input facet. Red dotted lines refer to the structure from this work.  \textbf{a}  The acceleration gradient as a function of electron energy gain.  For the splitting structure, the acceleration gradient diminishes rapidly as the length of acceleration is increased to match the desired energy gain.  However, the structure from this work achieves uniform gradient in principle.  \textbf{b}  The number of output waveguides ($N$) required to achieve an given energy gain of $\DE$.  \textbf{c}  The acceleration length ($L$) required to achieve an given energy gain of $\DE$.}
+\end{figure}
+
+\section{\label{sec:discussion}Discussion}
+
+Our proposal provides a method for automated control of DLA systems and eliminates the major issues with previous laser coupling schemes.  We show that MZI meshes are a promising candidate for a power distribution system for DLA and our findings may be applied to other applications in integrated optics requiring power routing.  The proposal given here only uses existing optical components and, therefore, should be feasible for an experimental demonstration.
+
+The procedure we introduce for optimizing the MZI mesh to achieve arbitrary power distribution is highly efficient in terms of number of measurements and phase shifter tunings.  For a mesh with $N$ ports and $M$ layers, our protocol replaces one large optimization problem with $2NM$ degrees of freedom to $MN$ independent optimization problems with 2 degrees of freedom each.  This greatly improves the feasibility of implementing this protocol on large meshes with thousands of input ports, for example, which may be needed for large-scale DLA.  In comparison with other mode sorting schemes \cite{annoni_unscrambling_2017, miller_self-aligning_2013} in which a Reck (triangular) mesh architecture is used, our algorithm provides the opportunity to perform similar functionality on a rectangular mesh, which benefits from more uniform loss and bandwidth across pathways through the device.
+
+We show that a shallow Clements mesh is sufficient for equalizing power from random inputs.  This is of crucial importance for DLA applications where there are limitations on the chip space available for phase shifters and electrical contacts.  It also means that a shorter propagation length within the waveguides can be achieved, which reduces the possible nonlinear effects.  Having a shallow mesh also allows the device to retain a large bandwidth, which decreases with the number of MZIs in an optical path.  This is crucially important for handling sub-picosecond driving pulses used in DLA.  However, the bandwidth of MZI meshes and its scaling with respect to network size is not yet fully understood.  This will need to be tested experimentally or with a separate numerical study.
+
+The optimization protocol presented here decomposes the global optimization problem of tuning the entire mesh into several subproblems involving tuning the individual MZIs.  However, alternatively a gradient-based approach may potentially be used to train the full mesh.  It was shown previously \cite{hughes2018training} that the gradient of the output of an MZI mesh with respect to the dielectric function of each of the phase shifters may be measured experimentally using adjoint fields \cite{veronis_method_2004}. Interestingly, for the case of maximizing the acceleration of a DLA, it was independently shown that the corresponding adjoint fields are given exactly by the fields radiated by the electron beam \cite{hughes_method_2017}.  This suggests an interesting approach to optimizing the MZI mesh towards maximum acceleration by first measuring the radiation from test electron beam, and then using the protocol from Ref. \cite{hughes2018training} to measure the derivative of the acceleration with respect to each of the phase shifters.  With this, one may do parallel, gradient-based updates of the phase shifters and optimize arbitrarily large grids with high efficiency. This idea may be explored in a future study.
+
+\section{Conclusions}
+
+Overall, these studies indicates that integrated optical power delivery systems are worth continuing to pursue for DLA.  We presented a path towards automatic power distribution, which is an essential component towards scaling DLA to longer length scales and exciting applications.  We also provide a novel application of the MZI mesh, which is already finding many applications in other exciting reconfigurable optics applications.  Our efficient protocol for optimizing an MZI for arbitrary power distribution may also find many applications beyond DLA.
+
+Integrated optics, and reconfigurable optics in general, allows unique opportunities for accelerators on a chip to take advantage of high precision control and automatic compensation for errors from fabrication, alignment, or drift. This study presents a promising avenue for accomplishing extended acceleration lengths for these accelerators and eventually may enable future applications of DLA technology.
+
+Recent works have further validated the feasibility and usefulness of using integrated optics platforms as a power delivery system for DLA. A recent study \cite{zhao2018design} proposed the use of dieletric waveguides as a co-propagating accelerating scheme.  Here, the optical pulses are coupled into a slot waveguide configuration and the evanescent fields are used to provide energy gain to the electron beams.  The waveguide widths are tapered along the propagation axis, which allows for phase matching to an accelerating, subrelativistic electron beam.  
+Furthermore, experimental damage and nonlinearity testing of SiN waveguides has shown that the waveguides may sustain pulses similar to those used in these parameter studies \cite{tan2019silicon} without damage or significant nonlinear effects.
+Finally, recent demonstrations of the first waveguide-coupled DLA were performed using a grating coupler and accelerator structure designed using inverse design \cite{sapra2019chip,sapra2019inverse}.
+Further experimental studies are underway, with the goal of realizing a multi-stage integrated accelerator in the next two years.

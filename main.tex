@@ -9,11 +9,13 @@
 \documentclass{report}
 \usepackage{suthesis-2e}
 
-\usepackage{graphicx} % for figures
-\usepackage[utf8x]{inputenc} % for dealing with unicode in bib file apparently
+% external packages
+\usepackage{graphicx}         % for figures
+\usepackage[utf8x]{inputenc}  % for dealing with unicode in bib file apparently
 \usepackage[numbers]{natbib}  % for citenum
-\usepackage{bm}   % bold greek symbols
-\usepackage{amsmath}   % math stuff
+\usepackage{bm}               % bold greek symbols
+\usepackage{amsmath}          % math stuff
+\usepackage{hyperref}         % url
 
 \dept{Applied Physics}
 
@@ -62,11 +64,11 @@
 
 \appendix
 \chapter{Something}
-\input{appendix/A_Whatever.tex}
+% \input{appendix/A_Whatever.tex}
 
 % ============== BIBLIOGRAPHY ================= %,
 
 \bibliographystyle{plain}
-\bibliography{bib/thesis_bib,bib/DLA_bib,bib/tree_bib}
+\bibliography{bib/bib_main,bib/bib_DLA,bib/bib_tree,bib/bib_MZI}
 
 \end{document}
