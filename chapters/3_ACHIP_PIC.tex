@@ -404,7 +404,7 @@ This scales with $\tau$, $\beta$, and $c_0$ in the same fashion as Eq.~\ref{eq:L
 
 \subsection{Beam Loading and Longitudinal Wakes}
 
-The fundamental unit cell of the proposed accelerator design, depicted in \fig{DLA}, consists of a structure segment of three periods $\Delta z = 3 \lambda$ fed by a single laser pulse of the multi-branch network with duration $\tau$ = 250 fs.
+The fundamental unit cell of the proposed accelerator design, depicted in \fig{tree_DLA}, consists of a structure segment of three periods $\Delta z = 3 \lambda$ fed by a single laser pulse of the multi-branch network with duration $\tau$ = 250 fs.
 It is shown in Ref.
 \citenum{plettner2006proposed} that the coupling efficiency of the laser field to a point charge $q$ for the side-coupled geometry used here is analogous to Eq.
 (7) of Ref.
@@ -800,7 +800,7 @@ In Fig. \ref{fig:plots} we show the scaling of the acceleration gradient, number
 To connect these results with prior work, we note that for the split waveguide approach, Eqs. (\ref{eq:L}), (\ref{eq:E0}), (\ref{eq:G}), (\ref{eq:N}) give nearly identical results as those of the more involved analysis of \cite{hughes2018chip} for the case of silicon nitride waveguides for a single-stage energy gain of 20 keV, when the same input parameters are used. 
 In Ref. \cite{tan2019silicon}, the damage and nonlinearity constraints using similar pulse parameters was studied experimentally. It was found that a silicon nitride waveguide could sustain a pulse of 20 nJ for several milimeters of propagation distance.  Therefore, while this proposed power equalization system includes more components (beam splitters and phase shifters), it is likely to be well within the damage threshold.
 
-However, the results in Fig. \ref{fig:plots} for the split waveguide approach (solid blue curves) are somewhat more optimistic than those of the prior work, as recent experiments \cite{tan2019silicon, bar2019design} have provided evidence for larger values of $U_d$ and $\kappa$ than were previously assumed. These more optimistic parameters are reflected in Table \ref{tab:params}. However, due to the $N_s$ scaling of the power loss for the split waveguide approach, higher energy gains per stage rapidly become prohibitive as the resulting gradient drops exponentially and the number of required waveguides increases. In Ref. \cite {hughes2018chip} this difficulty was addressed by cascading multiple laser-coupled stages in series to achieve a reasonable energy gain of 1 MeV.  In contrast, as seen in Fig. \ref{fig:plots} the direct coupling approach can in principle achieve this with one acceleration stage and one input laser, requiring 144 waveguides over a length of 2.8 mm with a gradient of 350 MeV/m. These are promising numbers for a DLA structure and may be improved primarily by optimizing for higher values of $\kappa$ and $\Np$, which may be accomplished using inverse design techniques \cite{hughes_method_2017}.
+However, the results in Fig. \ref{fig:plots} for the split waveguide approach (solid blue curves) are somewhat more optimistic than those of the prior work, as recent experiments \cite{tan2019silicon, bar2019design} have provided evidence for larger values of $U_d$ and $\kappa$ than were previously assumed. These more optimistic parameters are reflected in Table \ref{tab:params_MZI}. However, due to the $N_s$ scaling of the power loss for the split waveguide approach, higher energy gains per stage rapidly become prohibitive as the resulting gradient drops exponentially and the number of required waveguides increases. In Ref. \cite {hughes2018chip} this difficulty was addressed by cascading multiple laser-coupled stages in series to achieve a reasonable energy gain of 1 MeV.  In contrast, as seen in Fig. \ref{fig:plots} the direct coupling approach can in principle achieve this with one acceleration stage and one input laser, requiring 144 waveguides over a length of 2.8 mm with a gradient of 350 MeV/m. These are promising numbers for a DLA structure and may be improved primarily by optimizing for higher values of $\kappa$ and $\Np$, which may be accomplished using inverse design techniques \cite{hughes_method_2017}.
 
 \begin{table}[!h]
 % Table captions go at the top.
@@ -823,7 +823,7 @@ $\eta_\textrm{MZI}$ & MZI transmission efficiency & 0.25 & - \\
 $\zeta$ & geometrical mode factor & $\pi$/2 & - \\
 \hline
 \end{tabular}
-\caption{\label{tab:params} Set of parameters used in the analysis of Fig. \ref{fig:plots}}.
+\caption{\label{tab:params_MZI} Set of parameters used in the analysis of Fig. \ref{fig:plots}}.
 \end{table}
 
 \begin{figure}[!h]
@@ -848,7 +848,7 @@ Overall, these studies indicates that integrated optical power delivery systems 
 
 Integrated optics, and reconfigurable optics in general, allows unique opportunities for accelerators on a chip to take advantage of high precision control and automatic compensation for errors from fabrication, alignment, or drift. This study presents a promising avenue for accomplishing extended acceleration lengths for these accelerators and eventually may enable future applications of DLA technology.
 
-Recent works have further validated the feasibility and usefulness of using integrated optics platforms as a power delivery system for DLA. A recent study \cite{zhao2018design} proposed the use of dieletric waveguides as a co-propagating accelerating scheme.  Here, the optical pulses are coupled into a slot waveguide configuration and the evanescent fields are used to provide energy gain to the electron beams.  The waveguide widths are tapered along the propagation axis, which allows for phase matching to an accelerating, subrelativistic electron beam.  
+Recent works have further validated the feasibility and usefulness of using integrated optics platforms as a power delivery system for DLA. A recent study \cite{zhao_design_2018} proposed the use of dieletric waveguides as a co-propagating accelerating scheme.  Here, the optical pulses are coupled into a slot waveguide configuration and the evanescent fields are used to provide energy gain to the electron beams.  The waveguide widths are tapered along the propagation axis, which allows for phase matching to an accelerating, subrelativistic electron beam.  
 Furthermore, experimental damage and nonlinearity testing of SiN waveguides has shown that the waveguides may sustain pulses similar to those used in these parameter studies \cite{tan2019silicon} without damage or significant nonlinear effects.
-Finally, recent demonstrations of the first waveguide-coupled DLA were performed using a grating coupler and accelerator structure designed using inverse design \cite{sapra2019chip,sapra2019inverse}.
+Finally, recent demonstrations of the first waveguide-coupled DLA were performed using a grating coupler and accelerator structure designed using inverse design \cite{sapra2019inverse,sapra_-chip_2019}.
 Further experimental studies are underway, with the goal of realizing a multi-stage integrated accelerator in the next two years.
