@@ -1,0 +1,90 @@
+%!TEX root = ../main.tex
+
+In the previous derivation, we have assumed that the functions $\mathbf{f}_l(\cdot)$ are holomorphic.  For each element of input $\mathbf{Z}_l$, labeled $z$, this means that the derivative of $\mathbf{f}_l(z)$ with respect to its complex argument is well defined, or the derivative 
+\begin{equation}
+\frac{d\mathbf{f}_l}{dz} = \lim_{\Delta z \to 0} \frac{\mathbf{f}_l(z+\Delta z) - \mathbf{f}_l(z-\Delta z)}{2 \Delta z}
+\end{equation}
+does not depend on the direction that $\Delta z$ approaches $0$ in the complex plane.  
+
+Here we show how to extend the backpropagation derivation to non-holomorphic activation functions.  We first examine the starting point of the backpropagation algorithm, considering the change in the mean-squared loss function with respect to the permittivity of a phase shifter in the last layer OIU, as written in Eq. (7) of the main text as 
+\begin{equation}
+\frac{d\mathcal{L}}{d\epsilon_L} = \mathcal{R}\left\{\boldsymbol{\Gamma}_L^T \frac{d\mathbf{X}_L}{d\epsilon_L} \right\}
+\label{eq:beginning}
+\end{equation}
+Where we had defined the error vector $\boldsymbol{\Gamma}_L \equiv \big(\mathbf{X}_L - \mathbf{T} \big)^*$ for simplicity and $\mathbf{X}_L = \mathbf{f}_L(\hat{W}_L \mathbf{X}_{L-1})$ is the output of the final layer.
+
+To evaluate this expression for non-holomorphic activation functions, we split $\mathbf{f}_L(\mathbf{Z})$ and its argument into their real and imaginary parts
+\begin{equation}
+\mathbf{f}_L(\mathbf{Z}) = \mathbf{u}(\boldsymbol{\alpha}, \boldsymbol{\beta}) + i \mathbf{v}(\boldsymbol{\alpha}, \boldsymbol{\beta}),
+\end{equation}
+where $i$ is the imaginary unit and $\boldsymbol{\alpha}$ and $\boldsymbol{\beta}$ are the real and imaginary parts of $\mathbf{Z}_L$, respectively.
+
+We now wish to evaluate $\frac{d\mathbf{X}_L}{d\epsilon_L} = \frac{d\mathbf{f}_L(\mathbf{Z})}{d\epsilon_L}$, which gives the following via the chain rule
+
+\begin{equation}
+\frac{d\mathbf{f}}{d\epsilon} = \frac{d\mathbf{u}}{d\boldsymbol{\alpha}} \odot \frac{d\boldsymbol{\alpha}}{d\epsilon} + \frac{d\mathbf{u}}{d\boldsymbol{\beta}} \odot \frac{d\boldsymbol{\beta}}{d\epsilon} + i\frac{d\mathbf{v}}{d\boldsymbol{\alpha}} \odot \frac{d\boldsymbol{\alpha}}{d\epsilon} + i\frac{d\mathbf{v}}{d\boldsymbol{\beta}} \odot \frac{d\boldsymbol{\beta}}{d\epsilon},
+\end{equation}
+where we have dropped the layer index for simplicity.  Here, terms of the form $\frac{d\mathbf{x}}{d\mathbf{y}}$ correspond to element-wise differentiation of the vector $\mathbf{x}$ with respect to the vector $\mathbf{y}$.  For example, the $i$-th element of the vector $\frac{d\mathbf{x}}{d\mathbf{y}}$ is given by $\frac{dx_i}{dy_i}$.
+
+Now, inserting into Eq. (\ref{eq:beginning}), we have 
+\begin{align}
+\frac{d\mathcal{L}}{d\epsilon_L} = \mathcal{R}\Bigg\{  &\boldsymbol{\Gamma}_L^T \odot \left( \frac{d\mathbf{u}}{d\boldsymbol{\alpha}} + i  \frac{d\mathbf{v}}{d\boldsymbol{\alpha}} \right)^T \frac{d\boldsymbol{\alpha}}{d\epsilon_L} \\
++ &\boldsymbol{\Gamma}_L^T \odot \left( \frac{d\mathbf{u}}{d\boldsymbol{\beta}} + i  \frac{d\mathbf{v}}{d\boldsymbol{\beta}} \right)^T \frac{d\boldsymbol{\beta}}{d\epsilon_L}  \Bigg\}.
+\end{align}
+
+We now define real and imaginary parts of $\boldsymbol{\Gamma}_L$ as $\boldsymbol{\Gamma}_\textrm{R}$ and $\boldsymbol{\Gamma}_\textrm{I}$, respectively.  Inserting the definitions of $\boldsymbol{\alpha}$ and $\boldsymbol{\beta}$ in terms of $\hat{W}_L$ and $\mathbf{X}_{L-1}$ and doing some algebra, we recover
+\begin{align}
+\frac{d\mathcal{L}}{d\epsilon_L} = \mathcal{R}\Bigg\{ &\left( \boldsymbol{\Gamma}_\textrm{R} \odot \frac{d\mathbf{u}}{d\boldsymbol{\alpha}} \right)^T \frac{d\hat{W}_L}{d\epsilon_L} \mathbf{X}_{L-1} \\
+- &\left( \boldsymbol{\Gamma}_\textrm{I} \odot \frac{d\mathbf{v}}{d\boldsymbol{\alpha}} \right)^T \frac{d\hat{W}_L}{d\epsilon_L} \mathbf{X}_{L-1} \\
+-i &\left( \boldsymbol{\Gamma}_\textrm{R} \odot \frac{d\mathbf{u}}{d\boldsymbol{\beta}} \right)^T \frac{d\hat{W}_L}{d\epsilon_L} \mathbf{X}_{L-1} \\
++i &\left( \boldsymbol{\Gamma}_\textrm{I} \odot \frac{d\mathbf{v}}{d\boldsymbol{\beta}} \right)^T \frac{d\hat{W}_L}{d\epsilon_L} \mathbf{X}_{L-1}
+\Bigg\}.
+\label{eq:final_answer}
+\end{align}
+
+Finally, the expression simplifies to 
+\begin{align}
+\frac{d\mathcal{L}}{d\epsilon_L} = \mathcal{R}\Bigg\{ \Bigg[ & \boldsymbol{\Gamma}_\textrm{R} \odot \left( \frac{d\mathbf{u}}{d\boldsymbol{\alpha}} - i\frac{d\mathbf{u}}{d\boldsymbol{\beta}} \right) \\
+ + & \boldsymbol{\Gamma}_\textrm{I} \odot \left( -\frac{d\mathbf{v}}{d\boldsymbol{\alpha}} + i\frac{d\mathbf{v}}{d\boldsymbol{\beta}} \right)  \Bigg]^T \frac{d\hat{W}_L}{d\epsilon_L} \mathbf{X}_{L-1} \Bigg\}.
+\end{align}
+
+As a check, if we insert the conditions for $\mathbf{f}_L(\mathbf{Z})$ to be holomorphic, namely
+\begin{equation}
+\frac{d\mathbf{u}}{d\boldsymbol{\alpha}} = \frac{d\mathbf{v}}{d\boldsymbol{\beta}}, ~~~\textrm{and}~~~ \frac{d\mathbf{u}}{d\boldsymbol{\beta}} = -\frac{d\mathbf{v}}{d\boldsymbol{\alpha}},
+\end{equation}
+Eq. (\ref{eq:final_answer}) simplifies to 
+\begin{align}
+\frac{d\mathcal{L}}{d\epsilon_L}
+&= \mathcal{R}\Bigg\{ \Bigg[ \boldsymbol{\Gamma}_\textrm{R} \odot \left( \frac{d\mathbf{u}}{d\boldsymbol{\alpha}} + i\frac{d\mathbf{v}}{d\boldsymbol{\alpha}} \right) + \\
+&\boldsymbol{\Gamma}_\textrm{I} \odot \left( -\frac{d\mathbf{v}}{d\boldsymbol{\alpha}} + i\frac{d\mathbf{u}}{d\boldsymbol{\alpha}} \right) \Bigg]^T \frac{d\hat{W}_L}{d\epsilon_L} \mathbf{X}_{L-1}
+\Bigg\} \\
+&= \mathcal{R}\Bigg\{ \left[ \boldsymbol{\Gamma}_L \odot \left( \frac{d\mathbf{u}}{d\boldsymbol{\alpha}} + i\frac{d\mathbf{v}}{d\boldsymbol{\alpha}} \right) \right]^T \frac{d\hat{W}_L}{d\epsilon_L} \mathbf{X}_{L-1} \Bigg\}\\
+&= \mathcal{R}\Bigg\{ \left[ \boldsymbol{\Gamma}_L \odot {\mathbf{f}_l}^{'}(\mathbf{Z}_{L}) \right]^T \frac{d\hat{W}_L}{d\epsilon_L} \mathbf{X}_{L-1}
+\Bigg\}\\
+&= \mathcal{R}\Bigg\{ \bm{\delta}_L^T \frac{d\hat{W}_L}{d\epsilon_L} \mathbf{X}_{L-1}
+\Bigg\}
+\end{align}
+as before.
+
+This derivation may be similarly extended to any layer $l$ in the network.  For holomorphic activation functions, whereas we originally defined the $\boldsymbol{\delta}$ vectors as 
+\begin{equation}
+\boldsymbol{\delta}_l = \boldsymbol{\Gamma}_{l} \odot {\mathbf{f}_l}^{'}(\mathbf{Z}_{l}),
+\label{eq:delta_def_gen}
+\end{equation}
+for non-holomorphic activation functions, the respective definition is 
+\begin{equation}
+\boldsymbol{\delta}_l = \boldsymbol{\Gamma}_R \odot \left( \frac{d\mathbf{u}}{d\boldsymbol{\alpha}} - i\frac{d\mathbf{u}}{d\boldsymbol{\beta}} \right)
+ + \boldsymbol{\Gamma}_\textrm{I} \odot \left( -\frac{d\mathbf{v}}{d\boldsymbol{\alpha}} + i\frac{d\mathbf{v}}{d\boldsymbol{\beta}} \right),
+\end{equation}
+where $\boldsymbol{\Gamma}_\textrm{R}$ and $\boldsymbol{\Gamma}_\textrm{I}$ are the respective real and imaginary parts of $\bm{\Gamma}_l$, $\mathbf{u}$ and $\mathbf{v}$ are the real and imaginary parts of $\mathbf{f}_l(\cdot)$, and $\boldsymbol{\alpha}$ and $\boldsymbol{\beta}$ are the real and imaginary parts of $\mathbf{Z}_l$, respectively.
+
+We can write this more simply as 
+\begin{equation}
+\boldsymbol{\delta}_l = \mathcal{R}\left\{\bm{\Gamma}_l \odot \frac{d\mathbf{f}}{d\bm{\alpha}} \right\} - i \mathcal{R}\left\{ \bm{\Gamma}_l \odot \frac{d\mathbf{f}}{d\bm{\beta}}\right\}.
+\end{equation}
+
+In polar coordinates where $\mathbf{Z} = \mathbf{r}\exp{(i\bm{\phi})}$ and $\mathbf{f} = \mathbf{f}(\mathbf{r},\bm{\phi})$, this equation becomes
+\begin{equation}
+\boldsymbol{\delta}_l = \exp{(-i\bm{\phi})}\left(\mathcal{R}\left\{\bm{\Gamma}_l \odot \frac{d\mathbf{f}}{d\mathbf{r}} \right\} - i\mathcal{R}\left\{ \bm{\Gamma}_l \odot \frac{1}{\mathbf{r}}\frac{d\mathbf{f}}{d\bm{\phi}} \right\}  \right) \label{eqn:noholo}
+\end{equation}
+where all operations are element-wise.

@@ -1,45 +1,795 @@
 %!TEX root = ../main.tex
 
-\section{Introduction to Machine Learning}
+In this chapter, we will shift gears to discuss optical hardware platforms for machine learning applications.
+The field of machine learning has seen an impressive revival in the past decade, with several applications from machine translation [cite], computer vision [cite], health and medicine [cite], and game playing [cite].
+While the basic ideas of machine learning, and \textit{deep learning} have existed for several decades, this recent success may be largely attributed to (1) the widespread availability of hardware platforms capable of runnin gthese models efficently, and (2) the accessability of large datasets needed to train these models.
 
-\subsection{Applications}
+Indeed, with the new applications and models introduced in recent years, the hardware demand continues to rise exponentially over time, as evidenced by [cite deep mind].
+One common approache to satisfying this demand involves running the computation on graphical processing units (GPUs), which creates benefits from massive parallelization.
+Along this line, companies are beginning to invest in hardware platforms that are specially designed to run machine learning software platforms.
+One such example is the \textit{tensor processing unit} (TPU), which runs Google's Tensorflow package.
 
-\subsection{Hardware Demands}
+Alternatively, technologies are being considered that would replace the typical digital electronics hardware architectures with those more suited for machine learning computation.
+This is evidenced by the renewed interest in analog computing and quantum machine learning [cite], in which a physical system is used to emulate the machine learning model.
+Other groups have attempted to create \textit{neuromorphic} hardware, which is designed to vaguely mimick the circuitry of the human brain.
 
-\section{Linear Nanophotonic Processors}
+Of great interest amoung these new platforms are so-called \textit{linear nanophotonic processors}.
+The idea here is to replace the linear elements common to most machine learning models with linear optical devices that may perform linear operations via transmission of light through their components.
+While this idea has existed for quite some time [cite miller], its implementation for deep learning was recently demonstrated in a photonic integrated circuit [cite yichen] and has been used in recent years for quantum information processing [cite obrien and other quantum].
+The main advantage of this technique is that it can, in principle, perform these crucial operations faster, with lower latency, and with a low energy cost when compared to digital electronics.
+A further benefit is that the operations, themselves, may be reconfigured using standard optical components, such as phase shifters.
+This ability will be necessary for the training of these platforms, as we will discuss.
 
-\section{Optical Neural Networks}
+\section{In Situ Backpropagation Training of Optical Neural Networks}
 
-\subsection{Conventional Neural Network}
+Here we briefly review the basics of feedforward artificial neural networks (ANNs) and describe their implementation in a reconfigurable optical circuit, as proposed in Ref. \citenum{shen_deep_2017}.
+An ANN is a function which accepts an input vector, $x_0$ and returns an output vector, $x_L$.  
+This is accomplished in a layer-by-layer fashion, with each layer consisting of a linear matrix-vector multiplication followed by the application of an element-wise nonlinear function, or \textit{activation}, on the result.  
+For a layer with index $i$, containing a weight matrix $\hat{W}_i$ and activation function $f_i(\cdot)$, its operation is described mathematically as
+\begin{equation}
+   x_i = f_i{\left( \hat{W}_i \cdot x_{i-1} \right)}
+\end{equation}
+for $i$ from 1 to $L$.
 
-\subsection{Optical Integration}
+Before they are able to perform a given machine learning task, ANNs must be trained. 
+The training process is typically accomplished by minimizing the prediction error of the ANN on a set of training examples, which come in the form of input and target output pairs. 
+For a given ANN, a loss function is defined to quantify the difference between the target output and output predicted by the network.  
+During training, this loss function is minimized with respect to tunable degrees of freedom, namely the elements of the weight matrix $\hat{W}_i$ within each layer. 
+In general, although less common, it is also possible to train the parameters of the activation functions \cite{trentin_networks_2001}.
 
-\subsection{Training Protocols}
+There are significant efforts in constructing artificial neural network architectures using various electronic solid-state platforms \cite{Merolla2014,Prezioso2015}, but ever since the conception of ANNs, a hardware implementation using optical signals has also been considered \cite{Abu-Mostafa1987, Jutamulia1996}. In this domain, some of the recent work has been devoted to photonic spike processing \cite{Rosenbluth2009, Tait2014} and photonic reservoir computing \cite{Brunner2013, Vandoorne2014}, as well as to devising universal, chip-integrated photonic platforms that can implement any arbitrary ANN \cite{Shainline2017, Shen2017}.  Photonic implementations benefit from the fact that, due to the non-interacting nature of photons, linear operations -- like the repeated matrix multiplications found in every neural network algorithm -- can be performed in parallel, and at a lower energy cost, when using light as opposed to electrons. 
 
-\subsubsection{Computer Model Training}
+A key requirement for the utility of any ANN platform is the ability to train the network using algorithms such as error backpropagation \cite{Rumelhart1986}. Such training typically demands significant computational time and resources and it is generally desirable for error backpropagation to implemented on the same platform. This is indeed possible for the technologies of Refs. \cite{Merolla2014, Graves2016, hermans2015trainable} and has also been demonstrated e.g. in memristive devices \cite{alibart2013pattern, Prezioso2015}. In optics, as early as three decades ago, an adaptive platform that could approximately implement the backpropagation algorithm experimentally was proposed \cite{wagner1987multilayer,psaltis1988adaptive}. However, this algorithm requires a number of complex optical operations that are difficult to implement, particularly in integrated optics platforms. Thus, the current implementation of a photonic neural network using integrated optics has been trained using a model of the system simulated on a regular computer \cite{Shen2017}. This is inefficient for two reasons. First, this strategy depends entirely on the accuracy of the model representation of the physical system. Second, unless one is interested in deploying a large number of identical, fixed copies of the ANN, any advantage in speed or energy associated with using the photonic circuit is lost if the training must be done on a regular computer.  Alternatively, training using a brute force, \textit{in situ} computation of the gradient of the objective function has been proposed \cite{Shen2017}. However, this strategy involves sequentially perturbing each individual parameter of the circuit, which is highly inefficient for large systems.
 
-\subsubsection{Brute Force Training}
+To overcome this, we proposed \cite{hughes2018training} a procedure to compute the gradient of the cost function of a photonic ANN by use of only \textit{in situ} intensity measurements.    Our procedure works by \textit{physically} implementing the adjoint variable method (AVM), a technique that has typically been implemented computationally in the optimization and inverse design of photonic structures \cite{Georgieva2002, Veronis2004, hughes2017method}.  Furthermore, the method scales in constant time with respect to the number of parameters, which allows for backpropagation to be efficiently implemented in a hybrid opto-electronic network.  Although we focus our discussion on a particular hardware implementation of a photonic ANN, our conclusions are derived starting from Maxwell’s equations, and may therefore be extended to other photonic platforms.
 
-\section{In Situ Backpropagation Training}
 
-\subsection{Derivation Using Adjoint Method}
+First, we introduce the operation and gradient computation of a feed-forward photonic ANN.  In its most general case, a feed-forward ANN maps an input vector to an output vector via an alternating sequence of linear operations and element-wise nonlinear functions of the vectors, also called `activations'.  A cost function, $\mathcal{L}$, is defined over the outputs of the ANN and the matrix elements involved in the linear operations are tuned to minimize $\mathcal{L}$ over a number of training examples via gradient-based optimization.  The \textit{backpropagation algorithm} is typically used to compute these gradients analytically by sequentially utilizing the chain rule from the output layer backwards to the input layer.
 
-\subsection{Method for Measurement of Adjoint Gradient}
+Here, we will outline these steps mathematically for a single training example, with the procedure diagrammed in Fig. \ref{fig:backprop}a.  We focus our discussion on the photonic hardware platform presented in \cite{Shen2017}, which performs the linear operations using optical interference units (OIUs).  The OIU is a mesh of controllable Mach-Zehnder interferometers (MZIs) integrated in a silicon photonic circuit. By tuning the phase shifters integrated in the MZIs, any unitary $N \times N$ operation on the input can be implemented \cite{Reck1994,Clements2016}, which finds applications both in classical and quantum photonics \cite{Carolan2015, Harris2017}.  In the photonic ANN implementation from Ref. \cite{Shen2017}, an OIU is used for each linear matrix-vector multiplication, whereas the nonlinear activations are performed using an electronic circuit, which involves measuring the optical state before activation, performing the nonlinear activation function on an electronic circuit such as a digital computer, and preparing the resulting optical state to be injected to the next stage of the ANN.
 
-\subsection{Numerical Demonstrations}
+We first introduce the notation used to describe the OIU, which consists of a number, $N$, of single-mode waveguide input ports coupled to the same number of single-mode output ports through a linear and lossless device. In principle, the device may also be extended to operate on a different number of inputs and outputs. We further assume directional propagation such that all power flows exclusively from the input ports to the output ports, which is a typical assumption for the devices of Refs. \cite{Miller2013a, Shen2017, Harris2017, Carolan2015, Reck1994,Miller2013,Clements2016}. In its most general form, the device implements the linear operation
+\begin{equation}
+\hat{W}\mathbf{X}_\textrm{in} = \mathbf{Z}_\textrm{out},
+\label{eq:original_linear_system}
+\end{equation}
+where $\mathbf{X}_\textrm{in}$ and $\mathbf{Z}_\textrm{out}$ are the modal amplitudes at the input and output ports, respectively, and $\hat{W}$, which we will refer to as the transfer matrix, is the off-diagonal block of the system's full scattering matrix,
+\begin{equation}
+\begin{pmatrix}
+\mathbf{X}_\textrm{out} \\
+\mathbf{Z}_\textrm{out}
+\end{pmatrix} = \begin{pmatrix}
+0 & \hat{W}^T \\
+\hat{W} & 0
+\end{pmatrix}  
+\begin{pmatrix}
+\mathbf{X}_\textrm{in} \\
+\mathbf{Z}_\textrm{in}
+\end{pmatrix}.
+\label{eq:smatrix}
+\end{equation}
+Here, the diagonal blocks are zero because we assume forward-only propagation, while the off-diagonal blocks are the transpose of each other because we assume a reciprocal system. $\mathbf{Z}_\textrm{in}$ and $\mathbf{X}_\textrm{out}$ correspond to the input and output modal amplitudes, respectively, if we were to run this device in reverse, i.e. sending a signal in from the output ports.
+
+%\begin{figure}[H]
+%\centering
+%\includegraphics[width=.7\columnwidth]{figures/insitu_W_diagram}
+%\caption{\label{fig:W} Notation describing the $\hat{W}$ operator}
+%\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{figures/insitu_backprop}
+\caption{\label{fig:backprop} (a) A schematic of the ANN architecture demonstrated in Ref \cite{Shen2017}.  The boxed regions correspond to OIUs that perform a linear operation represented by the matrix $\hat{W}_l$.  Integrated phase shifters (blue) are used to control the OIU and train the network.  The red regions correspond to nonlinear activations $\mathbf{f}_l(\cdot)$.  (b) Illustration of operation and gradient computation in an ANN.  The top and bottom rows correspond to the forward and backward propagation steps, respectively.  Propagation through a square cell corresponds to matrix multiplication.  Propagation through a rounded region corresponds to activation.  $\odot$ is element-wise vector multiplication.}
+\end{figure}
+
+Now we may use this notation to describe the forward and backward propagation steps in a photonic ANN.  In the forward propagation step, we start with an initial input to the system, $\mathbf{X}_0$, and perform a linear operation on this input using an OIU represented by the matrix $\hat{W}_{1}$.  This is followed by the application of a element-wise nonlinear activation, $\mathbf{f}_1(\cdot)$, on the outputs, giving the input to the next layer.  This process repeats for the each layer $l$ until the output layer, $L$.  Written compactly, for $l = 1~...~L$
+\begin{equation}
+\mathbf{X}_l = \mathbf{f}_l(\hat{W}_l\mathbf{X}_{l-1}) \equiv \mathbf{f}_l(\mathbf{Z}_l).
+\label{eq:NN_recursive}
+\end{equation}
+Finally, our cost function $\mathcal{L}$ is an explicit function of the outputs from the last layer, $\mathcal{L} = \mathcal{L}(\mathbf{X}_L)$.  This process is shown in Fig. \ref{fig:backprop}(a).
+
+To train the network, we must minimize this cost function with respect to the linear operators, $\hat{W}_l$, which may be adjusted by tuning the integrated phase shifters within the OIUs.  While a number of recent papers have clarified how an individual OIU can be tuned by sequential,  \textit{in situ} methods to perform an arbitrary, pre-defined operation \cite{Miller2013, Miller2013a, Miller2015, Annoni2017}, these strategies do not straightforwardly apply to the training of ANNs, where nonlinearities and several layers of computation are present.  In particular, the training of ANN requires gradient information which is not provided directly in the methods of Ref. \cite{Miller2013, Miller2013a, Miller2015, Annoni2017}.
+
+In Ref. \cite{Shen2017}, the training of the ANN was done \textit{ex situ} on a computer model of the system, which was used to find the optimal weight matrices $\hat{W}_l$ for a given cost function. Then, the final weights were recreated in the physical device, using an idealized model that relates the matrix elements to the phase shifters. Ref. \cite{Shen2017} also discusses a possible \textit{in situ} method for computing the gradient of the ANN cost function through a serial perturbation of every individual phase shifter (`brute force' gradient computation). However, this gradient computation has an unavoidable linear scaling with the number of parameters of the system.  The training method that we propose here operates without resorting to an external model of the system, while allowing for the tuning of each parameter to be done in parallel, therefore scaling significantly better with respect to the number of parameters when compared to the brute force gradient computation.
+
+To introduce our training method we first use the backpropagation algorithm to derive an expression for the gradient of the cost function with respect to the permittivities of the phase shifters in the OIUs. In the following, we denote $\epsilon_l$ as the permittivity of a single, arbitrarily chosen phase shifter in layer $l$, as the same derivation holds for each of the phase shifters present in that layer.  Note that $\hat{W}_l$ has an explicit dependence on $\epsilon_l$, but all field components in the subsequent layers also depend implicitly on $\epsilon_l$.
+
+As a demonstration, we take a mean squared cost function
+\begin{align}
+\mathcal{L} &= \frac{1}{2}\big(\mathbf{X}_L -\mathbf{T} \big)^\dagger \big( \mathbf{X}_L -\mathbf{T} \big),
+\label{eq:NN_forward}
+\end{align}
+where $\mathbf{T}$ is a complex-valued target vector corresponding to the desired output of our system given input $\mathbf{X}_0$.
+
+Starting from the last layer in the circuit, the derivative of the cost function with respect to the permittivity $\epsilon_L$ of one of the phase shifters in the last layer is given by
+
+\begin{align}
+\frac{d\mathcal{L}}{d\epsilon_L} &= \mathcal{R}\left\{\big(\mathbf{X}_L - \mathbf{T} \big)^\dagger \frac{d\mathbf{X}_L}{d\epsilon_L} \right\}\\
+    &= \mathcal{R}\left\{ \left(  \bm{\Gamma}_L \odot {\mathbf{f}_L}^{'}(\mathbf{Z}_{L}) \right)^T \frac{d \hat{W}_L}{d\epsilon_L}\mathbf{X}_{L-1} \right\}\\ 
+    &\equiv \mathcal{R}\left\{ \boldsymbol{\delta}_L^T \frac{d \hat{W}_L}{d\epsilon_L} \mathbf{X}_{L-1} \right\},
+\label{eq:backprop_L}
+\end{align}
+where $\odot$ is element-wise vector multiplication, defined such that, for vectors $\mathbf{a}$ and $\mathbf{b}$, the $i$-th element of the vector $\mathbf{a} \odot \mathbf{b}$ is given by $a_i b_i$. $\mathcal{R}\{\cdot\}$ gives the real part, ${\mathbf{f}_l}^{'}(\cdot)$ is the derivative of the $l$th layer activation function with respect to its (complex) argument.  We define the vector $\bm{\delta}_L \equiv \bm{\Gamma}_L \odot {\mathbf{f}_L}^{\,'}$ in terms of the error vector $\bm{\Gamma}_L \equiv \big(\mathbf{X}_L - \mathbf{T} \big)^*$.
+
+For any layer $l < L$, we may use the chain rule to perform a recursive calculation of the gradients
+\begin{align}
+\bm{\Gamma}_l &= \hat{W}^T_{l+1} \bm{\delta}_{l+1} \label{eq:backprop_general_Gamma}
+\\
+\bm{\delta}_l &= \bm{\Gamma}_l \odot {\mathbf{f}_l}^{'}(\mathbf{Z}_{l}) \label{eq:backprop_general2}
+\\
+\frac{d\mathcal{L}}{d\epsilon_l} &= \mathcal{R}\left\{ \bm{\delta}_l^T \frac{d \hat{W}_l}{d\epsilon_l} \mathbf{X}_{l-1} \right\}.
+\label{eq:backprop_general}
+\end{align}
+Figure \ref{fig:backprop}(b) diagrams this process, which computes the $\bm{\delta}_l$ vectors sequentially from the output layer to the input layer.  A treatment for non-holomorphic activations is derived in the Appendix.
+
+We note that the computation of $\bm{\delta}_l$ requires performing the operation $\bm{\Gamma}_l = \hat{W}^T_{l+1} \bm{\delta}_{l+1}$, which corresponds physically to sending $\bm{\delta}_{l+1}$ into the output end of the OIU in layer $l+1$.  In this way, our procedure `backpropagates' the vectors $\bm{\delta}_l$ and $\bm{\Gamma}_l$ physically through the entire circuit.
+
+%We note two interesting features present in Eq. (\ref{eq:backprop_general}).  First, this expression is the derivative of $\mathcal{R}\left\{\boldsymbol{\delta}_l^T \hat{W}_l \mathbf{X}_{l-1} \right\} = \mathcal{R}\left\{\boldsymbol{\delta}_l^T \mathbf{Z}_{l} \right\}$ with respect to $\epsilon_l$.  Thus, the minimization of this loss function requires minimizing the modal overlap between the output $\mathbf{Z}_l$ and the vector $\boldsymbol{\delta}_l^*$ for each layer in the network.  However, we note that during training, both $\mathbf{Z}_l$ and $\boldsymbol{\delta}_l$ are not static as changes to the surrounding OIUs will affect their values.  \textcolor{purple}{add some clarification to the previous paragraphs}.  Secondly, w
+
+In the previous Section, we showed that the crucial step in training the ANN is computing gradient terms of the form  $\mathcal{R}\left\{\boldsymbol{\delta}_l^T \frac{d \hat{W}_l}{d\epsilon_l} \mathbf{X}_{l-1}\right\}$, which contain derivatives with respect to the permittivity of the phase shifters in the OIUs. In this Section, we show how this gradient may be expressed as the solution to an electromagnetic adjoint problem.
+
+The OIU used to implement the matrix $\hat{W}_l$, relating the complex mode amplitudes of input and output ports, can be described using first-principles electrodynamics.  This will allow us to compute its gradient with respect to each $\epsilon_l$, as these are the physically adjustable parameters in the system. Assuming a source at frequency $\omega$, at steady state Maxwell's equations take the form 
+\begin{equation}
+\Big[ \hat{\nabla} \times \hat{\nabla} \times ~ -k_0^2 \hat{\epsilon}_r \Big]\mathbf{e} = -i\omega \mu_0 \mathbf{j},
+\label{eq:maxwells_equations_physics}
+\end{equation}
+which can be written more succinctly as
+\begin{equation}
+\hat{A}(\epsilon_r) \mathbf{e} = \mathbf{b}
+\label{eq:maxwells_equations_A}.
+\end{equation}
+Here, $\hat{\epsilon}_r$ describes the spatial distribution of the relative permittivity ($\epsilon_r$), $k_0=\omega^2/c^2$ is the free-space wavenumber, $\mathbf{e}$ is the electric field distribution, $\mathbf{j}$ is the electric current density, and $\hat{A} = \hat{A}^T$ due to Lorentz reciprocity. Eq. (\ref{eq:maxwells_equations_A}) is the starting point of the finite-difference frequency-domain (FDFD) simulation technique \cite{shin2012choice}, where it is discretized on a spatial grid, and the electric field $\mathbf{e}$ is solved given a particular permittivity distribution, $\boldsymbol{\epsilon}_r$, and source, $\mathbf{b}$.
+
+To relate this formulation to the transfer matrix $\hat{W}$, we now define source terms $\mathbf{b}_i$, $i \in 1 \dots 2N$, that correspond to a source placed in one of the input or output ports.  Here we assume a total of $N$  input and $N$ output waveguides.  The spatial distribution of the source term, $\mathbf{b}_i$, matches the mode of the $i$-th single-mode waveguide. Thus, the electric field amplitude in port $i$ is given by $\mathbf{b}_i^{\ T} \mathbf{e}$, and we may establish a relationship between $\mathbf{e}$ and $\mathbf{X}_\textrm{in}$, as
+\begin{equation}
+X_{\textrm{in},i} = \mathbf{b}_i^{\ T} \mathbf{e}
+\end{equation}
+for $i = 1~...~N$ over the input port indices, where $X_{\textrm{in},i}$ is the $i$-th component of $\mathbf{X}_\textrm{in}$. Or more compactly, 
+\begin{equation}
+\mathbf{X}_\textrm{in} \equiv \hat{P}_{\textrm{in}} \mathbf{e},
+\label{eq:basis_conversion_in}
+\end{equation}
+Similarly, we can define 
+\begin{equation}
+Z_{\textrm{out},i} = \mathbf{b}_{i+N}^{\ T} \mathbf{e}
+\end{equation}
+for $i+N = (N+1)~...~2N$ over the output port indices, or, 
+\begin{equation}
+\mathbf{Z}_\textrm{out} \equiv \hat{P}_{\textrm{out}} \mathbf{e},
+\label{eq:basis_conversion_in}
+\end{equation}
+and, with this notation, Eq. (\ref{eq:original_linear_system}) becomes
+\begin{equation}
+\hat{W}\hat{P}_{\textrm{in}}\mathbf{e} = \hat{P}_{\textrm{out}}\mathbf{e}
+\label{eq:summary_of_basis_change}
+\end{equation}
+
+%We can now apply this to the gradient of the ANN loss function from the previous Section. 
+%For layer $l$, the gradient of the loss function with respect to the $i$-th phase shifter in this layer, labeled $\epsilon_l$, was given by 
+%\begin{equation}
+%\frac{d\mathcal{L}}{d\epsilon_l} = \mathcal{R}\left\{ \boldsymbol{\delta}_l^T \frac{d %\hat{W}_l}{d\epsilon_l}\mathbf{X}_{l-1} \right\},
+%\label{eq:backprop_general_copy}
+%\end{equation}
+%where the $\boldsymbol{\delta}_l$ vectors were computed by propagating backwards through the system.  It is simple to show that this term is the gradient of a sub-problem with an objective function of the form
+%\begin{equation}
+%\mathcal{L}(\phi) = \mathcal{R}\left\{ \boldsymbol{\delta}^T \hat{W}(\phi)\mathbf{X} %\right\} = \mathcal{R}\left\{ \boldsymbol{\delta}^T \mathbf{Z}(\phi) \right\}.
+%\label{eq:objective_function_definition}
+%\end{equation}
+%for a feed-forward system.  Here the layer subscript, $l$, and the phase shifter %number $i$ are implicit.  Thus, training the ANN corresponds to minimizing the modal %overlap between the output of the system at each layer, $\mathbf{Z}$, and the %complex conjugate of the delta vector for that layer, $\boldsymbol{\delta}^*$.
+
+%
+%Using Eq. (\ref{eq:maxwells_equations_A}) and Eq. (\ref{eq:summary_of_basis_change}), combined with the fact that $\frac{d\mathbf{X}_{l-1}}{d\epsilon_l}=0$, we may compute an expression for $ \frac{d\hat{W}_l}{d\epsilon_l}\mathbf{X}_{l-1}$ in terms of the Maxwell operator, $\hat{A}$.  Then, this can be inserted into Eq. (\ref{eq:backprop_general}) to obtain
+
+We now use the above definitions to evaluate the cost function gradient in Eq. (\ref{eq:backprop_general}). In particular, with Eqs. (\ref{eq:backprop_general}) and (\ref{eq:summary_of_basis_change}), we arrive at 
+\begin{equation}
+\frac{d\mathcal{L}}{d\epsilon_l} = -\mathcal{R}\left\{\boldsymbol{\delta_l}^T \hat{P}_{\textrm{out}} \hat{A}^{-1} \frac{d\hat{A}}{d\epsilon_l} \hat{A}^{-1} \mathbf{b}_{x,l-1} \right\}.
+\label{eq:objective_function_derivative_EM_basis}
+\end{equation}
+Here $\mathbf{b}_{x,l-1}$ is the modal source profile that creates the input field amplitudes $\mathbf{X}_{l-1}$ at the input ports. 
+
+The key insight of the adjoint variable method is that we may interpret this expression as an operation involving the field solutions of two electromagnetic simulations, which we refer to as the `original' (og) and the `adjoint' (aj)
+\begin{align}
+\hat{A} \mathbf{e}_{\textrm{og}} &= \mathbf{b}_{x,l-1} \\
+\hat{A} \mathbf{e}_{\textrm{aj}} &= \hat{P}_{\textrm{out}}^T \boldsymbol{\delta},
+\label{eq:adjoint}
+\end{align}
+where we have made use of the symmetric property of $\hat{A}$. 
+
+Eq. (\ref{eq:objective_function_derivative_EM_basis}) can now be expressed in a compact form as 
+\begin{equation}
+\frac{d\mathcal{L}}{d\epsilon_l} = -\mathcal{R}\left\{\mathbf{e}_{\textrm{aj}}^T\frac{d\hat{A}}{d\epsilon_l}\mathbf{e}_{\textrm{og}} \right\}.
+\label{eq:objective_function_derivative_simple}
+\end{equation}
+
+If we assume that this phase shifter spans a set of points, $\mathbf{r}_\phi$ in our system, then, from Eq. (\ref{eq:maxwells_equations_physics}), we obtain
+\begin{equation}
+\frac{d\hat{A}}{d\epsilon_l} = -k_0^2 \sum_{{\mathbf{r}\,}' \in \mathbf{r}_\phi}\hat{\delta}_{\mathbf{r},{\mathbf{r}\,}'},
+\label{eq:dAdphi}
+\end{equation}
+where $\hat{\delta}_{\mathbf{r},{\mathbf{r}\,}'}$ is the Kronecker delta.
+
+Inserting this into Eq. (\ref{eq:objective_function_derivative_simple}), we thus find that the gradient is given by the overlap of the two fields over the phase-shifter positions
+%
+\begin{equation}
+\frac{d\mathcal{L}}{d\epsilon_l} = k_0^2 \mathcal{R}\left\{ \sum_{\mathbf{r} \in \mathbf{r}_\phi} \mathbf{e}_{\textrm{aj}}(\mathbf{r}) \mathbf{e}_{\textrm{og}}(\mathbf{r}) \right\}.
+\label{eq:sensitivity_sum}
+\end{equation}
+%
+This result now allows for the computation in parallel of the gradient of the loss function with respect to \textit{all} phase shifters in the system, given knowledge of the original and adjoint fields.
+
+\begin{figure}[ht!]
+\includegraphics[width=0.7\textwidth]{figures/insitu_TR}
+\caption{\label{fig:TR_schematic} Schematic illustration of our proposed method for experimental measurement of gradient information. The box region represents the OIU.  The colored ovals represent tunable phase shifters, and we illustrate computing the gradient with respect to the red and the yellow phase shifters, labeled $1$ and $2$, respectively. (a): We send the original set of amplitudes $\mathbf{X}_{l-1}$ and measure the constant intensity terms at each phase shifter. (b): We send the adjoint mode amplitudes, given by $\boldsymbol{\delta}_l$, through the output side of our device, recording $\mathbf{X}_{TR}^*$ from the opposite side, as well as $|\mathbf{e}_\textrm{aj}|^2$ in each phase-shifter. (c): We send in $\mathbf{X}_{l-1}$ + $\mathbf{X}_{TR}$, interfering $\mathbf{e}_{\textrm{og}}$ and $\mathbf{e}_\textrm{aj}^*$ inside the device and recovering the gradient information for all phase shifters simultaneously.}
+\end{figure}
+
+We now propose a method to compute the gradient from the previous section through \textit{in situ} intensity measurements.  This represents the most significant result of this paper.  Specifically, we wish to generate an intensity pattern with the form $\mathcal{R}\big\{\mathbf{e}_\textrm{og} \mathbf{e}_\textrm{aj} \big\}$, matching that of Eq. (\ref{eq:sensitivity_sum}).  We note that interfering $\mathbf{e}_{\textrm{og}}$ and $\mathbf{e}_\textrm{aj}^{\,*}$ directly in the system results in the intensity pattern:
+\begin{equation}
+I = |\mathbf{e}_\textrm{og}|^2 + |\mathbf{e}_\textrm{aj}|^2 + 2\mathcal{R}\big\{\mathbf{e}_\textrm{og}\mathbf{e}_{\textrm{aj}} \big\},
+\label{eq:intensity_correct}
+\end{equation}
+the last term of which matches Eq. (\ref{eq:sensitivity_sum}). Thus, the gradient can be computed purely through intensity measurements if the field $\mathbf{e}_\textrm{aj}^{\,*}$ can be generated in the OIU.
+
+\begin{figure*}[t]
+\includegraphics[width=\textwidth]{figures/insitu_FDFD}
+\caption{\label{fig:fdfd} Numerical demonstration of the time-reversal procedure.  (a): Relative permittivity distribution for three MZIs arranged to perform a 3x3 linear operation. Blue boxes represent where phase shifters would be placed in this system. As an example, we compute the gradient information for a layer with $\mathbf{X}_{l-1} = [0~0~1]^T$ and $\boldsymbol{\delta}_l = [0~1~0]^T$, corresponding to the bottom left and middle right port, respectively. (b): Real part of the simulated electric field $E_z$ corresponding to injection from the bottom left port. (c): Real part of the adjoint $E_z$, corresponding to injection from the middle right port. (d): Time-reversed adjoint field as constructed by our method, fed in through all three ports on the left. (e): The gradient information $\frac{d\mathcal{L}}{d\epsilon_l}(x,y)$ as obtained directly by the adjoint method, normalized by its maximum absolute value. (f): The gradient information as obtained by the method introduced in this work, normalized by its maximum absolute value. Namely, the field pattern from (b) is interfered with the time-reversed adjoint field of (d) and the constant intensity terms are subtracted from the resulting intensity pattern. Panels (e) and (f) match with high precision.}
+\end{figure*}
+
+The adjoint field for our problem, $\mathbf{e}_\textrm{aj}$, as defined in Eq. (\ref{eq:adjoint}), is sourced by $\hat{P}_{\textrm{out}}^T \boldsymbol{\delta}_l$, meaning that it physically corresponds to a mode sent into the system from the output ports.  As complex conjugation in the frequency domain corresponds to time-reversal of the fields, we expect $\mathbf{e}^{\,*}_{\textrm{aj}}$ to be sent in from the input ports. Formally, to generate $\mathbf{e}^{\,*}_{\textrm{aj}}$, we wish to find a set of input source amplitudes, $\mathbf{X}_{TR}$, such that the output port source amplitudes, $\mathbf{Z}_{TR} = \hat{W}\mathbf{X}_{TR}$, are equal to the complex conjugate of the adjoint amplitudes, or $\boldsymbol{\delta}_l^*$. Using the unitarity property of transfer matrix $\hat{W}_l$ for a lossless system, along with the fact that $\hat{P}_{\textrm{out}} \hat{P}_{\textrm{out}}^T = \hat{I}$ for output modes, the input mode amplitudes for the time-reversed adjoint can be computed as
+\begin{equation}
+\mathbf{X}_{TR}^* = \hat{W}_l^T\boldsymbol{\delta}_l.
+\label{eq:TR_adjoint}
+\end{equation}
+As discussed earlier, $\hat{W}_l^T$ is the transfer matrix from output ports to input ports. Thus, we can experimentally determine $\mathbf{X}_{TR}$ by sending $\boldsymbol{\delta}_l$ into the device output ports, measuring the output at the input ports, and taking the complex conjugate of the result.
+
+We now summarize the procedure for experimentally measuring the gradient of an OIU layer in the ANN with respect to the permittivities of this layer's integrated phase shifters:
+\begin{enumerate}
+  \itemsep0em 
+  \item Send in the original field amplitudes $\mathbf{X}_{l-1}$ and measure and store the intensities at each phase shifter.
+  \item Send $\boldsymbol{\delta}_l$ into the output ports and measure and store the intensities at each phase shifter.
+  \item Compute the time-reversed adjoint input field amplitudes as in Eq. (\ref{eq:TR_adjoint}).
+  \item Interfere the original and the time-reversed adjoint fields in the device, measuring again the resulting intensities at each phase shifter.
+  \item Subtract the constant intensity terms from steps 1 and 2 and multiply by $k_0^2$ to recover the gradient as in Eq. (\ref{eq:sensitivity_sum}).
+\end{enumerate}
+
+%It is interesting to note that our approach operates in a similar fashion to the time-domain formalism of the adjoint variable method \cite{nikolova2004sensitivity, abenius2006solving}, in which the sensitivity is obtained by integrating the original field with the time-reversed adjoint field. In the frequency domain, time reversal of a field mathematically corresponds to complex conjugation.
+
+%Generating a time-reversed, physical copy of a wave is a difficult task in general, requiring phase conjugation \cite{feinberg1995phase, cronin1995theory}, time-reversal mirrors \cite{fink1992time, lerosey2004time}, or other techniques \cite{bacot2016time}.  However, given the feed-forward nature of our system, combined with the fact that we have full access to all input and output channels in the form of single mode waveguides, this process can be greatly simplified -- specifically, we can define sources at the input ports that generate the time-reversed adjoint $\mathbf{e}_{\textrm{aj}}^*$.
+
+This procedure is also illustrated in Fig. \ref{fig:TR_schematic}.
+
+We numerically demonstrate this procedure in Fig. \ref{fig:fdfd} with a series of FDFD simulations of an OIU implementing a $3 \times 3$ unitary matrix \cite{Reck1994}. These simulations are intended to represent the gradient computation corresponding to one OIU in a single layer, $l$, of a neural network with input $\mathbf{X}_{l-1}$ and delta vector $\boldsymbol{\delta}_l$. In these simulations, we use absorbing boundary conditions on the outer edges of the system to eliminate back-reflections.  The relative permittivity distribution is shown in Fig. \ref{fig:fdfd}(a) with the positions of the variable phase shifters in blue.  For demonstration, we simulate a specific case where $\mathbf{X}_{l-1} = [0~0~1]^T$, with unit amplitude in the bottom port and we choose $\boldsymbol{\delta}_l = [0~1~0]^T$.  In Fig. \ref{fig:fdfd}(b), we display the real part of $\textbf{e}_\textrm{og}$, corresponding to the original, forward field.  
+
+The real part of the adjoint field, $\textbf{e}_\textrm{aj}$, corresponding to the cost function $\mathcal{L} = \mathcal{R}\left\{\boldsymbol{\delta}_l^T \hat{W}_l \mathbf{X}_{l-1} \right\}$ is shown in Fig. \ref{fig:fdfd}(c).  In Fig. \ref{fig:fdfd}(d) we show the real part of the time-reversed copy of $\textbf{e}_\textrm{aj}$ as computed by the method described in the previous section, in which $\mathbf{X}^*_{TR}$ is sent in through the input ports.  There is excellent agreement, up to a constant, between the complex conjugate of the field pattern of (c) and the field pattern of (d), as expected.  
+
+In Fig. \ref{fig:fdfd}(e), we display the gradient of the objective function with respect to the permittivity of each point of space in the system, as computed with the adjoint method, described in Eq. (\ref{eq:sensitivity_sum}).  In Fig. \ref{fig:fdfd}(f), we show the same gradient information, but instead computed with the method described in the previous section.  Namely, we interfere the field pattern from panel (b) with the field pattern from panel (d), subtract constant intensity terms, and multiply by the appropriate constants.  Again, (b) and (d) agree with good precision.
+
+We note that in a realistic system, the gradient must be constant for any stretch of waveguide between waveguide couplers because the interfering fields are at the same frequency and are traveling in the same direction.  Thus, there should be no distance dependence in the corresponding intensity distribution. This is largely observed in our simulation, although small fluctuations are visible because of the proximity of the waveguides and the sharp bends, which were needed to make the structure compact enough for simulation within a reasonable time. In practice, the importance of this constant intensity is that it can be detected \textit{after} each phase shifter, instead of inside of it.
+
+Finally, we note that this numerically generated system experiences a total power loss of 41\% due to scattering caused by very sharp bends and stair-casing of the structure in the simulation.  We also observe approximately 5-10\% mode-dependent loss, as determined by measuring the difference in total transmitted power corresponding to injection at different input ports.  Minimal amounts of reflection are also visible in the field plots.  Nevertheless, the time-reversal interference procedure still reconstructs the adjoint sensitivity with very good fidelity.
+
+\begin{figure}
+\includegraphics[width=\columnwidth]{figures/insitu_ANN_demo}
+\caption{Numerical demonstration of a photonic ANN implementing an XOR gate using the backpropagation algorithm and adjoint method described in this work. (a) The architecture of the ANN.  Two layers of $3 \times 3$ OIUs with $z^2$ activations.  (b) The mean-squared error (MSE) between the predictions and targets as a function of training iterations. (c) The absolute value of the network predictions (blue circles) and targets (black crosses) before training.  (d) The absolute value of the network predictions after training, showing that the network has successfully learned the XOR function. \label{fig:demo} }
+\end{figure}
+
+%\subsection{Numerical Demonsrtation} 
+
+Finally, we use the techniques from the previous Sections to numerically demonstrate the training of a photonic ANN to implement a logical XOR gate, defined by the following input to target ($\mathbf{X}_0 \to \mathbf{T}$) pairs
+\begin{equation}
+[0~0]^T \to 0,  ~~~ [0~1]^T \to 1,  ~~~ [1~0]^T \to 1, ~~~ [1~1]^T \to 0.
+\label{eq:XOR_definition}
+\end{equation}
+This problem was chosen as demonstration of learning a nonlinear mapping from input to output \cite{vandoorne2014experimental} and is simple enough to be solved with a small network with only four training examples.
+
+As diagrammed in Fig. \ref{fig:demo}a, we choose a network architecture consisting of two $3 \times 3$ unitary OIUs.  On the forward propagation step, the binary representation of the inputs, $\textbf{X}_0$, is sent into the first two input elements of the ANN and a constant value of $1$ is sent into the third input element, which serves to introduce artificial bias terms into the network.  These inputs are sent through a $3 \times 3$ unitary OIU and then the element-wise activation $f(z) = z^2$ is applied.  The output of this step is sent to another $3 \times 3$ OIU and sent through another activation of the same form.  Finally, the first output element is taken to be our prediction, $\textbf{X}_L$, ignoring the last two output elements.  Our network is repeatedly trained on the four training examples defined in Eq. (\ref{eq:XOR_definition}) and using the mean-squared cost function presented in Eq. (\ref{eq:NN_forward}).
+
+For this demonstration, we utilized a matrix model of the system, as described in \cite{Reck1994,Clements2016}.  This model allows us to compute an output of the system given an input mode and the settings of each phase shifter.  Although this is not a first-principle electromagnetic simulation of the system, it provides information about the complex fields at specific reference points within the circuit, which enables us to implement training using the backpropagation method, combined with the adjoint gradient calculation.  Using these methods, at each iteration of training we compute the gradient of  our cost function with respect to the phases of each of the integrated phase shifters, and sum them over the four training examples.  Then, we perform a simple steepest-descent update to the phase shifters, in accordance with the gradient information. This is consistent with the standard training protocol for an ANN implemented on a conventional computer.  Our network successfully learned the XOR gate in around 400 iterations. The results of the training are shown in Fig. \ref{fig:demo}b-d.
+
+In the main text we show how the \textit{in-situ} backpropagation method may be used to train a simple XOR network.  Here we demonstrate training on a more complex problem. Specifically, we generate a set of one thousand training examples represented by input and target $(\mathbf{X}_0 \to \mathbf{T})$ pairs. Here, $\mathbf{X}_0 = [x_1, x_2, P, 0]^T$ where $x_1$ and $x_2$ are the independent inputs, which we constrain to be real for simplicity, and $P(x_1, x_2)= \sqrt{P_0-x_1^2-x_2^2}$ represents a mode added to the third port to make the norm of $\mathbf{X}_0$ the same for each training example.  In this case, we choose $P_0 = 10$.  Each training example has a corresponding label, $y \in \{0,1\}$ which is encoded in the desired output, $\mathbf{T}$, as $[1, 0, 0, 0].^T$ and $[0, 1, 0, 0].^T$ for $y = 0$ and $y=1$ respectively.
+
+For a given $x_1$ and $x_2$, we define $r$ and $\phi$ as the magnitude and phase of the vector $(x_1, x_2)$ in the 2D-plane, respectively. To generate the corresponding class label, we first generate a uniform random variable between 0 and 1, labeled $\mathcal{U}$, and then set $y=1$ if
+\begin{equation}
+\exp{\left(-\frac{(r-r_0-\Delta \sin(2\phi))^2}{2\sigma^2}\right)} + 0.1~\mathcal{U} > 0.5.
+\end{equation}
+Otherwise, we set $y=0$.  For the demonstration, $r_0 = 0.6$, $\Delta = 0.15$, and $\sigma = 0.2$. The underlying distribution thus resembles an oblong ring centered around $x_1 = x_2 = 0$, with added noise. 
+
+As diagrammed in Fig. \ref{fig:demo}(a), we use a network architecture consisting of six $4 \times 4$ layers of unitary OIUs, with an element-wise activation $f(z) = |z|$ after each unitary transformation except for the last in the series, which has an activation of $f(z) = |z|^2$. After the final activation, we apply an additional `softmax' activation, which gives a normalized probability distribution corresponding to the predicted class of $\mathbf{X}_0$. Specifically, these are given by $s(z_i) = \exp{(z_i)}/\left( \sum_j \exp{(z_j)} \right)$, where $z_{i = 1, 2}$ is the first/second element of the output vector of the last activation (the other two elements are ignored). The ANN prediction for the input $\mathbf{X}_0$ is set as the larger one of these two outputs, while the total cost function is defined in the cross-entropy form
+%
+\begin{equation}
+\mathcal{\mathcal{L}} = \frac{1}{M}\sum_{m=1}^M \mathcal{L}^{(m)} = \frac{1}{M}\sum_{m=1}^M -\log(s(z_{m, t})),
+\label{eq:cross_entropy}
+\end{equation}
+%
+where $\mathcal{L}^{(m)}$ is the cost function of the $m$-th example, the summation is over all training examples, and $z_{m, t}$ is the output from the target port, $t$, as defined by the target output $\mathbf{T}^{(m)}$ of the $m$-th example. We randomly split our generated examples into a training set containing 75\% of the originally generated training examples, while the remaining 25\% are used as a test set to evaluate the performance of our network on unseen examples.
+
+\begin{figure}
+\includegraphics[width=\columnwidth]{figures/insitu_ring}
+\caption{Numerical demonstration of a photonic ANN learning to classify an oblong ring. (a) The architecture of the ANN.  Six layers of $4 \times 4$ OIUs with $|z|$ activations.  A final softmax activation is applied at the very end.  (b) The loss function of Eq. (\ref{eq:cross_entropy}) over training iterations. (c) The training examples, blue and red dots correspond to $y=0$ and $y=1$ labels on a given $x_1$ and $x_2$ input.  The background shows the prediction of the network on a continuum of $x_1$ and $x_2$ pairs, with colors representing the corresponding predictions.  One can see that the ring was learned successfully without overfitting.  \label{fig:demo} }
+\end{figure}
+
+At each iteration of training we compute the gradient of the cost function with respect to the phases of each of the integrated phase shifters, and sum this over each of the training examples. For the backpropagation through the activation functions, since $|z|$ and $|z|^2$ are non-holomorphic, we use the notes from Appendix A to obtain
+%
+\begin{align}
+\bm{\delta}_L &= 2 \mathbf{Z}_L^* \odot \mathcal{R}\{\bm{\Gamma}_L\} \\
+\bm{\delta}_l &= \exp(-i\bm{\phi}_l) \odot \mathcal{R}\{\bm{\Gamma}_l\},
+\end{align}
+where $\bm{\phi}_l$ is a vector containing the phases of $\mathbf{Z}_l$ and $\bm{\Gamma}_L$ is given by the derivative of the cross-entropy loss function for a single training example 
+%
+\begin{equation}
+\bm{\Gamma}_L = \frac{\partial \mathcal{L}^{(m)}}{\partial z_{m, i}} = s(z_{m, i}) - \delta_{i, t},  
+\end{equation}
+%
+where $\delta_{i, t}$ is the Kronecker delta. 
+
+With this, we can now compute the gradient of the loss function of eq. \ref{eq:cross_entropy} with respect to all trainable parameters, and perform a parallel, steepest-descent update to the phase shifters, in accordance with the gradient information. Our network successfully learned the this task in around 4000 iterations. The results of the training are shown in Fig. \ref{fig:demo}(b). We achieved a training and test accuracy of 91\% on both the training and test sets, indicating that the network was not overfitting to the dataset.  This can also be confirmed visually from Fig. \ref{fig:demo}(c).  The lack of perfect predictions is likely due to the inclusion of noise.
+
+
+%Here we first discuss some of the practical details involved in implementing our method.  First, although we allow both the linear operations and nonlinear activations to be complex, we have enforced that the final cost function be real-valued and \textcolor{purple}{that the activations be complex differentiable, or holomorphic}.  A comprehensive overview of the use of complex values in neural networks is given in \cite{trabelsi2017deep}.  
+
+%\textcolor{purple}{Secondly, we have used the digital units to perform the nonlinear activations and their derivatives.}  We have additionally assumed that we may store the inputs $\mathbf{X}_{l-1}$ and delta vectors $\boldsymbol{\delta}_l$ from the forward and backward propagation steps in the digital units to make the gradient computation more efficient.  \textcolor{purple}{Although these assumptions are consistent with the demonstration in \cite{Shen2017}, it would be ideal to find an optical system to replace these digital units for these functionalities}. 
+ 
+Here, we justify some of the assumptions made in this work.  Our strategy for training a photonic ANN relies on the ability to create arbitrary complex inputs.  We note that a device for accomplishing this has been proposed and discussed in \cite{Miller2017}.  Our recovery technique further requires an integrated intensity detection scheme to occur in parallel and with virtually no loss.  This may be implemented by integrated, transparent photo-detectors, which have already been demonstrated in similar systems \cite{Annoni2017}.  Furthermore, as discussed, this measurement may occur in the waveguide regions directly after the phase shifters, which eliminates the need for phase shifter and photodetector components at the same location.  Finally, in our procedure for experimentally measuring the gradient information, we suggested running isolated forward and adjoint steps, storing the intensities at each phase shifter for each step, and then subtracting this information from the final interference intensity. Alternatively, one may bypass the need to store these constant intensities by introducing a low-frequency modulation on top of one of the two interfering fields in Fig. \ref{fig:TR_schematic}(c), such that the product term of Eq. (\ref{eq:intensity_correct}) can be directly measured from the low-frequency signal.  A similar technique was used in \cite{Annoni2017}.
+
+%% New section
+
+We now discuss some of the limitations of our method.  In the derivation, we had assumed the $\hat{W}$ operator to be unitary, which corresponds to a lossless OIU.  In fact, we note that our procedure is exact in the limit of a lossless, feed-forward, and reciprocal system.  However, with the addition of any amount of uniform loss, $\hat{W}$ is still unitary up to a constant, and our procedure may still be performed with the added step of scaling the measured gradients depending on this loss (see a related discussion in Ref. \cite{Miller2017}).  Uniform loss conditions are satisfied in the OIUs experimentally demonstrated in Refs. \cite{Shen2017, Miller2013}.  Mode-dependent loss, such as asymmetry in the MZI mesh layout or fabrication errors, should be avoided as its presence limits the ability to accurately reconstruct the time-reversed adjoint field.  Nevertheless, our simulation in Fig. \ref{fig:fdfd} indicates that an accurate gradient can be obtained even in the presence of significant mode-dependent loss.  In the experimental structures of  Refs. \cite{Shen2017, Miller2013}, the mode-dependent loss is made much lower due to the choice of the MZI mesh.  Thus we expect our protocol to work in practical systems.  Our method, in principle, computes gradients in parallel and scales in constant time.  In practice, to get this scaling would require careful design of the circuits controlling the OIUs.
+
+Conveniently, since our method does not directly assume any specific model for the linear operations, it may gracefully handle imperfections in the OIUs, such as deviations from perfect 50-50 splits in the MZIs.  Lastly, while we chose to make an explicit distinction between the input ports and the output ports, i.e. we assume no backscattering in the system, this requirement is not strictly necessary. Our formalism can be extended to the full scattering matrix.  However, this would require special treatment for subtracting the backscattering. 
+
+The problem of overfitting is one that must be addressed by `regularization' in any practical realization of a neural network.  Photonic ANNs of this class provide a convenient approach to regularization based on `dropout' \cite{srivastava2014dropout}.  In the dropout procedure, certain nodes are probabilistically and temporarily `deleted’ from the network during train time, which has the effect of forcing the network to find alternative paths to solve the problem at hand.  This has a strong regularization effect and has become popular in conventional ANNs.  Dropout may be implemented simply in the photonic ANN by `shutting off’ channels in the activation functions during training.  Specifically, at each time step and for each layer $l$ and element $i$, one may set $f_l(Z_i) = 0$ with some fixed probability.
+
+%% New section
+
+In conclusion, we have demonstrated a method for performing backpropagation in an ANN based on a photonic circuit.  This method works by physically propagating the adjoint field and interfering its time-reversed copy with the original field.  The gradient information can then be directly measured out as an \textit{in-situ} intensity measurement. While we chose to demonstrate this procedure in the context of ANNs, it is broadly applicable to any reconfigurable photonic system.  One could imagine this setup being used to tune phased arrays \cite{sun2013large}, optical delivery systems for dielectric laser accelerators \cite{hughes2017chip}, or other systems that rely on large meshes of integrated optical phase shifters.  Furthermore, it may be applied to sensitivity analysis of photonic devices, enabling spatial sensitivity information to be measured as an intensity in the device.
+
+Our work should enhance the appeal of photonic circuits in deep learning applications, allowing for training to happen directly inside the device in an efficient and scalable manner.  Furthermore, this method is broadly applicable to integrated and adaptive optical systems, enabling the possibility for automatic self-configuration and optimization without resorting to brute force gradient computation or model-based methods, which often do not perfectly represent the physical system.
 
 \section{Electro-Optic Activation Functions}
 
-\subsection{Motivation}
+Nonlinear activation functions play a key role in ANNs by enabling them to learn complex mappings between their inputs and outputs. 
+Whereas digital processors have the expressiveness to trivially apply nonlinearities such as the widely-used \texttt{sigmoid}, \texttt{ReLU}, and \texttt{tanh} functions, the realization of nonlinearities in optical hardware platforms is more challenging. 
+One reason for this is that optical nonlinearities are relatively weak, necessitating a combination of large interaction lengths and high signal powers, which impose lower bounds on the physical footprint and the energy consumption, respectively. 
+Although it is possible to resonantly enhance optical nonlinearities, this comes with an unavoidable trade-off in reducing the operating bandwidth, thereby limiting the information processing capacity of an ONN. 
+Additionally, maintaining uniform resonant responses across many elements of an optical circuit necessitates additional control circuitry for calibrating each element \cite{radulaski_thermally_2018}.
 
-\subsection{Proposed Activation Function}
 
-\subsection{Scaling Laws}
+A more fundamental limitation of optical nonlinearities is that their responses tend to be fixed during device fabrication. 
+This limited tunability of the nonlinear optical response prevents an ONN from being reprogrammed to realize different forms of nonlinear activation functions, which may be important for tailoring ONNs for different machine learning tasks. 
+Similarly, a fixed nonlinear response may also limit the performance of very deep ONNs with many layers of activation functions since the optical signal power drops below the activation threshold, where nonlinearity is strongest, in later layers due to loss in previous layers. 
+For example, with optical saturable absorption from 2D materials in waveguides, the activation threshold is on the order of 1-10 mW \cite{bao_monolayer_2011, park_monolayer_2015, jiang_low-dimensional_2018}, meaning that the strength of the nonlinearity in each subsequent layer will be successively weaker as the transmitted power falls below the threshold.
 
-\subsection{Demonstration}
+In light of these challenges, the ONN demonstrated in Ref. \citenum{shen_deep_2017} implemented its activation functions by detecting each optical signal, feeding them through a conventional digital computer to apply the nonlinearity, and then modulating new optical signals for the subsequent layer. 
+Although this approach benefits from the flexibility of digital signal processing, conventional processors have a limited number of input and output channels, which make it challenging to scale this approach to very large matrix dimensions, which corresponds to a large number of optical inputs. 
+Moreover, digitally applied nonlinearities add latency from the analog-to-digital conversion process and constrain the computational speed of the neural network to the same GHz-scale clock rates which ONNs seek to overcome. 
+Thus, a hardware nonlinear optical activation, which doesn't require repeated bidirectional optical-electronic signal conversion, is of fundamental interest for making integrated ONNs a viable machine learning platform.
+
+For this purpose, we proposed an electro-optic architecture for synthesizing optical-to-optical nonlinearities which alleviates the issues discussed above \cite{williamson_reprogrammable_2019}. 
+Our architecture features complete \textit{on}-\textit{off} contrast in signal transmission, a variety of nonlinear response curves, and a low activation threshold. 
+Rather than using traditional optical nonlinearities, our scheme operates by measuring a small portion of the incoming optical signal power and using electro-optic modulators to modulate the original optical signal, without any reduction in operating bandwidth or computational speed. 
+Additionally, our scheme allows for the possibility of performing additional nonlinear transformations on the signal using analog electrical components. 
+Related electro-optical architectures for generating optical nonlinearities have been previously considered \cite{lentine_evolution_1993, majumdar_cavityenabled_2014, tait_silicon_2018}. 
+In this work, we focus on the application of our architecture as an element-wise activation in a feedforward ONN, but the synthesis of low-threshold optical nonlinearities could be of broader interest to optical computing and information processing.
+
+
+\begin{figure*}
+  \centering
+  \includegraphics{figures/insitu_activation}
+  \caption{(a) Block diagram of a feedforward neural network of $L$ layers. 
+  Each layer consists of a $\hat{W}_i$ block representing a linear matrix which multiplies vector inputs $x_{i-1}$. 
+  The $f_i$ block in each layer represents an element-wise nonlinear activation function operating on vectors $z_i$ to produce outputs $x_{i}$.
+  (b) Schematic of the optical interferometer mesh implementation of a single layer of the feedforward neural network. 
+  (c) Schematic of the proposed optical-to-optical activation function which achieves a nonlinear response by converting a small portion of the optical input, $z$ into an electrical signal, and then intensity modulating the remaining portion of the original optical signal as it passes through an interferometer.}
+  \label{fig:overview}
+\end{figure*}
+
 
 \section{Wave-Based Analog Recurrent Neural Networks}
 
-\subsection{Wave Equation vs. Recurrent Neural Network}
+Furthermore, analog computing platforms, which use the natural evolution of a continuous physical system to perform calculations, are also emerging as important direction for implementation of machine learning \cite{shen_deep_2017, biamonte_quantum_2017, laporte2018numerical, lin2018all, khoram_stochastic_2018}.
 
-\subsection{Vowel Classification through Wave Propagation}
+Here, we identify a mapping between the dynamics of wave-based physical phenomena, such as acoustics and optics, and the computation in a recurrent neural network (RNN).
+RNNs are one of the most important machine learning models and have been widely used to perform tasks such as natural language processing \cite{yao2013recurrent} and time-series prediction \cite{husken_recurrent_2003, dorffner_neural_1996, connor_recurrent_1994}.
+Here we show that wave-based physical systems can be trained to operate as an RNN, and as a result can \textit{passively} process signals and information in their native domain, without analog-to-digital conversion, which should result in a significant gain in speed and a reduction in power consumption.
+% In this framework, rather than using reflections or feedback circuits, the recurrence relationship occurs naturally in the time dynamics of the physics itself and the memory and information processing is provided by the waves as they propagate through space.
+
+% To train the analog RNN, we show that standard gradient-based optimization techniques, as used in the field of machine learning, can tailor the physical characteristics of the system for a given task.
+% This allows an inhomogeneous distribution of materials to learn complex features in time-series data with strong temporal dynamics.
+% As a demonstration, we inject raw audio signals of spoken vowels into a numerical model of the wave equation and train the physical domain between the emitter and several receiving probes to classify the vowels.
+% Our results demonstrate that such an approach can achieve high classification accuracy and is capable of generalizing to unseen vowel samples, with performance comparable to that of a conventional RNN.
+
+An RNN converts a sequence of inputs into a sequence of outputs by applying the same basic operation to each member of the input sequence in a step-by-step fashion (Fig \ref{fig:RNN}A). 
+Memory of previous time steps is encoded into the RNN's \textit{hidden state}, which is updated at each step.
+The information in the hidden state allows for the RNN to learn temporal structure and long-range dependencies in data \cite{elman1990finding, jordan1997serial}.
+At a given time step, $t$, the RNN operates on the current input vector in the sequence, $\bvec{x}_t$, and the hidden state vector from the previous step, $\bvec{h}_{t-1}$, to produce an output vector, $\bvec{y}_t$, as well as an updated hidden state, $\bvec{h}_t$. 
+%
+While many variations of RNNs exist, a common implementation \cite{Goodfellow-et-al-2016} is described by the following update equations
+%
+\begin{align}
+    \bvec{h}_t &= \sigh \left(\Wh \cdot \bvec{h}_{t-1} + \Wx \cdot \bvec{x}_t \right)
+    \label{eq:RNN1} \\
+    \bvec{y}_t &= \sigy \left(\Wy \cdot \bvec{h}_t\right),
+    \label{eq:RNN2}
+\end{align}
+%
+which are diagrammed in Fig. \ref{fig:RNN}B. 
+The dense matrices defined by $\Wh$, $\Wx$, and $\Wy$ are optimized during training while $\sigh{\left(\cdot \right)}$ and $\sigy{\left(\cdot \right)}$ are nonlinear activation functions.
+The operation defined by Eq. \ref{eq:RNN1} and Eq. \ref{eq:RNN2}, when applied to each element of an input sequence, can be described by the directed graph shown in Fig. \ref{fig:RNN}C.
+
+\begin{figure*}
+  \centering
+  \includegraphics[width=\textwidth]{figures/insitu_RNN}
+  \caption{
+  \textbf{Conceptual comparison of a standard recurrent neural network and a wave-based physcal system.}
+  (\textbf{A})
+  Diagram of a recurrent neural network (RNN) cell operating on a discrete input sequence and producing a discrete output sequence. 
+  (\textbf{B})
+  Internal components of the RNN cell, consisting of trainable dense matrices $\Wh$, $\Wx$, and $\Wy$. 
+  Activation functions for the hidden state and output are represented by $\sigh$ and $\sigy$, respectively. 
+  (\textbf{C}) 
+  Diagram of the directed graph of the RNN cell. 
+  (\textbf{D}) 
+  Diagram of a recurrent representation of a continuous physical system operating on a continuous input sequence and producing a continuous output sequence. 
+  (\textbf{E}) 
+  Internal components of the recurrence relation for the wave equation when discretized using finite differences. 
+  (\textbf{F}) 
+  Diagram of the directed graph of discrete time steps of the continuous physical system.}
+  \label{fig:RNN}
+\end{figure*}
+
+We now discuss the connection between the dynamics in the RNN as described by Eqs. \ref{eq:RNN1} and \ref{eq:RNN2}, and the dynamics of a wave-based physical system.
+
+In the main text, we specified that the dynamics of the scalar field distribution, $u = u{\left(x,y,z,t\right)}$, are governed by the wave equation
+\begin{equation}
+    \frac{\partial^2{u}}{{\partial{t}}^2} - c^2 \cdot \nabla^2 u = f,
+    \label{eq:sup_UndampedScalarWave}
+\end{equation}
+where $\nabla^2 = \frac{\partial^2}{{\partial{x}}^2} + \frac{\partial^2}{{\partial{y}}^2} + \frac{\partial^2}{{\partial{z}}^2}$ is the Laplacian operator.
+$c = c{\left(x,y,z\right)}$ is the spatial distribution of the wave speed and $f = f{\left(x,y,z,t\right)}$ is a source term.  
+For a nonlinear system, $c$ can depend on the wave amplitude. 
+Eq. (\ref{eq:sup_UndampedScalarWave}) may be discretized in time using centered finite differences with a temporal step size of $\Delta{t}$, after which it becomes
+\begin{equation}
+        \frac{u_{t+1} - 2 u_t + u_{t-1}}{{\Delta{t}}^2} -  c^2\cdot \nabla^2 u_t = f_t.
+        \label{eq:sup_finite_diff}
+\end{equation}
+Here, the subscript in $(\cdot)_t$ is used to indicate the value of a scalar field at time step $t$. To connect Eq. (\ref{eq:sup_finite_diff}) to the RNN update equations from Eq. \ref{eq:RNN1} and \ref{eq:RNN2}, we exress this in matrix form as
+%
+\begin{equation}
+    \begin{bmatrix}
+    u_{t+1} \\ u_t
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+    2 + \Delta t^2\cdot c^2 \cdot \nabla^2 
+    & -1  \\
+    1 & 0
+    \end{bmatrix}
+    \cdot
+    \begin{bmatrix}
+    u_{t} \\ u_{t-1}
+    \end{bmatrix}    
+    +
+    \Delta{t}^2 \cdot \begin{bmatrix}
+     f_{t} \\ 0
+    \end{bmatrix}.
+    \label{eq:matrix_form}
+\end{equation}
+%
+Then, the update equation for the wave equation defined by Eq. (\ref{eq:matrix_form}) can be rewritten as
+%
+\begin{align}
+\bvec{h}_t &= \bmat{A}{\left(\bvec{h}_{t-1}\right)} \cdot \bvec{h}_{t-1} + \Pin \cdot \bvec{x}_t \label{eq:sup_ScalarRNN1}\\
+\bvec{y}_t &= \left\vert \Pout \cdot \bvec{h}_t \right\vert^2, \label{eq:sup_ScalarRNN2}
+\end{align}
+where we have defined $\bmat{A}$ as the matrix appearing in Eq. (\ref{eq:matrix_form}).
+The nonlinear dependence on $\bvec{h}_{t-1}$ is defined by the nonlinear wave speed described above.
+
+% \subsection{Discretization of the wave equation with dampening \label{appx:damping}}
+
+% In this section, we describe the discretization of the scalar wave equation with damping, which is used in the vowel classification demonstration of the main text. 
+
+An absorbing region is introduced to approximate an open boundary condition \cite{oskooi_failure_2008}, corresponding to the grey region in Fig. \ref{fig:train}B. 
+This region is defined by a dampening coefficient, $b{(x,y)}$, which has a cubic dependence on the distance from the interior boundary of the layer.
+The scalar wave equation with damping is defined by the inhomogeneous partial differential equation \cite{elmore_physics_2012}
+\begin{equation}
+    \frac{\partial^2{u}}{{\partial{t}}^2} +  2 b \cdot \frac{\partial{u}}{{\partial{t}}} = c^2 \cdot \nabla^2 u + f,
+    \label{eq:wave_eq_damping}
+\end{equation}
+where $u$ is the unknown scalar field, $b$ is the dampening coefficient. Here, we assume that $b$ can be spatially varying but is frequency-independent.
+For a time step indexed by $t$, Eq. \ref{eq:wave_eq_damping} is discretized using \textit{centered} finite differences in time to give
+\begin{align}
+    \frac{u_{t+1} - 2u_t + u_{t-1}}{\Delta{t}^2} + 2b \frac{u_{t+1}-u_{t-1}}{2\Delta{t}} &= c^2 \nabla^2 u_t + f_t.
+    \label{eq:wave_eq_damping_discretized}
+\end{align}
+From Eq. \ref{eq:wave_eq_damping_discretized}, we may form a recurrence relation in terms of $u_{t+1}$, which leads to the following update equation
+% \begin{widetext}
+\begin{align}
+    \left( \frac{1}{\Delta{t}^2} + \frac{b}{\Delta{t}}\right) u_{t+1} - \frac{2}{\Delta{t}^2} u_t  + \left( \frac{1}{\Delta{t}^2} - \frac{b}{\Delta{t}} \right) u_{t-1} = c^2 \cdot \nabla^2 u_t + f_t \nonumber \\
+    \left( \frac{1}{\Delta{t}^2} + \frac{b}{\Delta{t}}\right) u_{t+1} = \frac{2}{\Delta{t}^2} u_t  - \left( \frac{1}{\Delta{t}^2} - \frac{b}{\Delta{t}} \right) u_{t-1} + c^2 \cdot\nabla^2 u_t + f_t \nonumber \\
+    u_{t+1} = \left( \frac{1}{\Delta{t}^2} + \frac{b}{\Delta{t}}\right)^{-1} \left[ \frac{2}{\Delta{t}^2} u_t - \left( \frac{1}{\Delta{t}^2} - \frac{b}{\Delta{t}} \right) u_{t-1} + c^2\cdot \nabla^2 u_t + f_t \right].
+    \label{eq:tmp1}
+\end{align}
+% \end{widetext}
+Equation \ref{eq:tmp1} therefore represents the discretized update equation for the scalar wave equation with damping. In matrix form, we may express Eq. (\ref{eq:tmp1}) as
+\begin{equation}
+    \begin{bmatrix}
+    u_{t+1} \\ u_t
+    \end{bmatrix}
+    = 
+    \begin{bmatrix}
+    \frac{2 + \Delta t^2\cdot c^2 \cdot \nabla^2}{1 + \Delta t\cdot b} 
+    & \frac{-1 - \Delta t\cdot b}{1 + \Delta t\cdot b}  \\
+    1 & 0
+    \end{bmatrix}
+    \cdot
+    \begin{bmatrix}
+    u_{t} \\ u_{t-1}
+    \end{bmatrix}    
+    +
+    \Delta{t}^2 \cdot \begin{bmatrix}
+     f_{t} \\ 0
+    \end{bmatrix},
+    \label{eq:update_damped}
+\end{equation}
+
+The dependence of $\bmat{A}$ on $\bvec{h}_{t-1}$ can be achieved through an intensity-dependent wave speed of the form $c{(x,y)} = c_{\text{linear}} + c_{\text{nonlinear}} \cdot \vert u_t{(x,y)} \vert^2$, where $c_{\text{nonlinear}}$ is exhibited in regions containing nonlinear materials.
+In practice, this class of nonlinearity is encountered in a variety of wave physics, such as shallow water waves \cite{ursell_long-wave_1953} or nonlinear optics via the Kerr effect \cite{boyd_nonlinear_2008}. 
+Similarly to the $\sigy(\cdot)$ activation function in a standard RNN, a nonlinear relationship between the hidden state, $\bvec{h}_t$, and the output, $\bvec{y}_t$, of the wave equation is typical in wave physics since the output usually corresponds to a measurement of the wave intensity, as we assume here for Eq. \ref{eq:RNN1}. 
+% In this work we explicitly introduce such a nonlinear relationship through a measurement of the wave power, which involves a squaring of the scalar wave field.
+
+Like the standard RNN, the connections between the hidden state and the input and output of the wave equation are also defined by linear operators, given by $\Pin$ and $\Pout$. 
+These matrices define the injection and measuring points within the spatial domain.
+Unlike the standard RNN, where the input and output matrices are dense, the input and output matrices of the wave equation are usually sparse and, moreover, unchanged by the training process.
+
+
+We start from the vectors $\bvec{u}_t$ and $\bvec{f}_t$, which are discretized and flattened vectors from the field distribution $u_t$ and $f_t$.
+Then, we define the linear operators, $\Min$ and $\Mout$, each column of which define the respective spatial distributions of the injection and measurement points in this flattened basis.
+With this, we can write the injection of the input vector ($\bvec{x}_t$) as a matrix-vector multiplication
+%
+\begin{equation}
+    \Delta t^2 \bvec{f}_t \equiv \Min \cdot \bvec{x}_t.
+\end{equation}
+
+Similarly, as the output of the RNN at each time step is given by an intensity measurement of the scalar fields, we may express this in terms of the flattened scalar field as
+\begin{equation}
+    \bvec{y}_t = |\Mout{}^T \cdot \bvec{u}_t|^2.
+\end{equation}
+
+As the wave equation \textit{hidden state}, $\bvec{h}_t$ is defined as the concatenation of $\bvec{u}_t$ and $\bvec{u}_{t-1}$, we define the following matrices for convenience, as they only act on the $\bvec{u}_t$ portion of $\bvec{h}_t$
+\begin{align}
+    \Pin &\equiv \begin{bmatrix} \Min \\ \bmat{0} \end{bmatrix} \\ 
+    \Pout &\equiv [\Mout{}^T,~\bmat{0}],
+\end{align}
+where $\bmat{0}$ is a matrix of all zeros.
+These matrices are used in the injection and measurement stages of the scalar wave update equations of the main text and thus serve a similar role to the $\Wx$ and $\Wy$ matrices of the traditional RNN in Eqs. (\ref{eq:RNN1}) and (\ref{eq:RNN2}).  However, unlike $\Wx$ and $\Wy$, these matrices are fixed and not trainable parameters.
+
+We take the wave speed distribution, $c{\left(x,y,z\right)}$ as trainable parameters, which are optimized for a given machine learning task, physically corresponding to a patterning of materials within the domain.
+Thus, when modeled numerically in discrete time (Fig. \ref{fig:RNN}E), the wave equation defines an operation which maps into that of an RNN (Fig. \ref{fig:RNN}B).
+Similarly to the RNN, the full time dynamics of the wave equation may be represented as a directed graph (Fig. \ref{fig:RNN}F).
+
+\begin{figure*}
+  \centering
+  \includegraphics{figures/insitu_RNN_train}
+  \caption{
+  \textbf{Schematic of the vowel recognition system and the training procedure.}
+  (\textbf{A})
+  Raw audio waveforms of spoken vowel samples from three classes.
+  (\textbf{B})
+  Layout of the vowel recognition system. Vowel samples are independently injected at the source, located at the left of the domain, and propagate through the center region, indicated in green, where a material distribution is optimized during training. The dark gray region represents an absorbing boundary layer.
+  (\textbf{C})
+  For classification, the time-integrated power at each probe is measured and normalized to be interpreted as a probability distribution over the vowel classes.
+  (\textbf{D})
+  Using automatic differentiation, the gradient of the loss function with respect to the density of material in the green region is computed. The material density is updated iteratively, using gradient-based stochastic optimization techniques, until convergence.
+  }
+  \label{fig:train}
+\end{figure*}
+
+We now demonstrate how the dynamics of the wave equation can be trained to classify vowels through the construction of an inhomogeneous material distribution. 
+For this task, we utilize a dataset consisting of 930 raw audio recordings of 10 vowel classes from 45 different male speakers and 48 different female speakers \cite{hillenbrand_acoustic_1995}. 
+For our learning task, we select a subset of 279 recordings corresponding to three vowel classes, represented by the vowel sounds \textit{ae}, \textit{ei}, and \textit{iy}, as contained in the words h\textit{a}d, h\textit{aye}d, and h\textit{ee}d, respectively (Fig. \ref{fig:train}A).
+
+The physical layout of the vowel recognition system consists of a two-dimensional domain in the $x$-$y$ plane, infinitely extended along the $z$-direction (Fig. \ref{fig:train}B). 
+The audio waveform of each vowel, represented by $\bvec{x}^{(i)}$, is injected by a source at a single grid cell on the left side of the domain, emitting waveforms which propagate through a central region with a trainable distribution of the wave speed, indicated by the light green region in Fig. \ref{fig:train}B. 
+Three probe points are defined on the right hand side of this region, each assigned to one of the three vowel classes. 
+To determine the system's output, $\bvec{y}^{(i)}$, the time-integrated power at each probe is measured (Fig. \ref{fig:train}C). 
+After the simulation evolves for the full duration of the vowel recording, this integral gives a non-negative vector of length 3, which is then normalized by its sum and interpreted as the system's predicted probability distribution over the vowel classes. 
+An absorbing boundary region, represented by the dark gray region in Fig. \ref{fig:train}B, is included in the simulation to prevent energy from building up inside the computational domain. 
+
+For the purposes of our numerical demonstration, we consider binarized systems consisting of two materials: a background material with a normalized wave speed $c_0 = 1.0$, and a second material with $c_1 = 0.5$.
+We assume that the second material has a nonlinear parameter, $c_{\text{nonlinear}} = -30$, while the background material has a linear response.
+In practice, the wave speeds would be modified to correspond to different materials being used.
+For example, in an acoustic setting the material distribution could consist of air, where the sound speed is 331 m/s, and porous silicone rubber, where the sound speed is 150 m/s \cite{ba_soft_2017}.
+The initial distribution of the wave speed consists of a uniform region of material with a speed which is midway between those of the two materials (Fig. \ref{fig:train}D).
+This choice of starting structure allows for the optimizer to shift the density of each pixel towards either one of the two materials to produce a binarized structure consisting of only those two materials. 
+To train the system, we perform back-propagation through the model of the wave equation to compute the gradient of the cross entropy loss function of the measured outputs with respect to the density of material in each pixel of the trainable region.
+Interestingly, this approach is mathematically equivalent to the \textit{adjoint method} \cite{hughes_training_2018}, which is widely used for inverse design \cite{molesky2018inverse, hughes_training_2018, elesin_design_2012}.
+Then, we use this gradient information update the material density using the the Adam optimization algorithm \cite{kingma2014adam}, repeating until convergence on a final structure (Fig. \ref{fig:train}D).
+
+The confusion matrices over the training and testing sets for the starting structure are shown in Fig. \ref{fig:results}A and Fig. \ref{fig:results}B, averaged over five cross-validated training runs.
+Here, the confusion matrix defines the percentage of correctly predicted vowels along its diagonal entries and the percentage of incorrectly predicted vowels for each class in its off-diagonal entries.
+Clearly the starting structure can not perform the recognition task.
+Fig. \ref{fig:results}C and Fig. \ref{fig:results}D show the final confusion matrices after optimization for the testing and training sets, averaged over five cross validated training runs.
+The trained confusion matrices are diagonally dominant, indicating that the structure can indeed perform vowel recognition.
+
+
+The procedure for training the vowel recognition system is as follows. 
+First, each vowel waveform is downsampled from its original recording with a 16 kHz sampling rate to a sampling rate of 10 kHz.
+Next, the entire dataset of (3 classes) $\times$ (45 males + 48 females) = 272 vowel samples is divided into 5 groups of approximately equal size.
+Cross validated training is performed with 4 out of the 5 sample groups forming a training set and 1 out of the 5 sample groups forming a testing set.
+Independent training runs are performed with each of the 5 groups serving as the testing set, with results being averaged over all training runs. 
+Each training run is performed for 30 epochs using the Adam optimization algorithm \cite{kingma_adam_2014}. 
+During each epoch, every sample vowel sequence from the training set is windowed to a length of 1000, taken from the center of the sequence.
+This limits the computational cost of the training proceedure by reducing the length of the time through which gradients must be tracked.
+
+All windowed samples from the training set are run through the simulation in batches of 9 and the categorical cross entropy loss between the output probe probability distribution and the correct one-hot vector for each vowel sample is computed.
+To encourage the optimizer to produce a binarized distribution of the wave speed with relatively large feature sizes, the optimizer minimizes this loss function with respect to a material density distribution, $\rho{\left(x,y\right)}$ within a central region of the simulation domain, indicated by the green region in Fig. \ref{fig:train}A. 
+The distribution of the wave speed, $c{\left(x,y\right)}$, is computed by first applying a low-pass spatial filter and then a projection operation to the density distribution. 
+The details of this process are described in section \ref{appx:num}. 
+We use the Adam algorithm \cite{kingma_adam_2014} with learning rate 0.0004 to perform the optimization in batches of 9. 
+Fig. \ref{fig:train}D illustrates the optimization process over several epochs, during which, the wave velocity distribution converges to a final structure.
+At the end of each epoch, the classification accuracy is computed over both the testing and training set. 
+Unlike the training set, the full length of each vowel sample from the testing set is used.
+
+The mean energy spectrum of the three vowel classes after downsampling to 10 kHz is shown in Fig. \ref{fig:s_spectrum}.
+We observe that the majority of the energy for all vowel classes is below 1 kHz and that there is strong overlap between the mean peak energy of the \textit{ei} and \textit{iy} vowel classes.
+Moreover, the mean peak energy of the \textit{ae} vowel class is very close to the peak energy of the other two vowels.
+Therefore, the vowel recognition task learned by the system in the main text is non-trivial.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics{figures/insitu_spectrum}
+  \caption{Mean energy spectrum for the \textit{ae}, \textit{ei}, and \textit{iy} vowel classes.}
+  \label{fig:s_spectrum}
+\end{figure*}
+
+Numerical modeling and simulation of the wave equation physics was performed using a custom software package written in Python \cite{wavetorch}.
+The software package was developed on top of the popular machine learning library, \texttt{pytorch}, to compute the gradients of the loss function with respect to the material distribution via reverse-mode automatic differentiation.
+In the context of inverse design in the fields of physics and engineering, this method of gradient computation is commonly referred to as the adjoint variable method and has a computational cost of one additional wave simulation.
+Using of a machine learning platform to perform the numerical simulation greatly reduces opportunities for errors in the analytic derivation or numerical implementation of the gradient. The code for performing numerical simulations and training of the wave equation, as well as generating the figures presented in this paper, may be found online at \url{http://www.github.com/fancompute/wavetorch/}.
+
+% 4. What are the limitations?
+% One major limitation of our approach is that it relies on numerical simulation for training, which may be an issue when the simulation size becomes too complex to model feasibly on a digital computer.  
+% Furthermore, the presence of chaos or high sensitivity to inputs and initial conditions in the system may introduce significant differences between the numerical simulation and the physical realization, meaning that the digitally trained device may not perform as expected when fabricated and introduced to physical signals.
+% However, this issue may be mitigated by utilizing the previously mentioned techniques from the field of inverse design, such as fabrication or sensitivity constraints \cite{wang2011robust, piggott2017fabrication}.
+
+% \section{Binarization and Filtering of Wave Speed \label{appx:fab}}
+
+In \texttt{wavetorch}, the operation of $\nabla^2$ on a spatially discretized wave field, $u_t$ is carried out using the convolution
+\begin{equation}
+    \nabla^2 u_t =
+    \frac{1}{h^2}
+    \begin{bmatrix}
+    0 &  1 & 0 \\
+    1 & -4 & 1 \\
+    0 &  1 & 0
+    \end{bmatrix}
+    *
+    u_t,
+    \label{eq:convolution}
+\end{equation}
+where $h$ is the step size of the spatial grid and $*$ denotes a convolution.
+
+To create realistic devices with sufficiently large minimum feature sizes and a binarized $c(x,y)$ distribution, we employed filtering and projection schemes during our optimization. Rather than updating the wave speed distribution directly, one may instead choose to update a design density $\rho(x,y)$, which varies between 0 and 1 within the design region and describes the \textit{density} of material in each pixel.  To create a structure with larger feature sizes, a low pass spatial filter can be applied to $\rho(x,y)$ to created a filtered density, labelled $\tilde{\rho}(x,y)$
+%
+% \begin{equation}
+% \tilde{\rho}(x,y) = 
+% \begin{bmatrix}
+% 0.000 & 0.125 & 0.000 \\
+% 0.125 & 0.500 & 0.125 \\
+% 0.000 & 0.125 & 0.000
+% \end{bmatrix}
+% *
+% \rho(x,y),
+% \end{equation}
+\begin{equation}
+\tilde{\rho}(x,y) = 
+\begin{bmatrix}
+0 & 1/8 & 0 \\
+1/8 & 1/2 & 1/8 \\
+0 & 1/8 & 0
+\end{bmatrix}
+*
+\rho(x,y).
+\end{equation}
+%
+
+For binarization of the structure, a projection scheme is used to recreate the final wave speed from the filtered density.  We define $\bar{\rho}(x,y)$ as the projected density, which is created from $\tilde{\rho}(x,y)$ as
+\begin{equation}
+\bar{\rho}_i = \frac{\tanh{\left( \beta \eta \right)} + \tanh{\left( \beta \left[ \tilde{\rho}_i - \eta \right] \right)}}{\tanh{\left( \beta \eta  \right)} + \tanh{\left( \beta \left[ 1 - \eta \right] \right)}}.
+\end{equation}
+Here, $\eta$ is a parameter between 0 and 1 that controls the mid-point of the projection, typically 0.5, and $\beta$ controls the strength of the projection, typically around 100.
+
+Finally, the wave speed can be determined from $\bm{\bar{\rho}}$ as
+\begin{equation}
+c(x,y) = (c_1(x,y) - c_0(x,y))\bm{\bar{\rho}} + c_0(x,y),
+\end{equation}
+where $c_0$ and $c_1$ are the background and optimized material wave speed, respectively.
+
+
+
+Fig. \ref{fig:results}E and Fig. \ref{fig:results}F show the cross entropy loss value and the prediction accuracy, respectively, as a function of the training epoch over the testing and training datasets, where the solid line indicates the mean and the shaded region corresponds to the standard deviation over the cross-validated training runs.
+Interestingly, we observe that the first epoch results in the largest reduction of the loss function and the largest gain in prediction accuracy.
+From Fig. \ref{fig:results}F we see that the system obtains a mean accuracy of 92.6\% $\pm$ 1.1\% over the training dataset and a mean accuracy of 86.3\% $\pm$ 4.3\% over the testing dataset.
+From Fig. \ref{fig:results}C and Fig. \ref{fig:results}D we observe that the system attains near perfect prediction performance on the \textit{ae} vowel and is able to differentiate the \textit{iy} vowel from the \textit{ei} vowel, but with less accuracy, especially in unseen samples from the testing dataset. 
+Fig. \ref{fig:results}G, Fig. \ref{fig:results}H, and Fig. \ref{fig:results}I show the distribution of the integrated field intensity, $\sum_t{\left\vert u_t{\left(x,y\right)} \right\vert^2}$, when a representative sample from each vowel class is injected into the trained structure. 
+We thus provide visual confirmation that the optimization procedure produces a structure which routes the majority of the signal energy to the correct probe. 
+As a performance benchmark, a conventional RNN was trained on the same task, achieving comparable classification accuracy to that of the wave equation. However, a larger number of free parameters was required.
+Additionally, we observed that a comparable classification accuracy was obtained when training a linear wave equation.
+
+
+We compare the wave equation results to a conventional RNN model as defined in Eq. (\ref{eq:RNN1}) and Eq. (\ref{eq:RNN2}). 
+The number of trainable parameters in the model is determined by the hidden state size $N_h$, as the model is given by three matrices $\Wx, \Wh$, and $\Wy$ of size $[N_h, 1]$, $[N_h, N_h]$ and $[3, N_h]$, respectively. 
+We tried $N_h = $70, for which the total number of RNN free parameters is 5250, and $N_h=$100, with 10500 free parameters. 
+The RNN was implemented and trained using \texttt{pytorch}.  
+In Table \ref{tab:final_table} we show the results of a standard RNN on the vowel recognition task and compare them to the scalar wave.  
+We find that the conventional RNN achieves a performance comparable to the wave equation.
+However, this performance is highly dependent on the number of trainable parameters.  
+For a similar number of trainable parameters, the conventional RNN achieves about 6\% lower classification accuracy.  
+However, when the number of free parameters is increased to about 2 times that of the scalar wave, the accuracy is higher by about 3 \%. 
+We note that it is possible that more advanced recurrent models like long short-term memory (LSTM) \cite{hochreiter1997long} or gated recurrent unit (GRU) \cite{chung2014empirical} could have a better performance with a smaller number of parameters, but exploring this is outside the scope of this study. 
+
+\begin{table*}[t]
+    \centering
+    \setlength{\tabcolsep}{6pt}
+    \renewcommand{\arraystretch}{1.25}
+    \begin{tabular}{llccccc}
+        \hline\hline
+        \textbf{Model} & \textbf{Nonlinearity} & \textbf{\# parameters} & \multicolumn{2}{c}{\textbf{Accuracy}} \\
+        & & & Training & Testing \\
+        \hline
+        \textbf{Wave Equation} & linear wave speed & 4200 & 93.1\% & 86.6\% \\
+          & nonlinear wave speed & 4200 & 92.6\% & 86.3\% \\
+%       \hline
+        \hline
+        \textbf{Conventional RNN} & linear & 5250 & 78.8\% & 79.4\% \\
+        & leaky ReLU & 5250 & 82.6\% & 80.2\% \\
+%       \hline
+        & linear & 10500  & 88.9\% & 88.2\% \\
+        & leaky ReLU     & 10500 & 89.4\% & 89.4\% \\
+        \hline\hline
+    \end{tabular}
+    \caption{Comparison of scalar wave model and conventional RNN on vowel recognition task.}
+    \label{tab:final_table}
+\end{table*}
+
+The conventional RNN and the one implemented by a scalar wave equation have many qualitative differences.
+We discuss some of those below. 
+First, in the RNN case, the trainable parameters are given by the elements of the weight matrices.  
+In the wave equation case, we choose to use the wave velocity, $c(x,y,z)$, as trainable parameters, because a specific distribution of $c$ can be physically implemented after the training process.  
+In acoustic or optical systems, this can be practically realized using technologies such as 3D printing or nanolithography. 
+Furthermore, whereas the RNN free parameters define a matrix which is multiplied by the input, output, and hidden state vectors, in the wave equation case, the free parameters are multiplied element-wise with the hidden state, which limits the influence of each individual parameter over the full dynamics.  
+
+% \subsection{Length and Time Scale}
+
+For a given amount of expressive power, the size of the hidden state in the wave equation must arguably be much larger than that in the RNN case.  This is because the amount of information that can be encoded in the spatial distribution of $u_t$ is constrained by the diffraction limit for wave systems.  It follows that a single RNN hidden state element may be analogous to several grid cells in the scalar wave equation. Furthermore, the wave update matrix $A$ is sparse and only contains non-zeros on diagonal elements (self coupling) and those corresponding to neighbor-to-neighbor coupling between spatial grid cells.  Because of this, information in a given cell of $u_t$ will take several time steps to reach other cells, as determined by the wave velocity and the distance between them.  The presence of this form of causality practically means that one must wait longer for a full `mixing' of information between cells in the domain, suggesting that in the our numerical simulations, a larger number of time steps may be needed as compared to the typical RNN. 
+
+% \subsection{Nonlinearities}  
+
+The form of nonlinearity used in the wave equation is different from that in the typical RNN, which involves the application of the nonlinear function, $\sigh(\cdot)$, as in Eq. (\ref{eq:RNN1}).  In the wave equation, nonlinearity is provided by making the wave velocity, $c$, or damping dependent, $b$, to be dependent on the instantaneous wave intensity $|u_t|^2$.  For example $c = c(|u_t|^2)$, or $b = b(|u_t|^2)$.  In optics, these nonlinearities may be implemented using $\chi^{(3)}$ materials or saturable absorption, respectively.  With this addition, the update matrix of Eq. (\ref{eq:ScalarRNN1}), $\bmat{A} = \bmat{A}(\bvec{h}_{t-1})$, becomes a function of the solution at that time step, making the dynamics nonlinear.  Nonlinearity is introduced into the  output of the wave system ($\bvec{y}_t$) by measuring the intensity of the wave field, which involves a squaring operation.  One may also consider directly discretizing a nonlinear wave equation using the same technique as the main text.
+
+The wave-based RNN presented here has a number of favorable qualities that make it a good candidate for processing sequential data.
+Unlike the standard RNN, the update of the wave equation from one time step to the next enforces a nearest-neighbor coupling between elements of the hidden state through the Laplacian operator, which is represented by a sparse matrix in Fig. \ref{fig:RNN}E. 
+This is a direct consequence of the fact that the wave equation is a hyperbolic partial differential equation in which information propagates with a finite velocity. 
+Thus, the size of the analog RNN's hidden state, and therefore its memory capacity, is directly determined by the size of the propagation medium. 
+Additionally, unlike the conventional RNN, the wave equation enforces an energy conservation constraint, preventing unbounded growth of the norm of the hidden state and the output signal.
+In contrast, the unconstrained dense matrices defining the update relationship of the standard RNN lead to vanishing and exploding gradients, which pose a major challenge for training traditional RNNs \cite{jing2017tunable}.
+
+We have shown that the dynamics of the wave equation are conceptually equivalent to those of a recurrent neural network.
+This conceptual connection opens up the opportunity for a new class of analog hardware platform, in which evolving time dynamics play a significant role in both the physics and the dataset.
+% Our results also demonstrate that inverse design techniques are effective at training physical systems on machine learning tasks.
+% In particular, we demonstrated that, on a vowel classification problem, train and test accuracies of \result{93}\% and \result{86}\% can be attained, which are comparable to those from a standard RNN with a comparable number of free parameters.
+% More broadly, our results point toward several exciting directions in analog computing for machine learning.
+While we have focused on a specific example of the scalar wave equation, our results apply broadly to other wave-like physics.
+Such an approach of using physics to perform computation \cite{silva_performing_2014, hermans_trainable_2015, guo_photonic_2018, lin2018all, kwon_nonlocal_2018, estakhri_inverse-designed_2019} may inspire a new platform for analog machine learning devices, with the potential to perform computation far more naturally and efficiently than their digital counterparts.
+The generality of the approach further suggests that many physical systems may be attractive candidates for performing RNN-like computation on naturally occurring sequences, such as optical, acoustic, or seismic signals.
+
+\begin{figure*}
+  \centering
+  \includegraphics[width=\textwidth]{figures/insitu_RNN_results}
+  \caption{\textbf{Vowel recognition system training results.}
+  Confusion matrix over the training and testing datasets for the initial structure (\textbf{A}),(\textbf{B}) and final structure (\textbf{C}),(\textbf{D}), indicating the percentage or correct (diagonal) and incorrect (off-diagonal). 
+  Cross validated training results showing the mean (sold line) and standard deviation (shaded region) of the (\textbf{E}) cross entropy loss and (\textbf{F}) prediction accuracy over 20 training epochs and 5 folds of the dataset, which consists of a total of 272 total vowel samples of male and female speakers.
+  (\textbf{G})-(\textbf{I}) The time-integrated intensity distribution for a randomly selected input (\textbf{G}) \textit{ae} vowel, (\textbf{H}) \textit{ei} vowel, and (\textbf{I}) \textit{iy} vowel.}
+  \label{fig:results}
+\end{figure*}
+

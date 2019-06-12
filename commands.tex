@@ -1,6 +1,7 @@
 
 % referencing equations
 \newcommand{\eq}[1]{Eq. (\ref{eq:#1})}
+
 % defining equations
 \newcommand{\eqdef}[2]{
     \begin{equation}
@@ -11,6 +12,7 @@
 
 % referencing figures
 \newcommand{\fig}[1]{Fig.~\ref{fig:#1}}
+
 % defining figures
 \newcommand{\figdef}[3]{
         \begin{figure}[htb!]
@@ -50,14 +52,22 @@
 \newcommand{\Eo}{E_\textrm{0}}
 \newcommand{\Np}{N_\textrm{p}}
 
+% waveRNN
+\newcommand{\sigh}{\sigma^{(h)}}
+\newcommand{\sigy}{\sigma^{(y)}}
+\newcommand{\bvec}[1]{\mathbf{#1}}
+\newcommand{\bmat}[1]{\mathbf{#1}}
+\newcommand{\Wh}{\bmat{W}^{(h)}}
+\newcommand{\Wx}{\bmat{W}^{(x)}}
+\newcommand{\Wy}{\bmat{W}^{(y)}}
+\newcommand{\Pin}{\bmat{P}^{(\textrm{i})}}
+\newcommand{\Pout}{\bmat{P}^{(\textrm{o})}}
+\newcommand{\Min}{\bmat{M}^{(\textrm{i})}}
+\newcommand{\Mout}{\bmat{M}^{(\textrm{o})}}
+\newcommand{\fnl}{F_{NL}}
+
 % more complicated math
 \newcommand{\pfrac}[2]{\ensuremath{\frac{\partial #1}{\partial #2}}}
 \newcommand{\ddfrac}[2]{\ensuremath{\frac{d #1}{d #2}}}
 \newcommand{\real}[1]{\ensuremath{ \Re \left\{ #1 \right\} }}
 \newcommand{\bracket}[2]{\ensuremath{ \langle #1 , #2 \rangle }}
-
-% Find and replace commands for sublime text editting
-%    NEWLINE SENTENCES
-% \.
-% .\n
-%    

@@ -38,3 +38,12 @@ tell application "Preview"
     end tell
 end tell
 EOF
+
+#### OPEN ZOTERO ####
+
+# in full screen
+osascript <<EOF
+tell application "Zotero"
+    activate
+end tell
+EOF
