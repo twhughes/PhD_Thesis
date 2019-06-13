@@ -2,22 +2,21 @@
 
 \section{Dielectric Laser Acceleration}
 
-In the public sphere, particle accelerators most commonly conjure images of giant particle colliders, such as the Large Hadron Collider.
-However, most particle accelerators are used in other applications, such as radiotherapy, X-ray generation, and ion implantation for semiconductor device fabrication \cite{england2014dielectric}.
+In the public sphere, particle accelerators most commonly conjure images of giant facilities for performing particle physics experiments, such as the Large Hadron Collider.
+However, in fact, most particle accelerators are used in other applications, such as radiotherapy, X-ray generation, and ion implantation for semiconductor device fabrication \cite{england2014dielectric}.
 Conventional radio-frequency (RF) accelerators use a metal or superconducting cavity, driven with microwave radiation, to provide sustained acceleration to charged particles traversing the structure.
-However, the available acceleration per length is fundamentally limited by the material breakdown and damage of the cavity.
-Therefore, for an accelerator driven at its damage threshold, the only option to achieve high total energy gains is to make the device longer.
+However, the amount of achievable acceleration per unit length is fundamentally limited by the material breakdown and damage limit of the cavity.
+Therefore, for an accelerator already driven at its damage threshold, the only option to achieve high total energy gains from an accelerator is to make the device longer.
 The largest current particle accelerators reach several of kilometers in length, requiring substantial resources to operate and maintain.
 
-Dielectric laser acceleration (DLA) is an emerging method that seeks to revolutionize particle accelerator technology by exploiting decades of progress in nanofabrication, materials science, and laser technology. 
-In DLA, periodic dielectric structures are illuminated with infrared laser light, which creates an electromagnetic field pattern in their vicinity that can accelerate electrically charged particles, such as electrons.
+Dielectric laser acceleration (DLA) is an emerging method that seeks to revolutionize particle accelerator technology by exploiting the decades of progress in nanofabrication, materials science, and laser technology.
+In DLA, instead of using metal structures driven by microwaves, dielectric structures are illuminated with infrared laser light, which creates an electromagnetic field pattern in their vicinity that may accelerate electrically charged particles, such as electrons.
 When compared to metal surfaces at microwave frequencies, dielectric materials have very high damage thresholds at short pulse durations and infrared wavelengths \cite{mcneur2016elements, soong2012laser}.
-This allows DLAs to acieve energy gains per length that are 1 to 2 orders of magnitude higher than those found in conventional radio frequency (RF) accelerators.
-Experimental demonstrations of these acceleration gradients have been made practical in recent years by the availability of robust nanofabrication techniques combined with modern solid state laser systems \cite{dawson2008analysis}.
+This fact allows DLAs to acieve energy gains per length that are between 10 to 100 times higher than those found in conventional radio frequency (RF) accelerators.
 
-As a result, the development of DLA can lead to compact particle accelerators that enable new applications.
+Experimental demonstrations of these acceleration gradients have been made practical in recent years by the availability of robust nanofabrication techniques combined with modern solid state laser systems \cite{dawson2008analysis}.
+As a result, the development of DLA may lead to compact particle accelerators that enable new applications.
 By providing the potential for generating relativistic electron beams in relatively short length scales, DLA technology is projected to have numerous applications where tabletop accelerators may be useful, including medical imaging, radiation therapy, and X-ray generation \cite{plettner2008microstructure,england2014dielectric}.
-To achieve high energy gain in a compact size, it is of principle interest to design structures that may produce the largest acceleration gradients possible without exceeding their respective damage thresholds.
 
 Several recently demonstrated candidate DLA structures consist of a planar dielectric structure that is periodic along the particle axis with either an semi-open geometry or a narrow (micron to sub-micron) vacuum gap in which the particles travel \cite{plettner2006proposed, peralta2013demonstration, mcneur2016elements, leedle2015dielectric, chang2014silicon, breuer2014dielectric, breuer2014dielectric2, kozak2016dielectric}.
 These structures are then side-illuminated by laser pulses.
@@ -30,28 +29,24 @@ These structures are then side-illuminated by laser pulses.
 }
 
 The laser field may also be treated with a pulse front tilt \cite{hebling1996derivation, akturk2004pulse} to enable group velocity matching over a distance greater than the laser's pulse length.
-For acceleration to occur, the dielectric structure must be designed such that the particle feels an electric field that is largely parallel to its trajectory over many optical periods.
-In the following calculations, the geometry of the dielectric structure is represented by a spatially varying dielectric constant $\eps(x,y)$.
-We assume invariance in one coordinate ($\hat{z}$) in keeping with the planar symmetry of most current designs.
-However the methodology we present can be extended to include a third dimension.
-In addition, our work approximates the incident laser pulse as a monochromatic plane wave at the central frequency, which is a valid approximation as long as the pulse duration is large compared to the optical period.
 
-\section{Adjoint Method for Particle Accelerators}
-
+\section{Adjoint Method for Accelerator}
 
 \subsection{Mathematical Definition}
 
-Here we will discuss the use of the adjoint method to design such a structure, as explained in Ref. \citenum{hughes_method_2017}.
+To achieve high energy gain in a compact size, it is of principle interest to design structures that may produce the largest acceleration gradients possible without exceeding their respective damage thresholds.
+Here we will discuss the use of the adjoint method and inverse design to design such a structure, as explained originally in Ref. \citenum{hughes_method_2017}.
 To begin, we must first define the optimization figure of merit and design parameters.
 
-We first seek to maximize the \textit{acceleration gradient} of the device, which is defined as the amount of energy gain per unit length achieved by a particle that is phased correctly with the driving field
+We first seek to maximize the \textit{acceleration gradient} of the device, which is defined as the amount of energy gain per unit length achieved by a particle that is phased correctly with the driving field.
+For acceleration to occur, the dielectric structure must be designed such that the particle feels an electric field that is largely parallel to its trajectory over many optical periods.
 In a general DLA device, the acceleration gradient `$G$' over a time period `$T$' is defined mathematically as
-
+%
 \eqdef{Gintro}{
     G = \frac{1}{T}\int_0^{T}{ E_{||}(\vr(t),t)\ dt},
 }
 %
-where $\vr(t)$ is the position of the electron and $E_{||}$ signifies the (real) electric field component parallel to the electron trajectory at a given time.
+where $\vr(t)$ is the position of the electron over time and $E_{||}$ signifies the (real) electric field component parallel to the electron trajectory.
 
 Since we assume the structure is invariant in the $\hat{z}$ direction, we may work in two dimensions, examining only the $H_z$, $E_x$ and $E_y$ field components.
 While this approximation neglects fringing fields that will be present in any fabricated device, it is a good approximation for the fields experienced by particles traversing the center of the acceleration channel.
@@ -66,7 +61,7 @@ Let us assume the particle we wish to accelerate is moving on the line $y=0$ wit
 The $x$ position of the particle as a function of time is given by $x(t) = x_0 + \beta c_0 t$, where $x_0$ represents an arbitrary choice of initial starting position.
 For normal incidence of the laser (laser propagating in the $+\hat{y}$ direction), phase velocity matching between the particle and the electromagnetic fields is established by introducing a spatial periodicity in our structure of period $\beta \lambda$ along $\hat{x}$ , where $\lambda$ is the laser wavelength.
 In the limit of an infinitely long structure (or equivalently, $T \to \infty $) we may rewrite our expression for the gradient in Eq. (\ref{eq:Gintro}) as an integral over one spatial period, given by
-
+%
 \eqdef{}{
     G = \frac{1}{\beta\lambda}\real{ e^{-i\phi_0}\int_0^{\beta\lambda}{dx \ }E_x(x,0)e^{i\frac{2\pi}{\beta\lambda}x}}.
 }
@@ -81,7 +76,7 @@ To simplify the following derivations, we define the following inner product ope
     \bracket{\va}{\vb} = \int_{V'} dv .
     \left(\va \cdot \vb \right) = \int_0^{\beta\lambda}dx\int_{-\infty}^\infty dy \left(\va\cdot\vb\right).
 }
-
+%
 With this definition, we then have the gradient
 %
 \eqdef{G}{
@@ -101,42 +96,40 @@ The physical interpretation of $\veta$ is digrammed in \fig{eta_def}.
     The red arrow signifies the driving laser.
 }
 
-\subsection{Optimization Strategy}
-
 Our goal in designing the accelerator for maximum acceleration gradient is to create a permittivity distribution that maximizes $G$ subject to a few constraints.
+We assume geometry of the DLA structure is represented by a spatially varying dielectric constant $\eps(x,y)$.
+As mentioned, we assume invariance in one coordinate ($\hat{z}$) in keeping with the planar symmetry of most current designs.
+However the methodology we present can be extended to include a third dimension.
 We consider performing this optimization in a small design region surrounding a small gap defined for the electron to travel through the structure.
 Secondly, we assume that the structure has a finite extent along the direction of the incoming laser beam.
 We also consider realizing this device through the patterning of a material with permittivity $\eps_\textrm{max}$.
 Therefore, the final device should have permittivity of either 1 or $\eps_\textrm{max}$ at all points.
 
-To perform this optimization task, we may consider discretizing our entire spatial domain into a rectangular grid, which will be necessary for numerical simulation.
-As our design parameters, $\bfphi$, we take permittivity of each grid cell within the design region.
+To perform this optimization task, we discretize our entire spatial domain into a rectangular grid, which will be necessary for numerical simulation.
+We define our design parameters, $\bfphi$, as the relative permittivity of each grid cell within the design region.
 Our problem then becomes finding the permittivity of each cell that will maximize the acceleration gradient, subject to each grid cell having a permittivity value of either 1 or $\eps_\textrm{max}$.
 
-To accomplish this, the simplest approach would involve doing a direct search over the full design space.
+To accomplish this, the most naive approach would involve performing a direct search over the full design space.
 For example, one could label each cell within the design region with an identifier `0' or `1' corresponding to `vaccuum' and `material', respectively.
-Then, one may generate all possible structures and check their respective acceleration gradients.
+Then, one would generate all possible structures and check their respective acceleration gradients.
 However, as one can imagine, this method would be far too computationally expensive to perform in practice.
-For example, even considering a very small design region consisting of 10 $\times$ 10 = 100 grid cells would result in $2^{100} \approx 10^{30}$ devices to simulate.
-While one may consider smart ways of searching through this device space without checking each structure, using global optimization approaches such as genetic algorithms \cite{whitley_genetic_1994} or particle swarm optimization \cite{noauthor_particle_nodate}, this problem is still quite computationally expensive and the size of design space becomes exponentially larger as the number of design parameters are increased.
+For example, even considering a very small design region consisting of 10 $\times$ 10 = 100 grid cells would result in $2^{100} \approx 10^{30}$ device simulations, which is far too many to realistically perform.
+While one may consider smart ways of searching through this device space without checking each structure, for example using global optimization approaches such as genetic algorithms \cite{whitley_genetic_1994} or particle swarm optimization \cite{noauthor_particle_nodate}, this problem is still quite computationally expensive and the size of design space becomes exponentially larger as the number of design parameters are increased.
 
-A smarter approach involves $\textit{gradient-based optimization}$, in which we search the design space according to the local gradient of the figure of merit with respect to each of the parameters.
+As mentioned, a smarter approach involves performing $\textit{gradient-based optimization}$, in which we search the design space according to the local gradient of the figure of merit with respect to each of the parameters.
 For example, we may start with an initially random device, compute how the performance will change with respect to a change in the permittivity of each cell in the design region, and make a small update.
 This process may be repeated until convergence on a locally optimal solution.
 If the design space contains several local optima, then this whole process may be repeated several times with different initial conditions.
 
-In fact, this method is the standard approach to training of neural networks, which may also be framed as an optimization problem over thousands to millions of parameters.
-We will revisit this connection in a later chapter.
-While the performance of gradient-based optimization is hard to directly compare to that of global optimization approaches, as the number of design parameters increases, gradient-based optimization are typically preferred as they require far fewer steps in most problems.
-
 For gradient-based optimization to be useful, one would like an efficient means to compute the gradient of the figure of merit with respect to the design parameters.
-For neural networks, the gradient is computed analytically and then evaluated using the \textit{backpropagation} algorithm \cite{rumelhart_learning_1985}.
-For photonic devices, one may perform a similar technique using the \textit{adjoint method}, which allows one to analytically compute the gradient directly from Maxwell's Equations and evaluate the result with only one additional electromagnetic simulation.
+For photonic devices, one may achieve this using the \textit{adjoint method}, which allows one to analytically compute the gradient directly from Maxwell's Equations and evaluate the result with only one additional electromagnetic simulation.
 This remarkable efficiency is largely responsible for the success of inverse design in photonics.
+
+\subsection{Adjoint Formalism}
 
 The adjoint method is typically introduced for linear optical systems, although, as we will show in a later chapter, it may be extended to nonlinear systems without much additional complication.
 In the frequency domain, Maxwell's equations may be written as
-
+%
 \eqdef{FDFD_analytical}{
     \dcurl \vE (\vr)\ -\ k_0^2\ \eps_r(\vr)\ \vE(\vr) \equiv A\vE(\vr) = -i\mu_0\omega\vJ(\vr),
 }
@@ -149,11 +142,11 @@ More abstractly, we may write \eq{FDFD_analytical} as
 \eqdef{FDFD_simple}{
     A \bfx = \bfb,
 }
-
 %
-where $A$ is a sparse, complex symmetric matrix that encodes Maxwell's equations on the device.
-
+where $A$ is a sparse, complex symmetric matrix that encodes Maxwell's equations in the presence of the device.
 $\bfx$ is a vector containing the electromagnetic fields at each position in the domain, which are the solution to \eq{FDFD_simple} given the vector $\bfb$ describing the electric current source distribution in the domain.
+When the number of grid points is small, \eq{FDFD_simle} is typically solved using lower-upper (LU) decomposition techniques.
+However, in several cases, it must be solved using iterative methods instead \cite{shin2012choice}.
 
 Our device is described by a set of design variables $\bm{\phi}$, which influence the system matrix, $A = A(\bfphi)$.
 Differentiating \eq{FDFD_analytical} with respect to $\bfphi$, and assuming that the current source, $\bfb$, does not depend on $\bfphi$, we may recover the change in the solution with respect to the parameters as
@@ -167,19 +160,20 @@ By the chain rule, this gives
 %
 \eqdef{dGdgamma_2}{
     \ddfrac{J}{\bfphi} =
-    - \real{ \pfrac{J}{\bfx} \ddfrac{\bfx}{\bfphi} } = - \real{ \pfrac{J}{\bfx} A^{-1} \pfrac{A}{\bfphi} \bfx }
+    - \real{ \pfrac{J}{\bfx} \ddfrac{\bfx}{\bfphi} } = 2 \real{ -\pfrac{J}{\bfx} A^{-1} \pfrac{A}{\bfphi} \bfx }.
 }
+We note that the factor of $2\real{\cdot}$ comes from the fact that $\bfx$ is complex-valued, and therefore in taking the derivative of (real-valued) $J$, one must consider the dependence on both $\bfx$ and $\bfx^*$.
 
 To evaluate \eq{dGdgamma_2}, we define a second simulation with source term $-\pfrac{J}{\bfx}^T$,
 %
 \eqdef{adjoint_source}{
     A^T\bfx_\aj = A\bfx_\aj = -\pfrac{J}{\bfx}^T,
 }
-%
-then the field solution, $\bfx_\aj = -A^{-1}\pfrac{J}{\bfx}^T$, can be easily identified in \eq{dGdgamma_2}, which gives the expression
+where we have used the fact that $A$ is symmetric.
+Then, the field solution, $\bfx_\aj = -A^{-1}\pfrac{J}{\bfx}^T$, can be easily identified in \eq{dGdgamma_2}, which gives the expression
 %
 \eqdef{final_form_DGdgamma}{
-    \ddfrac{G}{\bfphi} = \real{ \bfx_\aj^T \pfrac{A}{\bfphi} \bfx }.
+    \ddfrac{G}{\bfphi} = 2 \real{ \bfx_\aj^T \pfrac{A}{\bfphi} \bfx }.
 }
 %
 The only quantity in this expression that depends on the parameter $\bfphi$ is $\pfrac{A}{\bfphi}$.
@@ -207,44 +201,49 @@ In this notation, the adjoint problem is therefore
     A^T \bfx_\aj = -\pfrac{G}{\bfx}^T = -\bfeta.
 }
 %
-Intuitively, this represents a situation where the electric current source is located at the central gap where the accelerator is traversing the structure.
-To make this point more explicit, let us now consider the fields radiated by a point particle of charge $q$ flowing through our domain at $y = 0$ with velocity $\vec{v} = \beta c_0 \hat{x}$.
+
+\subsection{Interpretation of the Adjoint Field as Radiation}
+
+Intuitively, the adjoint source, $-\bfeta$, represents a line of electric current located at the central gap where the accelerator is traversing the structure.
+To make this connection to radiation more explicit, let us now consider the fields radiated by a point particle of charge $q$ flowing through our domain at $y = 0$ with velocity $\vec{v} = \beta c_0 \hat{x}$.
 In the time domain, we can represent the current density of this particle as
 %
 \eqdef{point-current-setup}{
     \vJ_\textrm{rad}(x,y;t) = q \beta c_0 \delta(x-x_0-c_0\beta t)\delta(y)\hat{x}.
 }
 %
-To express this in the frequency domain, we the Fourier transform of $\vJ_\textrm{rad}$ with respect to time, giving
+To express this in the frequency domain, we take the Fourier transform of $\vJ_\textrm{rad}$ with respect to time, giving
 %
 \begin{align}
-    \vec{J}_{rad}(x,y;\omega) &= q \beta c_0 \delta(y)\hat{x}\int _{-\infty}^{\infty}{dt\ }\exp(-i\omega t)\delta(x-x_0-c_0\beta t)\\
+    \vec{J}_{rad}(x,y;\omega) &= q \beta c_0 \delta(y)\hat{x}\int _{-\infty}^{\infty}{dt\ }\exp(i\omega t)\delta(x-x_0-c_0\beta t)\\
     &= q\ \exp\Big(i\frac{\omega\ (x-x_0)}{c_0 \beta}\Big)\delta(y)\hat{x}\\
     &= q\ \exp\Big(i\frac{2\pi}{ \beta\lambda}x\Big)\ \exp(-i\phi_0)\delta(y)\hat{x}.
 \label{eq:point-current}
 \end{align}
 %
-Comparing with the source of our adjoint problem, $\vJ_\aj = \frac{-i}{\omega\mu_0}\veta$, we can see that 
+Comparing with the source of our adjoint problem, $\vJ_\aj = \frac{-i}{\omega\mu_0}\veta$, we see that 
 %
 \eqdef{J-eta}{
     \vec{J}_{aj} = \frac{-i\ \exp(i\phi_0)}{2\pi q\beta c_0\mu_0}\vJ_\textrm{rad}.
 }
 
 This finding shows that the adjoint field solution ($\vE_\aj$) corresponds (up to a complex constant) to the field radiating from a test particle flowing through the accelerator structure.
-To put this another way, in order to calculate the acceleration gradient sensitivity with the adjoint problem, we must simulate the same structure operating both as an accelerator ($A\vE=-i\omega\mu_0\vJ_\textrm{acc}$) and as a radiator ($A\vE_\aj=-i\omega\mu_0\vJ_\aj$).
+To put this another way, in order to calculate the acceleration gradient sensitivity with the adjoint method, we must simulate the same structure operating both as an accelerator ($A\vE=-i\omega\mu_0\vJ_\textrm{acc}$) and as a radiator ($A\vE_\aj=-i\omega\mu_0\vJ_\aj$).
 
 It is understood that one way to create acceleration is to run a radiative process in reverse.
 Indeed, this is the working principle behind accelerator schemes such as inverse free electron lasers \cite{musumeci2005high, courant1985high}, inverse Cherenkov accelerators \cite{kimura1995laser, fontana1983high}, and inverse Smith-Purcell accelerators \cite{bae1992experimental, mizuno1987experimental}.
 Here, we see that this relationship can be expressed in an elegant fashion using the adjoint method.
 
-We now confirm that the adjoint gradient matches the results obtained by direct sensitivity analysis, we examine a simple accelerator geometry composed of two opposing dielectric squares each of relative permittivity $\epsilon$.
+\subsection{Application to Design Parameters}
+
+To test our adjoint formalism, we examine a simple accelerator geometry composed of two opposing dielectric squares each of relative permittivity $\epsilon$.
 We take a single $\phi$ parameter to be the relative permittivity of the entire square region.
 Because we only change the region inside the dielectric square, we may identify the $\pfrac{A}{\bfphi}$ operator from \eq{FDFD_analytical} as
 %
 \eqdef{dAdepsilon}{
     \ddfrac{A}{\epsilon}(\vr) = \Bigg\{
     \begin{array}{ll}
-        -k_0^2 &\textrm{if } \vr \textrm{ in square} \\
+        -2k_0^2 &\textrm{if } \vr \textrm{ in square} \\
         0 &\textrm{otherwise}
     \end{array}.
 }
@@ -252,7 +251,7 @@ Because we only change the region inside the dielectric square, we may identify 
 Thus, given the form of the sensitivity of the acceleration gradient from \eq{final_form_DGdgamma}, combined with \eq{dAdepsilon}, the change in acceleration gradient with respect to changing the entire square permittivity is simply given by the integral of the two field solutions over the square region, labeled `$sq$'
 %
 \eqdef{}{
-    \ddfrac{G}{\epsilon_{sq}} = -k_0^2 \ \real{\int_{sq}{d^2\vr}.
+    \ddfrac{G}{\epsilon_{sq}} = -2k_0^2 \ \real{\int_{sq}{d^2\vr}.
     \vE(\vr) \cdot \vE_\aj(\vr)}.
 }
 
@@ -270,15 +269,17 @@ The two methods agree with excellent precision, which confirms that the adjoint 
 }
 
 Extending this example to the general case of perturbing the permittivity at an arbitrary position $\vr$, we see that
-
+%
 \begin{align}
     \ddfrac{G}{\epsilon}(\vr) &= -k_0^2 \ \real{ \int{d^2\vr'}.
-    \vE(\vr') \cdot \vE_\aj(\vr').
+    \vE(\vr') \cdot \vE_\aj(\vr')~
     \delta(\vr-\vr') } \\
-    &= -k_0^2 \ \real{ \vE(\vr) \cdot \vE_\aj(\vr) }.
+    &= -2k_0^2 \ \real{ \vE(\vr) \cdot \vE_\aj(\vr) }.
 \end{align}
+%
+\section{Inverse Design of Accelerator}
 
-\section{Inverse design of Dielectric Laser Accelerator}
+\subsection{Maximization of Acceleration Gradient}
 
 With the mathematical form of the adjoint problem discussed, now we focus on the optimization and inverse design of the DLA device.
 In our FDFD simulation, we use a grid spacing that corresponds to 200 grid points per free space wavelength in each dimension.
@@ -346,7 +347,7 @@ This term corresponds to the sensitivity calculated at the last iteration multip
     \epsilon_i^{ (j+1) } := \epsilon_i^{ (j) } + \alpha\Bigg[ \ddfrac{G}{\epsilon_i}^{ (j) } + \alpha'\ddfrac{G}{\epsilon_i}^{ (j-1) }\Bigg].
 }
 
-\section{Optimization of Acceleration Factor}
+\subsection{Maximization of Acceleration Factor}
 
 DLAs are often driven with the highest input field possible before damage occurs.
 Therefore, another highly relevant quantity to maximize is the \textit{acceleration factor}, given by the acceleration gradient divided by the maximum electric field amplitude in the system.
@@ -375,7 +376,6 @@ If $a$ is too large, the calculation may induce floating point overflow or round
 
 
 Using this smooth-max function, one may calculate $\ddfrac{f_{A}}{\epsilon_i}$ analytically and perform structure optimizations in the same way that was discussed previously.
-The derivation of the adjoint source term is especially complicated and omitted for brevity, although the end result is expressed solely in terms of the original fields, the adjoint fields, and the $\ddfrac{A}{\gamma}$ operator, as before.
 Two structures with identical parameters but optimized, respectively, for maximum $G$ and $f_A$ are shown in Fig. \ref{fig:optimization-results_fAC}.
 On the left, we see that the $G$ maximized structure shows the characteristic dielectric mirrors, giving resonant field enhancement.
 On the right is the structure optimized for $f_A$, which has eliminated most of its dielectric mirrors and also introduces interesting pillar shapes.
@@ -383,7 +383,7 @@ In Table \ref{tb:table} the main DLA performance quantities of interest are comp
 Whereas the acceleration gradient is greatly reduced when maximizing for $f_A$, the $f_A$ value itself is improved by about 25\% or 23\% depending on whether one measures the maximum field in the design region or the material region, respectively.
 As a comparison with the geometry from Ref. \cite{leedle2015dielectric}, a SiO$_2$ dual pillar structure with a 400 nm gap was optimized for acceleration gradient, giving an acceleration gradient of 0.025 ($E_0$) with a pillar radius of 670 nm.
 This structure was found to have $\max\{|\vec{E}|\}$ in the design region of 1.612 ($E_0$) and $\max\{|\vec{E}|\}$ in the material region of 1.209 ($E_0$), leading to acceleration factors of 0.016 and 0.021, respectively.
-Comparing these numbers to those in Table \ref{tb:table}, it is apparent that the AVM-optimized structures perform better than the dual pillar structures in terms of both gradient and acceleration factor.
+Comparing these numbers to those in Table \ref{tb:table}, it is apparent that the optimized structures perform better than the dual pillar structures in terms of both gradient and acceleration factor.
 
 These findings suggest that the inverse design strategy is effective in designing not only resonant, high acceleration gradient structures, but also non-resonant structures that are more damage resistant.
 In the future, when more components of DLA are moved on-chip (such as the optical power delivery), it will be important to have control over the resonance characteristics of the DLA structures to prevent damage breakdown at the input facet.
