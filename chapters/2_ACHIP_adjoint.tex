@@ -38,6 +38,9 @@ In addition, our work approximates the incident laser pulse as a monochromatic p
 
 \section{Adjoint Method for Particle Accelerators}
 
+
+\subsection{Mathematical Definition}
+
 Here we will discuss the use of the adjoint method to design such a structure, as explained in Ref. \citenum{hughes_method_2017}.
 To begin, we must first define the optimization figure of merit and design parameters.
 
@@ -97,6 +100,8 @@ The physical interpretation of $\veta$ is digrammed in \fig{eta_def}.
     The central gap is constrained to vacuum to allow passage of the electron beam.
     The red arrow signifies the driving laser.
 }
+
+\subsection{Optimization Strategy}
 
 Our goal in designing the accelerator for maximum acceleration gradient is to create a permittivity distribution that maximizes $G$ subject to a few constraints.
 We consider performing this optimization in a small design region surrounding a small gap defined for the electron to travel through the structure.
@@ -341,7 +346,7 @@ This term corresponds to the sensitivity calculated at the last iteration multip
     \epsilon_i^{ (j+1) } := \epsilon_i^{ (j) } + \alpha\Bigg[ \ddfrac{G}{\epsilon_i}^{ (j) } + \alpha'\ddfrac{G}{\epsilon_i}^{ (j-1) }\Bigg].
 }
 
-\section{Optimization of acceleration factor}
+\section{Optimization of Acceleration Factor}
 
 DLAs are often driven with the highest input field possible before damage occurs.
 Therefore, another highly relevant quantity to maximize is the \textit{acceleration factor}, given by the acceleration gradient divided by the maximum electric field amplitude in the system.

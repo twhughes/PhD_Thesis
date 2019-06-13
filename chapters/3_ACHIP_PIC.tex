@@ -44,7 +44,10 @@ Electron beam focusing elements may be implemented between stages as needed.
 
 We will now discuss the individual components involved in the on-chip laser coupling system.
 
-\subsection{Input Coupling}
+\subsection{Device Components}
+
+\paragraph{Input Coupling}
+
 The proposed structure first requires a strategy to couple light from the pump laser to the on-chip optical waveguides.
 We focus on free-space coupling to the input facet via a surface grating, eliminating the need for single mode fiber delivery.
 Our laser and macroscopic optical components are capable of handling pulse energies far beyond enough to cause damage to the structure.
@@ -62,7 +65,8 @@ In this study, we assume a coupling power efficiency of $60\%$ with a substantia
 Additional investigation into the design of ultra-broadband vertical couplers must be considered to guarantee coupling of the femtosecond pulsed lasers.
 
 % Waveguides
-\subsection{Waveguides}
+\paragraph{Waveguides}
+
 Waveguides are a critical component of laser coupling.
 Schematics of the waveguide cross-sections and their field distributions are shown in \fig{waveguides}.
 We have explored two general classes of wave-guiding systems: (1) tightly confined systems and (2) weakly confined systems.
@@ -119,7 +123,8 @@ where $\tau$ is the pulse duration. When the dispersion length, $L_{\rm{D}}$, is
 Alternatively, by turning on and off each term in Eq. \ref{eq:NLS} to investigate its contribution, we find that for both SOI and SiN cases, SPM is indeed the dominant contribution to the nonlinearity, other terms does not yield a significant difference to the results for a propagation distance on the order of hundreds of $\rm{\mu m}$. Hence, our choice of using SPM as the dominant nonlinearity in the parameter study is justified.
 
 % Splitters
-\subsection{Splitters}
+\paragraph{Splitters}
+
 After the initial input coupling step, splitters are used to distribute the laser power along the DLA structure.
 Splitters further contribute to insertion loss.
 Experimental characterization of Y-splitters indicate losses on the order of $1\;\text{dB}$ \cite{zhang2013compact}.
@@ -130,7 +135,7 @@ Adjoint-based optimization methods have been further expanded to enforce fabrica
 As a consequence of the rapid progress made in this field and the efforts to ensure robustness of device to fabrication tolerance, we have used an insertion loss per splitter of $0.22\;\text{dB}$, or $95\%$ efficiency, for the parameter study.
 
 % Bends
-\subsection{Bends}
+\paragraph{Bends}
 
 Waveguide bends are necessary to provide group delay to the laser pulses to ensure their arrival at the accelerator gap at the same time as a moving electron beam.
 Here, using the circular bending scheme drawn in \fig{circle}, we calculate the required geometry  needed to satisfy this condition.
@@ -217,7 +222,8 @@ Many of these issues may be reconciled by choosing a hybrid waveguide system, as
 We did not consider these options directly in our following parameter study.
 
 % Phase Shifters
-\subsection{Phase Shifters}
+\paragraph{Phase Shifters}
+
 Phase shifters are an essential component in the DLA system for ensuring proper phase matching between the electrons and photons.
 While it is simple to do phase tuning in free-space for a single stage DLA with macroscopic delay stages, waveguide-integrated phase shifters for long interaction or multi-stage DLAs will be experimentally complicated.
 To achieve a sizable energy gain and gradient over a given interaction length, a high level of precision and stability in the phase of each section is required.
@@ -241,7 +247,7 @@ Furthermore, some degree of relative fixed phase between output ports may be acc
 To further mitigate the challenges associated with operating these multiple phase shifters during acceleration, we may implement a feedback control loop, which is described in \fig{phase}.
 In this setup, the quantity of interest, such as electron energy gain, can be measured at the end of a section and optimized with respect to the individual phase shifters in the power delivery system without explicit knowledge of the electron beam dynamics.
 
-\subsection{DLA Structures\label{sec:DLA}}
+\paragraph{DLA Structures}
 
 \figdef{tree_DLA}{tree_DLA}{
     (a) A schematic of the waveguide to DLA connection.
@@ -316,8 +322,10 @@ Here we formalize the calculation of the acceleration gradient used in the param
  E_z(z,\omega) &= E_0(\omega) F(z,\omega).
 \end{align}
 
-\subsection{Finite pulse duration}
-We wish to derive the correspondence between the time-domain description of the acceleration gradient, given an arbitrary input pulse, and the frequency domain approach that is used in this work and others~\cite{hughes2017method, plettner2006proposed}. 
+\subsection{Practical Considerations}
+
+\paragraph{Finite pulse duration}
+We wish to derive the correspondence between the time-domain description of the acceleration gradient, given an arbitrary input pulse, and the frequency domain approach that is used in this work and others~\cite{hughes_method_2017, plettner2006proposed}. 
 
 In the time domain, the acceleration gradient is expressed as an integral over the accelerating electric field over the particle's trajectory.
 
@@ -349,7 +357,7 @@ Now, by performing a series of FDFD simulations at discrete frequencies, we may 
     G = \max_{t_0}|\mathcal{F}^{-1}\{ g(\omega) E_0(\omega)\}|.
 \end{equation}
 
-\subsection{Finite stage length}
+\paragraph{Finite stage length}
 
 %\section{\label{appx:length}Finite length DLA structure bandwidth}
 %\textcolor{red}{Combine this section with previous and get rid of transfer function definition (repetitive) for reviewer 3.15}
@@ -401,8 +409,7 @@ L < \tau \beta c_0.
 \end{equation}
 This scales with $\tau$, $\beta$, and $c_0$ in the same fashion as Eq.~\ref{eq:L_tau}, which serves as a sanity check.  However, the full expression in Eq.~\ref{eq:finiteLength} can be used to rigorously compute the effect that a finite stage length structure will have on the acceleration gradient.
 
-
-\subsection{Beam Loading and Longitudinal Wakes}
+\paragraph{Beam Loading and Longitudinal Wakes}
 
 The fundamental unit cell of the proposed accelerator design, depicted in \fig{tree_DLA}, consists of a structure segment of three periods $\Delta z = 3 \lambda$ fed by a single laser pulse of the multi-branch network with duration $\tau$ = 250 fs.
 It is shown in Ref.
@@ -428,7 +435,8 @@ For the present case, with $Z_C$ = 149\,$\Omega$, $Z_H$ = 7402\,$\Omega$, $G_0$ 
  The structure design considered here was intended to illustrate the basic principles of constructing a multi-guided wave system and was not optimized for efficient beam coupling.
  Even so, efficiencies this order are still acceptable for possible near-term applications, such as a 1 to 10 MeV medical linac, where requisite beam powers are less than 1 Watt.
  
-\subsection{Heat Dissipation}
+\paragraph{Heat Dissipation}
+
 For the pulse parameters used in the following parameter study, the laser input pulse energy at each stage of length $L$ = 192 $\mu$m is $E_p$ = 11 nJ.
 We assume a repetition rate $f_\text{rep}$ = 10 MHz, which is consistent with commercially available solid state fiber lasers at micro-Joule pulse energies.
 Given that there are two input laser couplings per stage of length $L$ in the configuration of Fig.
@@ -440,7 +448,7 @@ The latter work was for a structure design based on a 3D photonic crystal, but i
 
 \section{Parameter Study}
 
-\section{\label{sec:constraints}Constraints}
+\subsection{\label{sec:constraints}Constraints}
 
 In the analysis of our system, we consider four main factors that will ultimately limit the acceleration gradients and energy gains attainable.
 
@@ -455,7 +463,7 @@ In the analysis of our system, we consider four main factors that will ultimatel
 
 % \textcolor{purple}{I eliminated unnecessary references to Appendix because we will reference it later when introducing the parameter study.  Seemed like it was redundant in here and distracting from the main point. -Tyler 1/11}
 % ---- PARAMETER STUDY ---- %
-\section{\label{sec:param}Parameter Study}
+\section{\label{sec:param}Findings}
 With the system components and constraints introduced, we now present a parameter study to understand the fundamental trade-offs and optimal working parameters of an on-chip optical power delivery system for DLA of this class.  A software package~\cite{hughes2017github} was written to separately simulate each component and combine the results to generate an estimate for the acceleration gradient and energy gain assuming a set of parameters, which are outlined in Table~\ref{tab:params} and chosen based on the considerations outlined at the beginning of this chapter.
 
 \begin{table}[htb]
@@ -594,7 +602,7 @@ First, we notice that SiN waveguide systems may supply much higher acceleration 
 
 Waveguiding systems for this high power handling region may be based on hollow-core photonic crystals, high damage threshold materials, such as silica or silicon nitride, or weakly-guided waveguide modes. The section closer to the DLA could then be implemented in SOI allowing for tight bending radii, compact waveguide networks, and fine phase control.  The DLA structures may also be integrated directly on the same chip as the inner power delivery system.  Multiple of these hybrid systems may be driven in series, each with an individual driving laser.  The relative merits of large stage length power delivery systems vs. multiple driving lasers will depend on their respective engineering challenges, such as chip-to-chip coupling \cite{shoji2002low,sacher2017tri}, alignment and stability of input coupling multiple lasers, and availability of these sources.  
 
-Furthermore, based on the presented geometry, there is a clear need for resonant DLA structures to enhance the fields at the accelerator gap. For the parameters discussed, the optimal Q-factors were shown to be around 150. Previous work on optimizing DLA structures for high acceleration gradient has shown that periodic dielectric mirrors may be useful in raising quality factors and field enhancement in DLA structures \cite{hughes2017method, mizrahi2004optical, niedermayer2017designing, wei2017dual}. However, achieving DLA structures with these Q-factors may be difficult with current fabrication tolerances. Furthermore, even slight deformation due to both electron collision with the DLA structure and the presence of high power optical pulses would degrade the Q-factors of fabricated structures. Therefore, experimental verification is required to determine whether such resonant structures can survive operation in a DLA.
+Furthermore, based on the presented geometry, there is a clear need for resonant DLA structures to enhance the fields at the accelerator gap. For the parameters discussed, the optimal Q-factors were shown to be around 150. Previous work on optimizing DLA structures for high acceleration gradient has shown that periodic dielectric mirrors may be useful in raising quality factors and field enhancement in DLA structures \cite{hughes_method_2017, mizrahi2004optical, niedermayer2017designing, wei2017dual}. However, achieving DLA structures with these Q-factors may be difficult with current fabrication tolerances. Furthermore, even slight deformation due to both electron collision with the DLA structure and the presence of high power optical pulses would degrade the Q-factors of fabricated structures. Therefore, experimental verification is required to determine whether such resonant structures can survive operation in a DLA.
 % GVD engineering
 
 One final set of attractive options for further improving the acceleration gradients and energy gains achievable with an on-chip waveguide power delivery system involve engineering the group velocity dispersion (GVD) of the waveguides.  One strategy involves pre-chirping the input pulse to compensate for the GVD.  Then, the optical power may be initially spread in the temporal domain, mitigating damage bottlenecks near the input facet.  Later, with the presence of GVD, the structure may be designed such that the pulse re-compresses at the accelerator structure.  Additionally, we may use GVD to balance out SPM effects in our waveguides.  With the proper amount of GVD, a temporal soliton may be formed for a given power, which will propagate without distortion, potentially allowing for higher operating powers and acceleration gradients. A similar technique was recently demonstrated to compensate for the SPM effects in short DLA structures \cite{cesar2017nonlinear}. 
@@ -606,24 +614,24 @@ We have presented a method for accomplishing chip-based, optical laser power del
 
 We conclude that an on-chip laser coupling system is a promising avenue of exploration for DLA technology.  Using the known parameters of existing waveguide technology, we may couple laser sources to an accelerator on a chip with a reasonable acceleration gradient.  Additionally, our proposal has a major advantage over free-space laser coupling techniques in that it provides an on chip solution for scalable stage length, which enables access to longer interaction lengths, better integration with DLA structures and greater total energy gains.  These findings are a crucial and necessary step towards bringing DLA from proof-of-principle to application stage.
 
-\section{Automatic Controlled Power Delivery Systems}
+\section{Reconfigurable Control System for Accelerator}
 
 The \textit{tree-network} design proposed in the previous section has two serious limitations.  First, the design relies on a single input facet to couple the laser beam to a single waveguide before it is split.  The optical power concentration in the input facet thus creates a bottleneck leading to optical damage and nonlinearities, which limits the maximum input power and, in turn, energy gain of the accelerator.  Secondly, while the phase of each output pulse is tuned using integrated optical phase shifters, the power distribution of the output waveguides is fixed by the fabrication of the splits and bends in the structure and may not be easily tuned later if there are errors.
 
-Therefore, an ideal laser coupling scheme for DLA would involve a coupling scheme that directly couples a single laser pulse into several waveguides.  This would greatly ease the input power limitations present in the power-splitting proposal of Ref. \cite{hughes2018chip} by eliminating the optical damage and nonlinearity bottleneck of the input coupler.  While such coupling techniques exist in the form of grating coupler arrays \cite{van2011optical} or combined grating coupler and splitter devices \cite{spuesens2016grating}, a tunable $\textit{power}$ distribution system would also be necessary to mitigate the variations in input coupling efficiency, fabrication errors, and drift experienced during the experiment.  In conjunction with optical phase control and long-range beam-focusing \cite{niedermayer_alternating_2018}, a reconfigurable power distribution mechanism would be an essential component for scaling DLA from proof-of principle length scales of 100's of $\mu$m to the scale of modern accelerators.
+Therefore, an ideal laser coupling scheme for DLA would involve a coupling scheme that directly couples a single laser pulse into several waveguides.  This would greatly ease the input power limitations present in the power-splitting proposal of Ref. \cite{hughes_-chip_2018} by eliminating the optical damage and nonlinearity bottleneck of the input coupler.  While such coupling techniques exist in the form of grating coupler arrays \cite{van2011optical} or combined grating coupler and splitter devices \cite{spuesens2016grating}, a tunable $\textit{power}$ distribution system would also be necessary to mitigate the variations in input coupling efficiency, fabrication errors, and drift experienced during the experiment.  In conjunction with optical phase control and long-range beam-focusing \cite{niedermayer_alternating_2018}, a reconfigurable power distribution mechanism would be an essential component for scaling DLA from proof-of principle length scales of 100's of $\mu$m to the scale of modern accelerators.
 
-To accomplish this, we propose and present a numerical analysis of an integrated power distribution system and corresponding protocol for accomplishing automated, on-chip phase and power control for DLA and other applications \cite{hughes_reconfigurable_2019}. For this, we utilize a mesh of integrated Mach-Zehnder interferometers (MZIs), a device that allows for reconfigurable unitary operations on-chip \cite{miller_self-configuring_2013,miller_perfect_2015}.  MZI meshes are becoming a fundamental component in integrated, reconfigurable optics for mode sorting \cite{miller_sorting_2015,annoni_unscrambling_2017,miller_setting_2017,miller_self-configuring_2018}, quantum information processing \cite{harris_quantum_2017,metcalf_multiphoton_2013,aspuru-guzik_photonic_2012,obrien_photonic_2009}, and optical machine learning \cite{shen_deep_2017, hughes2018training}.  Here, we explore the novel application of these reconfigurable optics systems to high power pulse delivery and control for accelerators on a chip, which brings its own interesting set of constraints and challenges.  In conjunction with Ref. \cite{hughes2018chip}, this study gives a roadmap for transitioning the control of DLA systems away from hand-tuned, free-space optical setups to precise, automatically configured integrated optical components.  As such, our work points to the opportunity for the use of on-chip reconfigurable optics to dramatically scale up the acceleration length and energy gains of DLA, which is of crucial importance in realizing the exciting applications of these miniature accelerators.
+To accomplish this, we propose and present a numerical analysis of an integrated power distribution system and corresponding protocol for accomplishing automated, on-chip phase and power control for DLA and other applications \cite{hughes_reconfigurable_2019}. For this, we utilize a mesh of integrated Mach-Zehnder interferometers (MZIs), a device that allows for reconfigurable unitary operations on-chip \cite{miller_self-configuring_2013,miller_perfect_2015}.  MZI meshes are becoming a fundamental component in integrated, reconfigurable optics for mode sorting \cite{miller_sorting_2015,annoni_unscrambling_2017,miller_setting_2017,miller_self-configuring_2018}, quantum information processing \cite{harris_quantum_2017,metcalf_multiphoton_2013,aspuru-guzik_photonic_2012,obrien_photonic_2009}, and optical machine learning \cite{shen_deep_2017, hughes2018training}.  Here, we explore the novel application of these reconfigurable optics systems to high power pulse delivery and control for accelerators on a chip, which brings its own interesting set of constraints and challenges.  In conjunction with Ref. \cite{hughes_-chip_2018}, this study gives a roadmap for transitioning the control of DLA systems away from hand-tuned, free-space optical setups to precise, automatically configured integrated optical components.  As such, our work points to the opportunity for the use of on-chip reconfigurable optics to dramatically scale up the acceleration length and energy gains of DLA, which is of crucial importance in realizing the exciting applications of these miniature accelerators.
 
 
 \begin{figure}
 \centering
 \includegraphics[width=\columnwidth]{figures/MZI_direct}
-\caption{\label{fig:setup} \textbf{Schematic of the proposed DLA laser delivery control system.}  Comparison of setup from Ref \cite{hughes2018chip} (\textbf{a}) and this work (\textbf{b}).  \textbf{a}, In the splitting structure of Ref. \cite{hughes2018chip}, an input pulse (large red arrow) is focused to a single grating coupler on the chip surface.  The pulse is split a series of times and bends in the waveguide to create group velocity delay.  The phase of the pulses are corrected before injection into the accelerator.  \textbf{b}, In the schematic proposed in this work, the pulse is directly coupled into several waveguides through a grating coupler array. To mitigate the large variance in coupled powers, the pulses next enter a mesh of MZIs, which is sequentially adjusted, using the protocol from this paper, to provide uniform powers in each waveguide.  As before, phase control and group delay are performed using integrated phase shifters and lithographically-defined bends before couping to the accelerator channel.  The second scheme eliminates the damage and nonlinearity bottleneck present in $\textbf{a}$ directly after the input coupler.}
+\caption{\label{fig:setup} \textbf{Schematic of the proposed DLA laser delivery control system.}  Comparison of setup from Ref \cite{hughes_-chip_2018} (\textbf{a}) and this work (\textbf{b}).  \textbf{a}, In the splitting structure of Ref. \cite{hughes_-chip_2018}, an input pulse (large red arrow) is focused to a single grating coupler on the chip surface.  The pulse is split a series of times and bends in the waveguide to create group velocity delay.  The phase of the pulses are corrected before injection into the accelerator.  \textbf{b}, In the schematic proposed in this work, the pulse is directly coupled into several waveguides through a grating coupler array. To mitigate the large variance in coupled powers, the pulses next enter a mesh of MZIs, which is sequentially adjusted, using the protocol from this paper, to provide uniform powers in each waveguide.  As before, phase control and group delay are performed using integrated phase shifters and lithographically-defined bends before couping to the accelerator channel.  The second scheme eliminates the damage and nonlinearity bottleneck present in $\textbf{a}$ directly after the input coupler.}
 \end{figure}
 
 Here we will give an overview of the proposed reconfigurable laser coupling scheme for DLA.  A schematic of our system is shown in Fig. \ref{fig:setup}.  The system consists of sequential stages for input coupling, power distribution, phase control, group delay control, and electron acceleration. 
 
-In our design, the driving laser pulse is first focused onto an input element that directly splits the optical power into several waveguides.  Compared with schemes where the laser is first coupled to a single waveguide, as in Ref \cite{hughes2018chip}, this coupling strategy can greatly improve the power that can be safely supplied by the driving laser. This element could take the form of a grating coupler array or combined grating coupler and power splitter geometry \cite{spuesens_grating_2016}.  Adjoint-based optimization techniques \cite{sapra2019inverse} may be employed to design novel input coupling components with improved coupling efficiency, less variation between powers, or significantly more output waveguides, although this is outside the focus of this work.
+In our design, the driving laser pulse is first focused onto an input element that directly splits the optical power into several waveguides.  Compared with schemes where the laser is first coupled to a single waveguide, as in Ref \cite{hughes_-chip_2018}, this coupling strategy can greatly improve the power that can be safely supplied by the driving laser. This element could take the form of a grating coupler array or combined grating coupler and power splitter geometry \cite{spuesens_grating_2016}.  Adjoint-based optimization techniques \cite{sapra2019inverse} may be employed to design novel input coupling components with improved coupling efficiency, less variation between powers, or significantly more output waveguides, although this is outside the focus of this work.
 
 \begin{figure}
 \includegraphics[width=1\columnwidth]{figures/MZI_MZI}
@@ -665,12 +673,12 @@ In the following Section we describe a sequential protocol for optimizing the Cl
 Once the power in each waveguide is equalized, we may use integrated optical phase shifters to correct the phase of each laser pulse such that it is synchronous with the electron beam. While the phase shifters may be adjusted to maximize energy gain, they may also be used to incorporate other functionality, such as beam focusing, total beam transmission, deflection, or diagnostics \cite{soong2014electron, ye2018deep}.  Beam energy measurements, performed periodically along the accelerator, may be used as a signal to automatically configure the optical phase shifters.
 
 % \subsection{group delay}
-Once the power and phase are sufficiently controlled, we must delay the laser pulse in each waveguide so that it arrives at the accelerator gap the same time as the moving electron beam. To do this, we introduce lithographically-defined bends in the waveguides to provide a delay that is matched to the electron arrival, producing the integrated optics analogue of a pulse-front tilt \cite{cesar_optical_2018}. The mathematical details of the bend design are described in the supplementary material of Ref. \cite{hughes2018chip}.
+Once the power and phase are sufficiently controlled, we must delay the laser pulse in each waveguide so that it arrives at the accelerator gap the same time as the moving electron beam. To do this, we introduce lithographically-defined bends in the waveguides to provide a delay that is matched to the electron arrival, producing the integrated optics analogue of a pulse-front tilt \cite{cesar_optical_2018}. The mathematical details of the bend design are described in the supplementary material of Ref. \cite{hughes_-chip_2018}.
 
 % \subsection{DLA coupling}
-The final stage involves coupling the waveguide mode into the acceleration channel.  Ideally, an inverse taper may be placed at the end of each waveguide to spread the mode area to match the spot size of the laser pulse to the dimensions of the DLA.  Then, an accelerator structure may be placed adjacent to the end of the waveguides.  Alternatively, the accelerator structures and tapers may be part of the same system and may be designed following ideas from proposed buried grating structures \cite{chang_silicon_2014}, or using inverse design techniques, such as what was shown Ref. \cite{hughes_method_2017} for free-space coupling.  Dielectric mirrors may be used to design the resonance of the acceleration cavity and provide back reflection if a single-sided drive is used \cite{yousefi2019dielectric} (as pictured in Fig. \ref{fig:setup}).  Ref. \cite{hughes2018chip} argued that a moderately resonant acceleration cavity with quality factor of several hundred would be necessary to lower the input power to mitigate the input facet bottleneck introduced by that design.  However, in this proposal, because that bottleneck is eliminated, one might not require such a resonant structure.
+The final stage involves coupling the waveguide mode into the acceleration channel.  Ideally, an inverse taper may be placed at the end of each waveguide to spread the mode area to match the spot size of the laser pulse to the dimensions of the DLA.  Then, an accelerator structure may be placed adjacent to the end of the waveguides.  Alternatively, the accelerator structures and tapers may be part of the same system and may be designed following ideas from proposed buried grating structures \cite{chang_silicon_2014}, or using inverse design techniques, such as what was shown Ref. \cite{hughes_method_2017} for free-space coupling.  Dielectric mirrors may be used to design the resonance of the acceleration cavity and provide back reflection if a single-sided drive is used \cite{yousefi2019dielectric} (as pictured in Fig. \ref{fig:setup}).  Ref. \cite{hughes_-chip_2018} argued that a moderately resonant acceleration cavity with quality factor of several hundred would be necessary to lower the input power to mitigate the input facet bottleneck introduced by that design.  However, in this proposal, because that bottleneck is eliminated, one might not require such a resonant structure.
 
-\section{\label{sec:algo}Power Distribution Protocol}
+\subsection{\label{sec:algo}Power Distribution Protocol}
 
 With the control system defined, here we describe a power distribution protocol that may be implemented on a Clements mesh to optimally equalize the power coming from a random input source.  The goal of this power equalization stage is to find the settings of each of the integrated phase shifters such that, given an input to the mesh, there is an equal power in each output port.  A naive implementation of this may involve performing a global optimization over each of the phase shifters.  However, when the number of degrees of freedom increases (for example, for a very large accelerator), this becomes unfeasible as the dimension of the search space scales linearly with the number of MZIs. Fortunately, the protocol presented in this work allows each MZI to be tuned individually and in sequence, layer by layer, from input to output.
 
@@ -729,7 +737,7 @@ With this protocol, one may thus optimize each MZI sequentially through the mesh
 
 While the algorithm presented above assumes lossless components, in practice, variations in loss between MZIs in each layer will introduce discrepancies between the expected and measured output power.  Therefore, to compensate for this, in practice, a calibration of each MZI’s loss, and corresponding update to the algorithm, may be necessary to achieve good performance.
 
-\section{\label{sec:demo}Numerical Demonstration}
+\subsection{\label{sec:demo}Numerical Demonstration}
 
 \begin{figure}[htp]
 \centering
@@ -757,10 +765,11 @@ As evidenced by Fig. \ref{fig:equalization}, extreme input conditions, such as t
 \caption{\label{fig:scaling} \textbf{Analysis of mesh performance vs. number of input ports}.  We plot the mean-squared-error between the power in each layer and the target power after the mesh has been optimized.  These are averaged over 5 random input values.  We see that the number of layers ($M$) needed to equalize the power in the mesh increases slowly with respect to the number of ports ($N$).}
 \end{figure}
 
-\section{\label{sec:DLA_analysis}Application to DLA}
-To quantify the benefit of this new power distribution component, we now compare the performance of a DLA with the power splitting approach of Ref. \cite{hughes2018chip} to one with direct coupling and power control from this work and as diagrammed in Fig. \ref{fig:setup}.  For each of these approaches, we give an estimate of the acceleration gradient, number of output waveguides, and acceleration length needed to achieve a given energy gain with a single driving laser.  
+\subsection{\label{sec:DLA_analysis}Resulting Improvement}
 
-Following the analysis of Ref. \cite{hughes2018chip}, we first consider a splitting design in which a single input waveguide is split $N_s$ times to cover the full length of acceleration.  We assume that an optical pulse with energy $\Ud$ and temporal duration $\tau$ is coupled into the input waveguide.  We must ensure that $\Ud$ is below the damage and nonlinearity limit of the waveguides, which was recently measured to be 20 nJ in SiN waveguies using pulses of duration of 250 fs \cite{tan2019silicon}.  This corresponds to a fluence of 0.12 $J/cm^2$ for a mode area of 17.2 $\mu m^2$, as used in this reference. We then assume that this initial waveguide is split $N_s$ times, in a binary fashion, to couple to $N = 2^{N_s}$ final waveguides, which are directly coupled to the accelerator. The power coupling efficiency factors corresponding to waveguide splitting and bending loss are denoted by $\eta_s$ and $\eta_b$ respectively. The values used for these efficiencies are given in Table \ref{tab:params} and are consistent with those of Ref. \cite{hughes2018chip}.
+To quantify the benefit of this new power distribution component, we now compare the performance of a DLA with the power splitting approach of Ref. \cite{hughes_-chip_2018} to one with direct coupling and power control from this work and as diagrammed in Fig. \ref{fig:setup}.  For each of these approaches, we give an estimate of the acceleration gradient, number of output waveguides, and acceleration length needed to achieve a given energy gain with a single driving laser.  
+
+Following the analysis of Ref. \cite{hughes_-chip_2018}, we first consider a splitting design in which a single input waveguide is split $N_s$ times to cover the full length of acceleration.  We assume that an optical pulse with energy $\Ud$ and temporal duration $\tau$ is coupled into the input waveguide.  We must ensure that $\Ud$ is below the damage and nonlinearity limit of the waveguides, which was recently measured to be 20 nJ in SiN waveguies using pulses of duration of 250 fs \cite{tan2019silicon}.  This corresponds to a fluence of 0.12 $J/cm^2$ for a mode area of 17.2 $\mu m^2$, as used in this reference. We then assume that this initial waveguide is split $N_s$ times, in a binary fashion, to couple to $N = 2^{N_s}$ final waveguides, which are directly coupled to the accelerator. The power coupling efficiency factors corresponding to waveguide splitting and bending loss are denoted by $\eta_s$ and $\eta_b$ respectively. The values used for these efficiencies are given in Table \ref{tab:params} and are consistent with those of Ref. \cite{hughes_-chip_2018}.
 
 Next, we assume each waveguide powers $\Np$ periods of the accelerator, each of height $h$ and width $\beta \lamo$ to satisfy the synchronicity condition, where $\beta$ is the ratio of the electron speed to the speed of light and $\lamo$ is the free space wavelength of the driving laser.  This gives a total acceleration length of
 %
@@ -782,7 +791,7 @@ The acceleration gradient, defined as the energy gain ($\DE$) per unit length, m
     \label{eq:G}
 \end{equation}
 %
-The proportionality constant or \textit{structure factor} $\kappa$ is a dimensionless quantity that denotes the coupling of incident field to the structure. Structure factors of $\kappa = 0.2$ have been experimentally demonstrated \cite{cesar_optical_2018} and $\kappa = 1.34$ theoretically predicted \cite{bar2019design} for various structure designs, and by use of a resonant structure with a quality factor $Q$ it can be further enhanced as $\sqrt{Q}$ \cite{hughes2018chip}. We here assume a moderate value of $\kappa = 1$. With the expression above for the gradient, along with Eqs. (\ref{eq:L}) and (\ref{eq:E0}), we may solve for the number of waveguide splits required to accomplish the energy gain of $\DE$ as
+The proportionality constant or \textit{structure factor} $\kappa$ is a dimensionless quantity that denotes the coupling of incident field to the structure. Structure factors of $\kappa = 0.2$ have been experimentally demonstrated \cite{cesar_optical_2018} and $\kappa = 1.34$ theoretically predicted \cite{bar2019design} for various structure designs, and by use of a resonant structure with a quality factor $Q$ it can be further enhanced as $\sqrt{Q}$ \cite{hughes_-chip_2018}. We here assume a moderate value of $\kappa = 1$. With the expression above for the gradient, along with Eqs. (\ref{eq:L}) and (\ref{eq:E0}), we may solve for the number of waveguide splits required to accomplish the energy gain of $\DE$ as
 \begin{equation}
     N_s = \log_2 \left[ \frac{\DE^2 \tau h n \zeta}{2  \kappa^2 \Ud \Np \beta \lamo Z_0} \right] / \log_2 (2 \eta_s \eta_b)
     \label{eq:N}
@@ -797,10 +806,10 @@ In contrast, using a direct coupling method with power distribution components i
 
 In Fig. \ref{fig:plots} we show the scaling of the acceleration gradient, number of output waveguides, and acceleration length as a function of required energy gain for a DLA given realistic parameters, which are supplied in Table \ref{tab:params}.  Based on previous demonstrations of these components \cite{annoni_unscrambling_2017, shen_deep_2017} the reflection and backscattering is negligible, and therefore not considered in this analysis.
 
-To connect these results with prior work, we note that for the split waveguide approach, Eqs. (\ref{eq:L}), (\ref{eq:E0}), (\ref{eq:G}), (\ref{eq:N}) give nearly identical results as those of the more involved analysis of \cite{hughes2018chip} for the case of silicon nitride waveguides for a single-stage energy gain of 20 keV, when the same input parameters are used. 
+To connect these results with prior work, we note that for the split waveguide approach, Eqs. (\ref{eq:L}), (\ref{eq:E0}), (\ref{eq:G}), (\ref{eq:N}) give nearly identical results as those of the more involved analysis of \cite{hughes_-chip_2018} for the case of silicon nitride waveguides for a single-stage energy gain of 20 keV, when the same input parameters are used. 
 In Ref. \cite{tan2019silicon}, the damage and nonlinearity constraints using similar pulse parameters was studied experimentally. It was found that a silicon nitride waveguide could sustain a pulse of 20 nJ for several milimeters of propagation distance.  Therefore, while this proposed power equalization system includes more components (beam splitters and phase shifters), it is likely to be well within the damage threshold.
 
-However, the results in Fig. \ref{fig:plots} for the split waveguide approach (solid blue curves) are somewhat more optimistic than those of the prior work, as recent experiments \cite{tan2019silicon, bar2019design} have provided evidence for larger values of $U_d$ and $\kappa$ than were previously assumed. These more optimistic parameters are reflected in Table \ref{tab:params_MZI}. However, due to the $N_s$ scaling of the power loss for the split waveguide approach, higher energy gains per stage rapidly become prohibitive as the resulting gradient drops exponentially and the number of required waveguides increases. In Ref. \cite {hughes2018chip} this difficulty was addressed by cascading multiple laser-coupled stages in series to achieve a reasonable energy gain of 1 MeV.  In contrast, as seen in Fig. \ref{fig:plots} the direct coupling approach can in principle achieve this with one acceleration stage and one input laser, requiring 144 waveguides over a length of 2.8 mm with a gradient of 350 MeV/m. These are promising numbers for a DLA structure and may be improved primarily by optimizing for higher values of $\kappa$ and $\Np$, which may be accomplished using inverse design techniques \cite{hughes_method_2017}.
+However, the results in Fig. \ref{fig:plots} for the split waveguide approach (solid blue curves) are somewhat more optimistic than those of the prior work, as recent experiments \cite{tan2019silicon, bar2019design} have provided evidence for larger values of $U_d$ and $\kappa$ than were previously assumed. These more optimistic parameters are reflected in Table \ref{tab:params_MZI}. However, due to the $N_s$ scaling of the power loss for the split waveguide approach, higher energy gains per stage rapidly become prohibitive as the resulting gradient drops exponentially and the number of required waveguides increases. In Ref. \cite {hughes_-chip_2018} this difficulty was addressed by cascading multiple laser-coupled stages in series to achieve a reasonable energy gain of 1 MeV.  In contrast, as seen in Fig. \ref{fig:plots} the direct coupling approach can in principle achieve this with one acceleration stage and one input laser, requiring 144 waveguides over a length of 2.8 mm with a gradient of 350 MeV/m. These are promising numbers for a DLA structure and may be improved primarily by optimizing for higher values of $\kappa$ and $\Np$, which may be accomplished using inverse design techniques \cite{hughes_method_2017}.
 
 \begin{table}[!h]
 % Table captions go at the top.
@@ -829,10 +838,10 @@ $\zeta$ & geometrical mode factor & $\pi$/2 & - \\
 \begin{figure}[!h]
 \centering
 \includegraphics[width=0.7\columnwidth]{figures/MZI_param}
-\caption{\label{fig:plots} \textbf{Figure of merit scaling for different laser coupling architectures.} Solid blue lines refer to the results using the system of Ref \cite{hughes2018chip}, in which all optical power is initially coupled at a single input facet. Red dotted lines refer to the structure from this work.  \textbf{a}  The acceleration gradient as a function of electron energy gain.  For the splitting structure, the acceleration gradient diminishes rapidly as the length of acceleration is increased to match the desired energy gain.  However, the structure from this work achieves uniform gradient in principle.  \textbf{b}  The number of output waveguides ($N$) required to achieve an given energy gain of $\DE$.  \textbf{c}  The acceleration length ($L$) required to achieve an given energy gain of $\DE$.}
+\caption{\label{fig:plots} \textbf{Figure of merit scaling for different laser coupling architectures.} Solid blue lines refer to the results using the system of Ref \cite{hughes_-chip_2018}, in which all optical power is initially coupled at a single input facet. Red dotted lines refer to the structure from this work.  \textbf{a}  The acceleration gradient as a function of electron energy gain.  For the splitting structure, the acceleration gradient diminishes rapidly as the length of acceleration is increased to match the desired energy gain.  However, the structure from this work achieves uniform gradient in principle.  \textbf{b}  The number of output waveguides ($N$) required to achieve an given energy gain of $\DE$.  \textbf{c}  The acceleration length ($L$) required to achieve an given energy gain of $\DE$.}
 \end{figure}
 
-\section{\label{sec:discussion}Discussion}
+\section{\label{sec:discussion}Outlook and Conclusions}
 
 Our proposal provides a method for automated control of DLA systems and eliminates the major issues with previous laser coupling schemes.  We show that MZI meshes are a promising candidate for a power distribution system for DLA and our findings may be applied to other applications in integrated optics requiring power routing.  The proposal given here only uses existing optical components and, therefore, should be feasible for an experimental demonstration.
 
@@ -841,8 +850,6 @@ The procedure we introduce for optimizing the MZI mesh to achieve arbitrary powe
 We show that a shallow Clements mesh is sufficient for equalizing power from random inputs.  This is of crucial importance for DLA applications where there are limitations on the chip space available for phase shifters and electrical contacts.  It also means that a shorter propagation length within the waveguides can be achieved, which reduces the possible nonlinear effects.  Having a shallow mesh also allows the device to retain a large bandwidth, which decreases with the number of MZIs in an optical path.  This is crucially important for handling sub-picosecond driving pulses used in DLA.  However, the bandwidth of MZI meshes and its scaling with respect to network size is not yet fully understood.  This will need to be tested experimentally or with a separate numerical study.
 
 The optimization protocol presented here decomposes the global optimization problem of tuning the entire mesh into several subproblems involving tuning the individual MZIs.  However, alternatively a gradient-based approach may potentially be used to train the full mesh.  It was shown previously \cite{hughes2018training} that the gradient of the output of an MZI mesh with respect to the dielectric function of each of the phase shifters may be measured experimentally using adjoint fields \cite{veronis_method_2004}. Interestingly, for the case of maximizing the acceleration of a DLA, it was independently shown that the corresponding adjoint fields are given exactly by the fields radiated by the electron beam \cite{hughes_method_2017}.  This suggests an interesting approach to optimizing the MZI mesh towards maximum acceleration by first measuring the radiation from test electron beam, and then using the protocol from Ref. \cite{hughes2018training} to measure the derivative of the acceleration with respect to each of the phase shifters.  With this, one may do parallel, gradient-based updates of the phase shifters and optimize arbitrarily large grids with high efficiency. This idea may be explored in a future study.
-
-\section{Conclusions}
 
 Overall, these studies indicates that integrated optical power delivery systems are worth continuing to pursue for DLA.  We presented a path towards automatic power distribution, which is an essential component towards scaling DLA to longer length scales and exciting applications.  We also provide a novel application of the MZI mesh, which is already finding many applications in other exciting reconfigurable optics applications.  Our efficient protocol for optimizing an MZI for arbitrary power distribution may also find many applications beyond DLA.
 

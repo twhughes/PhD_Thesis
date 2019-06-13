@@ -1,9 +1,5 @@
 %!TEX root = ../main.tex
 
-\section{Photonics}
-
-% need some figures probably
-
 The field of photonics is concerned with the study and manipulation of light.
 This endeavor has given rise to countless technologies of great practical and scientific interest.
 Most prominently, the use of light as an information carrier has enabled high speed and low loss communications through the use of optical fiber technologies \cite{agrawal_fiber-optic_2012}.
@@ -23,7 +19,7 @@ Integrated photonics is also a promising candidate for building hardware platfor
 As the transmission of an image through an optical lens passively performs a Fourier transform, reconfigurable integrated photonic devices are capable of performing arbitrary linear operations through pure transmission of optical signals through their domain.
 As machine learning models are often dominated by linear operations, this technology may provide a platform with higher processing speed, lower energy usage when compared to conventional digital electronics.
 
-\section{Designing of Photonic Devices}
+\section{Photonic Device Design}
 
 \subsection{Traditional Design Approach}
 
@@ -52,7 +48,7 @@ A few early examples include the use of inverse design to engineer wavelength sp
 More recently, it was applied to engineer more exotic phenomena, such as the photonic crystal band structure [PhC band], nonlinear optical responses \cite{lin_cavity-enhanced_2016}, and metamaterials \cite{sigmund_systematic_2009}.
 For a thorough overview of the progress of inverse design in photonics at the time of publishing, we refer the reader to Ref. \citenum{molesky_inverse_2018}.
 
-\section{Introduction to Adjoint Method}
+\section{Adjoint Method}
 
 As we will explore in detail, the ability to perform inverse design is largely enabled by the ability to efficiently search such a large parameter space.
 Typically, this is performed using \textit{gradient-based optimization} techniques, which use local gradient information to iteratively progress through the design space.
