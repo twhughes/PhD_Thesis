@@ -1,52 +1,52 @@
 %!TEX root = ../main.tex
 
-In this chapter, we will shift gears to discuss optical hardware platforms for machine learning applications.
-The field of machine learning has seen an impressive revival in the past decade, with several applications from machine translation [cite], computer vision [cite], health and medicine [cite], and game playing [cite].
-While the basic ideas of machine learning, and \textit{deep learning} have existed for several decades, this recent success may be largely attributed to (1) the widespread availability of hardware platforms capable of runnin gthese models efficently, and (2) the accessability of large datasets needed to train these models.
+In this chapter, we will shift gears and discuss optical hardware platforms for machine learning applications.
+The field of machine learning has seen an impressive revival in the past decade, with several applications from machine translation \cite{brown1993mathematics}, computer vision \cite{faugeras1993three}, health and medicine \cite{esteva2017dermatologist}, and game playing \cite{silver2017mastering}.
+While the basic ideas and models of machine learning, and \textit{deep learning} \cite{goodfellow2016deep,lecun2015deep} have existed for several decades, this recent success may be largely attributed to (1) the widespread availability of hardware platforms capable of running these models efficently, and (2) the accessability of large datasets needed to train these models.
 
-Indeed, with the new applications and models introduced in recent years, the hardware demand continues to rise exponentially over time, as evidenced by [cite deep mind].
+Indeed, with the new applications and models introduced in recent years, the hardware demand continues to rise exponentially over time.
 One common approache to satisfying this demand involves running the computation on graphical processing units (GPUs), which creates benefits from massive parallelization.
 Along this line, companies are beginning to invest in hardware platforms that are specially designed to run machine learning software platforms.
 One such example is the \textit{tensor processing unit} (TPU), which runs Google's Tensorflow package.
 
 Alternatively, technologies are being considered that would replace the typical digital electronics hardware architectures with those more suited for machine learning computation.
-This is evidenced by the renewed interest in analog computing and quantum machine learning [cite], in which a physical system is used to emulate the machine learning model.
-Other groups have attempted to create \textit{neuromorphic} hardware, which is designed to vaguely mimick the circuitry of the human brain.
+This is evidenced by the renewed interest in analog computing and quantum machine learning  \cite{biamonte_quantum_2017}, in which a physical system is used to emulate the machine learning model.
+Other groups have attempted to create \textit{neuromorphic} hardware, which is designed to vaguely mimick the circuitry of the human brain \cite{tait_neuromorphic_2017}.
 
-Of great interest amoung these new platforms are so-called \textit{linear nanophotonic processors}.
+Of great interest amoung these new platforms are so-called \textit{linear nanophotonic processors} \cite{harris2018linear}.
 The idea here is to replace the linear elements common to most machine learning models with linear optical devices that may perform linear operations via transmission of light through their components.
-While this idea has existed for quite some time [cite miller], its implementation for deep learning was recently demonstrated in a photonic integrated circuit [cite yichen] and has been used in recent years for quantum information processing [cite obrien and other quantum].
+While this idea has existed for quite some time \cite{miller_sorting_2015,Miller2015,Miller2013a,miller_perfect_2015,miller_self-aligning_2013}, its implementation for deep learning was recently demonstrated in a photonic integrated circuit \cite{shen2017deep} and has been used in recent years for quantum information processing \cite{obrien_photonic_2009}.
 The main advantage of this technique is that it can, in principle, perform these crucial operations faster, with lower latency, and with a low energy cost when compared to digital electronics.
 A further benefit is that the operations, themselves, may be reconfigured using standard optical components, such as phase shifters.
 This ability will be necessary for the training of these platforms, as we will discuss.
 
 \section{Optical Neural Networks}
 
-Here we briefly review the basics of feedforward artificial neural networks (ANNs) and describe their implementation in a reconfigurable optical circuit, as proposed in Ref. \citenum{shen_deep_2017}.
-An ANN is a function which accepts an input vector, $x_0$ and returns an output vector, $x_L$.  
-This is accomplished in a layer-by-layer fashion, with each layer consisting of a linear matrix-vector multiplication followed by the application of an element-wise nonlinear function, or \textit{activation}, on the result.  
-For a layer with index $i$, containing a weight matrix $\hat{W}_i$ and activation function $f_i(\cdot)$, its operation is described mathematically as
-\begin{equation}
-   x_i = f_i{\left( \hat{W}_i \cdot x_{i-1} \right)}
-\end{equation}
-for $i$ from 1 to $L$.
+% Here we briefly review the basics of feedforward artificial neural networks (ANNs) and describe their implementation in a reconfigurable optical circuit, as proposed in Ref. \citenum{shen_deep_2017}.
+% An ANN is a function which accepts an input vector, $x_0$ and returns an output vector, $x_L$.  
+% This is accomplished in a layer-by-layer fashion, with each layer consisting of a linear matrix-vector multiplication followed by the application of an element-wise nonlinear function, or \textit{activation}, on the result.  
+% For a layer with index $i$, containing a weight matrix $\hat{W}_i$ and activation function $f_i(\cdot)$, its operation is described mathematically as
+% \begin{equation}
+%    x_i = f_i{\left( \hat{W}_i \cdot x_{i-1} \right)}
+% \end{equation}
+% for $i$ from 1 to $L$.
 
-Before they are able to perform a given machine learning task, ANNs must be trained. 
-The training process is typically accomplished by minimizing the prediction error of the ANN on a set of training examples, which come in the form of input and target output pairs. 
-For a given ANN, a loss function is defined to quantify the difference between the target output and output predicted by the network.  
-During training, this loss function is minimized with respect to tunable degrees of freedom, namely the elements of the weight matrix $\hat{W}_i$ within each layer. 
-In general, although less common, it is also possible to train the parameters of the activation functions \cite{trentin_networks_2001}.
+% Before they are able to perform a given machine learning task, ANNs must be trained. 
+% The training process is typically accomplished by minimizing the prediction error of the ANN on a set of training examples, which come in the form of input and target output pairs. 
+% For a given ANN, a loss function is defined to quantify the difference between the target output and output predicted by the network.  
+% During training, this loss function is minimized with respect to tunable degrees of freedom, namely the elements of the weight matrix $\hat{W}_i$ within each layer. 
+% In general, although less common, it is also possible to train the parameters of the activation functions \cite{trentin_networks_2001}.
 
 There are significant efforts in constructing artificial neural network architectures using various electronic solid-state platforms \cite{Merolla2014,Prezioso2015}, but ever since the conception of ANNs, a hardware implementation using optical signals has also been considered \cite{Abu-Mostafa1987, Jutamulia1996}. In this domain, some of the recent work has been devoted to photonic spike processing \cite{Rosenbluth2009, Tait2014} and photonic reservoir computing \cite{Brunner2013, Vandoorne2014}, as well as to devising universal, chip-integrated photonic platforms that can implement any arbitrary ANN \cite{Shainline2017, Shen2017}.  Photonic implementations benefit from the fact that, due to the non-interacting nature of photons, linear operations -- like the repeated matrix multiplications found in every neural network algorithm -- can be performed in parallel, and at a lower energy cost, when using light as opposed to electrons. 
 
 A key requirement for the utility of any ANN platform is the ability to train the network using algorithms such as error backpropagation \cite{Rumelhart1986}. Such training typically demands significant computational time and resources and it is generally desirable for error backpropagation to implemented on the same platform. This is indeed possible for the technologies of Refs. \cite{Merolla2014, Graves2016, hermans2015trainable} and has also been demonstrated e.g. in memristive devices \cite{alibart2013pattern, Prezioso2015}. In optics, as early as three decades ago, an adaptive platform that could approximately implement the backpropagation algorithm experimentally was proposed \cite{wagner1987multilayer,psaltis1988adaptive}. However, this algorithm requires a number of complex optical operations that are difficult to implement, particularly in integrated optics platforms. Thus, the current implementation of a photonic neural network using integrated optics has been trained using a model of the system simulated on a regular computer \cite{Shen2017}. This is inefficient for two reasons. First, this strategy depends entirely on the accuracy of the model representation of the physical system. Second, unless one is interested in deploying a large number of identical, fixed copies of the ANN, any advantage in speed or energy associated with using the photonic circuit is lost if the training must be done on a regular computer.  Alternatively, training using a brute force, \textit{in situ} computation of the gradient of the objective function has been proposed \cite{Shen2017}. However, this strategy involves sequentially perturbing each individual parameter of the circuit, which is highly inefficient for large systems.
 
-To overcome this, we proposed \cite{hughes2018training} a procedure to compute the gradient of the cost function of a photonic ANN by use of only \textit{in situ} intensity measurements.    Our procedure works by \textit{physically} implementing the adjoint variable method (AVM), a technique that has typically been implemented computationally in the optimization and inverse design of photonic structures \cite{Georgieva2002, Veronis2004, hughes_method_2017}.  Furthermore, the method scales in constant time with respect to the number of parameters, which allows for backpropagation to be efficiently implemented in a hybrid opto-electronic network.  Although we focus our discussion on a particular hardware implementation of a photonic ANN, our conclusions are derived starting from Maxwell’s equations, and may therefore be extended to other photonic platforms.
-
+To overcome this, we proposed \cite{hughes2018training} a procedure to compute the gradient of the cost function of a photonic ANN by use of only \textit{in situ} intensity measurements.    Our procedure works by \textit{physically} implementing the adjoint method in the device \cite{Georgieva2002, Veronis2004, hughes_method_2017}.  As discussed, the adjoint method scales in constant time with respect to the number of parameters, which allows for backpropagation to be efficiently implemented in a hybrid opto-electronic network.  Although we focus our discussion on a particular hardware implementation of a photonic ANN, our conclusions are derived starting from Maxwell’s equations, and may therefore be extended to other photonic platforms.
 
 First, we introduce the operation and gradient computation of a feed-forward photonic ANN.  In its most general case, a feed-forward ANN maps an input vector to an output vector via an alternating sequence of linear operations and element-wise nonlinear functions of the vectors, also called `activations'.  A cost function, $\mathcal{L}$, is defined over the outputs of the ANN and the matrix elements involved in the linear operations are tuned to minimize $\mathcal{L}$ over a number of training examples via gradient-based optimization.  The \textit{backpropagation algorithm} is typically used to compute these gradients analytically by sequentially utilizing the chain rule from the output layer backwards to the input layer.
 
-Here, we will outline these steps mathematically for a single training example, with the procedure diagrammed in Fig. \ref{fig:backprop}a.  We focus our discussion on the photonic hardware platform presented in \cite{Shen2017}, which performs the linear operations using optical interference units (OIUs).  The OIU is a mesh of controllable Mach-Zehnder interferometers (MZIs) integrated in a silicon photonic circuit. By tuning the phase shifters integrated in the MZIs, any unitary $N \times N$ operation on the input can be implemented \cite{Reck1994,Clements2016}, which finds applications both in classical and quantum photonics \cite{Carolan2015, Harris2017}.  In the photonic ANN implementation from Ref. \cite{Shen2017}, an OIU is used for each linear matrix-vector multiplication, whereas the nonlinear activations are performed using an electronic circuit, which involves measuring the optical state before activation, performing the nonlinear activation function on an electronic circuit such as a digital computer, and preparing the resulting optical state to be injected to the next stage of the ANN.
+Here, we will outline these steps mathematically for a single training example, with the procedure diagrammed in Fig. \ref{fig:backprop}a.  We focus our discussion on the photonic hardware platform presented in \cite{Shen2017}, which performs the linear operations using optical interference units (OIUs).  The OIU is a mesh of controllable Mach-Zehnder interferometers (MZIs) integrated in a silicon photonic circuit. It is worth noting that this is the same component proposed in the previous Chapter to control power delivery to the accelerator on a chip.
+By tuning the phase shifters integrated in the MZIs, any unitary $N \times N$ operation on the input can be implemented \cite{Reck1994,Clements2016}, which finds applications both in classical and quantum photonics \cite{Carolan2015, Harris2017}.  In the photonic ANN implementation from Ref. \cite{Shen2017}, an OIU is used for each linear matrix-vector multiplication, whereas the nonlinear activations are performed using an electronic circuit, which involves measuring the optical state before activation, performing the nonlinear activation function on an electronic circuit such as a digital computer, and preparing the resulting optical state to be injected to the next stage of the ANN.
 
 We first introduce the notation used to describe the OIU, which consists of a number, $N$, of single-mode waveguide input ports coupled to the same number of single-mode output ports through a linear and lossless device. In principle, the device may also be extended to operate on a different number of inputs and outputs. We further assume directional propagation such that all power flows exclusively from the input ports to the output ports, which is a typical assumption for the devices of Refs. \cite{Miller2013a, Shen2017, Harris2017, Carolan2015, Reck1994,Miller2013,Clements2016}. In its most general form, the device implements the linear operation
 \begin{equation}
@@ -89,9 +89,44 @@ Now we may use this notation to describe the forward and backward propagation st
 \end{equation}
 Finally, our cost function $\mathcal{L}$ is an explicit function of the outputs from the last layer, $\mathcal{L} = \mathcal{L}(\mathbf{X}_L)$.  This process is shown in Fig. \ref{fig:backprop}(a).
 
+
+The onlinear activation functions, $\mathbf{f}_l()$, play a key role in ANNs by enabling them to learn complex mappings between their inputs and outputs. 
+Whereas digital processors have the expressiveness to trivially apply nonlinearities such as the widely-used \texttt{sigmoid}, \texttt{ReLU}, and \texttt{tanh} functions, the realization of nonlinearities in optical hardware platforms is more challenging. 
+One reason for this is that optical nonlinearities are relatively weak, necessitating a combination of large interaction lengths and high signal powers, which impose lower bounds on the physical footprint and the energy consumption, respectively. 
+Although it is possible to resonantly enhance optical nonlinearities, this comes with an unavoidable trade-off in reducing the operating bandwidth, thereby limiting the information processing capacity of an ONN. 
+Additionally, maintaining uniform resonant responses across many elements of an optical circuit necessitates additional control circuitry for calibrating each element \cite{radulaski_thermally_2018}.
+
+A more fundamental limitation of optical nonlinearities is that their responses tend to be fixed during device fabrication. 
+This limited tunability of the nonlinear optical response prevents an ONN from being reprogrammed to realize different forms of nonlinear activation functions, which may be important for tailoring ONNs for different machine learning tasks. 
+Similarly, a fixed nonlinear response may also limit the performance of very deep ONNs with many layers of activation functions since the optical signal power drops below the activation threshold, where nonlinearity is strongest, in later layers due to loss in previous layers. 
+For example, with optical saturable absorption from 2D materials in waveguides, the activation threshold is on the order of 1-10 mW \cite{bao_monolayer_2011, park_monolayer_2015, jiang_low-dimensional_2018}, meaning that the strength of the nonlinearity in each subsequent layer will be successively weaker as the transmitted power falls below the threshold.
+
+In light of these challenges, the ONN demonstrated in Ref. \citenum{shen_deep_2017} implemented its activation functions by detecting each optical signal, feeding them through a conventional digital computer to apply the nonlinearity, and then modulating new optical signals for the subsequent layer. 
+Although this approach benefits from the flexibility of digital signal processing, conventional processors have a limited number of input and output channels, which make it challenging to scale this approach to very large matrix dimensions, which corresponds to a large number of optical inputs. 
+Moreover, digitally applied nonlinearities add latency from the analog-to-digital conversion process and constrain the computational speed of the neural network to the same GHz-scale clock rates which ONNs seek to overcome. 
+Thus, a hardware nonlinear optical activation, which doesn't require repeated bidirectional optical-electronic signal conversion, is of fundamental interest for making integrated ONNs a viable machine learning platform.
+
+For this purpose,  as diagrammed in Fig. \ref{fig:overview}, we proposed an electro-optic architecture for synthesizing optical-to-optical nonlinearities which alleviates the issues discussed above.
+Our architecture features complete \textit{on}-\textit{off} contrast in signal transmission, a variety of nonlinear response curves, and a low activation threshold. 
+Rather than using traditional optical nonlinearities, our scheme operates by measuring a small portion of the incoming optical signal power and using electro-optic modulators to modulate the original optical signal, without any reduction in operating bandwidth or computational speed. 
+Additionally, our scheme allows for the possibility of performing additional nonlinear transformations on the signal using analog electrical components. 
+Related electro-optical architectures for generating optical nonlinearities have been previously considered \cite{lentine_evolution_1993, majumdar_cavityenabled_2014, tait_silicon_2018}. 
+While we focused on the application of our architecture as an element-wise activation in a feedforward ONN, but the synthesis of low-threshold optical nonlinearities could be of broader interest to optical computing and information processing.  For more information on this work, we refer the reader to Ref.~\citenum{williamson_reprogrammable_2019}.
+
+\begin{figure*}
+  \centering
+  \includegraphics{figures/insitu_activation}
+  \caption{(a) Block diagram of a feedforward neural network of $L$ layers. 
+  Each layer consists of a $\hat{W}_i$ block representing a linear matrix which multiplies vector inputs $x_{i-1}$. 
+  The $f_i$ block in each layer represents an element-wise nonlinear activation function operating on vectors $z_i$ to produce outputs $x_{i}$.
+  (b) Schematic of the optical interferometer mesh implementation of a single layer of the feedforward neural network. 
+  (c) Schematic of the proposed optical-to-optical activation function which achieves a nonlinear response by converting a small portion of the optical input, $z$ into an electrical signal, and then intensity modulating the remaining portion of the original optical signal as it passes through an interferometer.}
+  \label{fig:overview}
+\end{figure*}
+
 \section{Training of Optical Hardware}
 
-To train the network, we must minimize this cost function with respect to the linear operators, $\hat{W}_l$, which may be adjusted by tuning the integrated phase shifters within the OIUs.  While a number of recent papers have clarified how an individual OIU can be tuned by sequential,  \textit{in situ} methods to perform an arbitrary, pre-defined operation \cite{Miller2013, Miller2013a, Miller2015, Annoni2017}, these strategies do not straightforwardly apply to the training of ANNs, where nonlinearities and several layers of computation are present.  In particular, the training of ANN requires gradient information which is not provided directly in the methods of Ref. \cite{Miller2013, Miller2013a, Miller2015, Annoni2017}.
+To train the network, we must minimize the cost function with respect to the linear operators, $\hat{W}_l$, which may be adjusted by tuning the integrated phase shifters within the OIUs.  While a number of recent papers have clarified how an individual OIU can be tuned by sequential,  \textit{in situ} methods to perform an arbitrary, pre-defined operation \cite{Miller2013, Miller2013a, Miller2015, Annoni2017}, these strategies do not straightforwardly apply to the training of ANNs, where nonlinearities and several layers of computation are present.  In particular, the training of ANN requires gradient information which is not provided directly in the methods of Ref. \cite{Miller2013, Miller2013a, Miller2015, Annoni2017}.
 
 In Ref. \cite{Shen2017}, the training of the ANN was done \textit{ex situ} on a computer model of the system, which was used to find the optimal weight matrices $\hat{W}_l$ for a given cost function. Then, the final weights were recreated in the physical device, using an idealized model that relates the matrix elements to the phase shifters. Ref. \cite{Shen2017} also discusses a possible \textit{in situ} method for computing the gradient of the ANN cost function through a serial perturbation of every individual phase shifter (`brute force' gradient computation). However, this gradient computation has an unavoidable linear scaling with the number of parameters of the system.  The training method that we propose here operates without resorting to an external model of the system, while allowing for the tuning of each parameter to be done in parallel, therefore scaling significantly better with respect to the number of parameters when compared to the brute force gradient computation.
 
@@ -223,6 +258,7 @@ Inserting this into Eq. (\ref{eq:objective_function_derivative_simple}), we thus
 This result now allows for the computation in parallel of the gradient of the loss function with respect to \textit{all} phase shifters in the system, given knowledge of the original and adjoint fields.
 
 \begin{figure}[ht!]
+\centering
 \includegraphics[width=0.7\textwidth]{figures/insitu_TR}
 \caption{\label{fig:TR_schematic} Schematic illustration of our proposed method for experimental measurement of gradient information. The box region represents the OIU.  The colored ovals represent tunable phase shifters, and we illustrate computing the gradient with respect to the red and the yellow phase shifters, labeled $1$ and $2$, respectively. (a): We send the original set of amplitudes $\mathbf{X}_{l-1}$ and measure the constant intensity terms at each phase shifter. (b): We send the adjoint mode amplitudes, given by $\boldsymbol{\delta}_l$, through the output side of our device, recording $\mathbf{X}_{TR}^*$ from the opposite side, as well as $|\mathbf{e}_\textrm{aj}|^2$ in each phase-shifter. (c): We send in $\mathbf{X}_{l-1}$ + $\mathbf{X}_{TR}$, interfering $\mathbf{e}_{\textrm{og}}$ and $\mathbf{e}_\textrm{aj}^*$ inside the device and recovering the gradient information for all phase shifters simultaneously.}
 \end{figure}
@@ -275,6 +311,7 @@ We note that in a realistic system, the gradient must be constant for any stretc
 Finally, we note that this numerically generated system experiences a total power loss of 41\% due to scattering caused by very sharp bends and stair-casing of the structure in the simulation.  We also observe approximately 5-10\% mode-dependent loss, as determined by measuring the difference in total transmitted power corresponding to injection at different input ports.  Minimal amounts of reflection are also visible in the field plots.  Nevertheless, the time-reversal interference procedure still reconstructs the adjoint sensitivity with very good fidelity.
 
 \begin{figure}
+\centering
 \includegraphics[width=\columnwidth]{figures/insitu_ANN_demo}
 \caption{Numerical demonstration of a photonic ANN implementing an XOR gate using the backpropagation algorithm and adjoint method described in this work. (a) The architecture of the ANN.  Two layers of $3 \times 3$ OIUs with $z^2$ activations.  (b) The mean-squared error (MSE) between the predictions and targets as a function of training iterations. (c) The absolute value of the network predictions (blue circles) and targets (black crosses) before training.  (d) The absolute value of the network predictions after training, showing that the network has successfully learned the XOR function. \label{fig:demo} }
 \end{figure}
@@ -292,7 +329,7 @@ As diagrammed in Fig. \ref{fig:demo}a, we choose a network architecture consisti
 
 For this demonstration, we utilized a matrix model of the system, as described in \cite{Reck1994,Clements2016}.  This model allows us to compute an output of the system given an input mode and the settings of each phase shifter.  Although this is not a first-principle electromagnetic simulation of the system, it provides information about the complex fields at specific reference points within the circuit, which enables us to implement training using the backpropagation method, combined with the adjoint gradient calculation.  Using these methods, at each iteration of training we compute the gradient of  our cost function with respect to the phases of each of the integrated phase shifters, and sum them over the four training examples.  Then, we perform a simple steepest-descent update to the phase shifters, in accordance with the gradient information. This is consistent with the standard training protocol for an ANN implemented on a conventional computer.  Our network successfully learned the XOR gate in around 400 iterations. The results of the training are shown in Fig. \ref{fig:demo}b-d.
 
-In the main text we show how the \textit{in-situ} backpropagation method may be used to train a simple XOR network.  Here we demonstrate training on a more complex problem. Specifically, we generate a set of one thousand training examples represented by input and target $(\mathbf{X}_0 \to \mathbf{T})$ pairs. Here, $\mathbf{X}_0 = [x_1, x_2, P, 0]^T$ where $x_1$ and $x_2$ are the independent inputs, which we constrain to be real for simplicity, and $P(x_1, x_2)= \sqrt{P_0-x_1^2-x_2^2}$ represents a mode added to the third port to make the norm of $\mathbf{X}_0$ the same for each training example.  In this case, we choose $P_0 = 10$.  Each training example has a corresponding label, $y \in \{0,1\}$ which is encoded in the desired output, $\mathbf{T}$, as $[1, 0, 0, 0].^T$ and $[0, 1, 0, 0].^T$ for $y = 0$ and $y=1$ respectively.
+Next, we demonstrate training on a more complex problem. Specifically, we generate a set of one thousand training examples represented by input and target $(\mathbf{X}_0 \to \mathbf{T})$ pairs. Here, $\mathbf{X}_0 = [x_1, x_2, P, 0]^T$ where $x_1$ and $x_2$ are the independent inputs, which we constrain to be real for simplicity, and $P(x_1, x_2)= \sqrt{P_0-x_1^2-x_2^2}$ represents a mode added to the third port to make the norm of $\mathbf{X}_0$ the same for each training example.  In this case, we choose $P_0 = 10$.  Each training example has a corresponding label, $y \in \{0,1\}$ which is encoded in the desired output, $\mathbf{T}$, as $[1, 0, 0, 0].^T$ and $[0, 1, 0, 0].^T$ for $y = 0$ and $y=1$ respectively.
 
 For a given $x_1$ and $x_2$, we define $r$ and $\phi$ as the magnitude and phase of the vector $(x_1, x_2)$ in the 2D-plane, respectively. To generate the corresponding class label, we first generate a uniform random variable between 0 and 1, labeled $\mathcal{U}$, and then set $y=1$ if
 \begin{equation}
@@ -335,6 +372,8 @@ With this, we can now compute the gradient of the loss function of eq. \ref{eq:c
 
 %\textcolor{purple}{Secondly, we have used the digital units to perform the nonlinear activations and their derivatives.}  We have additionally assumed that we may store the inputs $\mathbf{X}_{l-1}$ and delta vectors $\boldsymbol{\delta}_l$ from the forward and backward propagation steps in the digital units to make the gradient computation more efficient.  \textcolor{purple}{Although these assumptions are consistent with the demonstration in \cite{Shen2017}, it would be ideal to find an optical system to replace these digital units for these functionalities}. 
  
+\subsection{Discussion}
+
 Here, we justify some of the assumptions made in this work.  Our strategy for training a photonic ANN relies on the ability to create arbitrary complex inputs.  We note that a device for accomplishing this has been proposed and discussed in \cite{Miller2017}.  Our recovery technique further requires an integrated intensity detection scheme to occur in parallel and with virtually no loss.  This may be implemented by integrated, transparent photo-detectors, which have already been demonstrated in similar systems \cite{Annoni2017}.  Furthermore, as discussed, this measurement may occur in the waveguide regions directly after the phase shifters, which eliminates the need for phase shifter and photodetector components at the same location.  Finally, in our procedure for experimentally measuring the gradient information, we suggested running isolated forward and adjoint steps, storing the intensities at each phase shifter for each step, and then subtracting this information from the final interference intensity. Alternatively, one may bypass the need to store these constant intensities by introducing a low-frequency modulation on top of one of the two interfering fields in Fig. \ref{fig:TR_schematic}(c), such that the product term of Eq. (\ref{eq:intensity_correct}) can be directly measured from the low-frequency signal.  A similar technique was used in \cite{Annoni2017}.
 
 %% New section
@@ -347,44 +386,8 @@ The problem of overfitting is one that must be addressed by `regularization' in 
 
 %% New section
 
-In conclusion, we have demonstrated a method for performing backpropagation in an ANN based on a photonic circuit.  This method works by physically propagating the adjoint field and interfering its time-reversed copy with the original field.  The gradient information can then be directly measured out as an \textit{in-situ} intensity measurement. While we chose to demonstrate this procedure in the context of ANNs, it is broadly applicable to any reconfigurable photonic system.  One could imagine this setup being used to tune phased arrays \cite{sun2013large}, optical delivery systems for dielectric laser accelerators \cite{hughes2017chip}, or other systems that rely on large meshes of integrated optical phase shifters.  Furthermore, it may be applied to sensitivity analysis of photonic devices, enabling spatial sensitivity information to be measured as an intensity in the device.
+\section{Conclusion}
+
+In this Chapter, we have demonstrated a method for performing backpropagation in an ANN based on a photonic circuit.  This method works by physically propagating the adjoint field and interfering its time-reversed copy with the original field.  The gradient information can then be directly measured out as an \textit{in-situ} intensity measurement. While we chose to demonstrate this procedure in the context of ANNs, it is broadly applicable to any reconfigurable photonic system.  One could imagine this setup being used to tune phased arrays \cite{sun2013large}, optical delivery systems for dielectric laser accelerators \cite{hughes2017chip}, or other systems that rely on large meshes of integrated optical phase shifters.  Furthermore, it may be applied to sensitivity analysis of photonic devices, enabling spatial sensitivity information to be measured as an intensity in the device.
 
 Our work should enhance the appeal of photonic circuits in deep learning applications, allowing for training to happen directly inside the device in an efficient and scalable manner.  Furthermore, this method is broadly applicable to integrated and adaptive optical systems, enabling the possibility for automatic self-configuration and optimization without resorting to brute force gradient computation or model-based methods, which often do not perfectly represent the physical system.
-
-\section{Electro-Optic Activation Functions}
-
-Nonlinear activation functions play a key role in ANNs by enabling them to learn complex mappings between their inputs and outputs. 
-Whereas digital processors have the expressiveness to trivially apply nonlinearities such as the widely-used \texttt{sigmoid}, \texttt{ReLU}, and \texttt{tanh} functions, the realization of nonlinearities in optical hardware platforms is more challenging. 
-One reason for this is that optical nonlinearities are relatively weak, necessitating a combination of large interaction lengths and high signal powers, which impose lower bounds on the physical footprint and the energy consumption, respectively. 
-Although it is possible to resonantly enhance optical nonlinearities, this comes with an unavoidable trade-off in reducing the operating bandwidth, thereby limiting the information processing capacity of an ONN. 
-Additionally, maintaining uniform resonant responses across many elements of an optical circuit necessitates additional control circuitry for calibrating each element \cite{radulaski_thermally_2018}.
-
-
-A more fundamental limitation of optical nonlinearities is that their responses tend to be fixed during device fabrication. 
-This limited tunability of the nonlinear optical response prevents an ONN from being reprogrammed to realize different forms of nonlinear activation functions, which may be important for tailoring ONNs for different machine learning tasks. 
-Similarly, a fixed nonlinear response may also limit the performance of very deep ONNs with many layers of activation functions since the optical signal power drops below the activation threshold, where nonlinearity is strongest, in later layers due to loss in previous layers. 
-For example, with optical saturable absorption from 2D materials in waveguides, the activation threshold is on the order of 1-10 mW \cite{bao_monolayer_2011, park_monolayer_2015, jiang_low-dimensional_2018}, meaning that the strength of the nonlinearity in each subsequent layer will be successively weaker as the transmitted power falls below the threshold.
-
-In light of these challenges, the ONN demonstrated in Ref. \citenum{shen_deep_2017} implemented its activation functions by detecting each optical signal, feeding them through a conventional digital computer to apply the nonlinearity, and then modulating new optical signals for the subsequent layer. 
-Although this approach benefits from the flexibility of digital signal processing, conventional processors have a limited number of input and output channels, which make it challenging to scale this approach to very large matrix dimensions, which corresponds to a large number of optical inputs. 
-Moreover, digitally applied nonlinearities add latency from the analog-to-digital conversion process and constrain the computational speed of the neural network to the same GHz-scale clock rates which ONNs seek to overcome. 
-Thus, a hardware nonlinear optical activation, which doesn't require repeated bidirectional optical-electronic signal conversion, is of fundamental interest for making integrated ONNs a viable machine learning platform.
-
-For this purpose, we proposed an electro-optic architecture for synthesizing optical-to-optical nonlinearities which alleviates the issues discussed above \cite{williamson_reprogrammable_2019}. 
-Our architecture features complete \textit{on}-\textit{off} contrast in signal transmission, a variety of nonlinear response curves, and a low activation threshold. 
-Rather than using traditional optical nonlinearities, our scheme operates by measuring a small portion of the incoming optical signal power and using electro-optic modulators to modulate the original optical signal, without any reduction in operating bandwidth or computational speed. 
-Additionally, our scheme allows for the possibility of performing additional nonlinear transformations on the signal using analog electrical components. 
-Related electro-optical architectures for generating optical nonlinearities have been previously considered \cite{lentine_evolution_1993, majumdar_cavityenabled_2014, tait_silicon_2018}. 
-In this work, we focus on the application of our architecture as an element-wise activation in a feedforward ONN, but the synthesis of low-threshold optical nonlinearities could be of broader interest to optical computing and information processing.
-
-
-\begin{figure*}
-  \centering
-  \includegraphics{figures/insitu_activation}
-  \caption{(a) Block diagram of a feedforward neural network of $L$ layers. 
-  Each layer consists of a $\hat{W}_i$ block representing a linear matrix which multiplies vector inputs $x_{i-1}$. 
-  The $f_i$ block in each layer represents an element-wise nonlinear activation function operating on vectors $z_i$ to produce outputs $x_{i}$.
-  (b) Schematic of the optical interferometer mesh implementation of a single layer of the feedforward neural network. 
-  (c) Schematic of the proposed optical-to-optical activation function which achieves a nonlinear response by converting a small portion of the optical input, $z$ into an electrical signal, and then intensity modulating the remaining portion of the original optical signal as it passes through an interferometer.}
-  \label{fig:overview}
-\end{figure*}

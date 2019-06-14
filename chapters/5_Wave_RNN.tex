@@ -1,8 +1,5 @@
-Furthermore, analog computing platforms, which use the natural evolution of a continuous physical system to perform calculations, are also emerging as important direction for implementation of machine learning \cite{shen_deep_2017, biamonte_quantum_2017, laporte2018numerical, lin2018all, khoram_stochastic_2018}.
+In the previous Chapter, we demonstrated that one may use the adjoint method to compute the gradient of a device that is parameterized by optical phase shifters.  This allowed us to train a common class of optical neural network based on MZI arrays.  In this section, we will continue to explore the use of the adjoint method in training of optical machine learning hardware, but will take a more general picture.  Specifically, we will discuss the use of an optical system (or a wave system, more generally), as an analog computing platform for processing time series signals.  We will show that the adjoint method may be used to find a patterning of such devices that accomplishes this.
 
-Here, we identify a mapping between the dynamics of wave-based physical phenomena, such as acoustics and optics, and the computation in a recurrent neural network (RNN).
-RNNs are one of the most important machine learning models and have been widely used to perform tasks such as natural language processing \cite{yao2013recurrent} and time-series prediction \cite{husken_recurrent_2003, dorffner_neural_1996, connor_recurrent_1994}.
-Here we show that wave-based physical systems can be trained to operate as an RNN, and as a result can \textit{passively} process signals and information in their native domain, without analog-to-digital conversion, which should result in a significant gain in speed and a reduction in power consumption.
 % In this framework, rather than using reflections or feedback circuits, the recurrence relationship occurs naturally in the time dynamics of the physics itself and the memory and information processing is provided by the waves as they propagate through space.
 
 % To train the analog RNN, we show that standard gradient-based optimization techniques, as used in the field of machine learning, can tailor the physical characteristics of the system for a given task.
@@ -11,6 +8,13 @@ Here we show that wave-based physical systems can be trained to operate as an RN
 % Our results demonstrate that such an approach can achieve high classification accuracy and is capable of generalizing to unseen vowel samples, with performance comparable to that of a conventional RNN.
 
 \section{Wave Physics as a Recurrent Neural Network}
+
+Analog computing platforms, which use the natural evolution of a continuous physical system to perform calculations, are emerging as important direction for implementation of machine learning \cite{shen_deep_2017, biamonte_quantum_2017, laporte2018numerical, lin2018all, khoram_stochastic_2018}.
+Such a scheme has a number of potential benefits. Namely, they are able to \textit{passively} process signals and information in their native domain, without analog-to-digital conversion, which should result in a significant gain in speed and a reduction in power consumption.
+
+Here, we identify a mapping between the dynamics of wave-based physical phenomena, such as acoustics and optics, and the computation in a recurrent neural network (RNN).
+RNNs are one of the most important machine learning models and have been widely used to perform tasks such as natural language processing \cite{yao2013recurrent} and time-series prediction \cite{husken_recurrent_2003, dorffner_neural_1996, connor_recurrent_1994}.
+Here we show that wave-based physical systems can be trained to operate as an RNN, and as a result can \textit{passively} process signals and information in their native domain, without analog-to-digital conversion, which should result in a significant gain in speed and a reduction in power consumption.
 
 An RNN converts a sequence of inputs into a sequence of outputs by applying the same basic operation to each member of the input sequence in a step-by-step fashion (Fig \ref{fig:RNN}A). 
 Memory of previous time steps is encoded into the RNN's \textit{hidden state}, which is updated at each step.
