@@ -145,7 +145,7 @@ More abstractly, we may write \eq{FDFD_analytical} as
 %
 where $A$ is a sparse, complex symmetric matrix that encodes Maxwell's equations in the presence of the device.
 $\bfx$ is a vector containing the electromagnetic fields at each position in the domain, which are the solution to \eq{FDFD_simple} given the vector $\bfb$ describing the electric current source distribution in the domain.
-When the number of grid points is small, \eq{FDFD_simle} is typically solved using lower-upper (LU) decomposition techniques.
+When the number of grid points is small, \eq{FDFD_simple} is typically solved using lower-upper (LU) decomposition techniques.
 However, in several cases, it must be solved using iterative methods instead \cite{shin2012choice}.
 
 Our device is described by a set of design variables $\bm{\phi}$, which influence the system matrix, $A = A(\bfphi)$.
