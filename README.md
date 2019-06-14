@@ -10,4 +10,5 @@ Running `bash startup.sh` will open the pdf and sublime text in fullscreen and s
 
 `commands.tex` holds the custom commands used in the text.
 
+
 Enjoy!

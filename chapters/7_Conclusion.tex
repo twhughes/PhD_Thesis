@@ -1,3 +1,32 @@
 %!TEX root = ../main.tex
 
-As we have seen, the adjoint method is an incredibly powerful tool for creating novel integrated photonics devices through inverse design.
+The adjoint method is an incredibly powerful tool for creating novel integrated photonics devices through inverse design.
+As we have demonstrated throughout this thesis, the application of this method in photonics may give rise to compact, performant devices in a wide range of applications.
+
+We first showed that the adjoint method could be applied to optimize the performance of a laser-driven particle accelerator.
+In this study, we developed optical structures that have a factor of 3 improvement over existing structures.
+Furthermore, these structures had a final design that was incredibly close to those designed independently through human intuition.
+Another interesting observation was that the same final structures were found no matter the starting condition, which suggests that this problem may be convex.
+The convexity of different inverse design problems in photonics is an interesting area that may be explored in future works.
+Finally, we showed that the adjoint current source for this problem corresponded to the current source of an electron traversing the structure.
+This makes intuitive sense as radiation of charged particles is the reciprocal problem to acceleration.
+
+We then discussed, in great detail, the use of integrated photonic circuits to scale DLA technology to long interaction lengths.
+This is a promising avenue for performing reconfigurable manipulation and delivery of the laser pulses using precision components made through nanofabrication.
+This conceptual advance may allow DLA to move from its current stage as a proof-of-principle technology to many exciting practical applications.
+We discussed the use of a tree-network structure of dielectric waveguides and considered its many opposing constraints and practical considerations.
+Through a parameter study, we showed that there are optimal operating conditions for such a device, which require a moderate amount of resonance in the accelerator structure to counterbalance the effect of damage at the input couplers.
+Feedback mechanisms may be necessary to optimize the phase of each stage of this accelerator, which may be implemented directly on chip.
+We also considered the use of reconfigurable photonics platforms for optimized power delivery to such an accelerator, which are projected to provide substantial improvements to the performance of such a device.
+
+We then discussed optical hardware for machine learning applications.
+We showed that, for optical neural networks implemented using meshes of Mach Zehnder Interferometers, one may perform training of such a system using what we call \textit{in situ backpropagation}.  In this formalism, we may express the gradient calculation of the neural network as an adjoint problem.
+We further introduced a general method for experimentally measuring the adjoint gradients of any linear optical system through \textit{in situ} intensity measurements.
+This innovation therefore allows efficient, model-free training of optical neural network hardware.
+
+We showed, more generally, that adjoint method may be used to design optical and acoustic devices for performing machine learning on sequence data.  By patterning a wave system using a design obtained through adjoint-based optimization, we showed that one may perform vowel classification through the propagation of raw audio waveforms through a device.  This finding opens up the possibility of implementing analog computers for machine learning in wave systems, such as optical, acoustic, or even fluidic systems.  Such devices may benefit from higher processing speed, lower latency, and higher energy efficiency when compared to conventional digital electronic platforms.
+
+Finally, we discussed the extension of the adjoint method to nonlinear optical systems.
+This formalism serves as a more general adjoint framework that may be incredibly useful in designing a new class of nonlinear photonic structures.
+
+In conclusion, the adjoint method is an important conceptual and practical tool for the field of photonics.  There are many novel areas that it may benefit, from machine learning hardware to dielectric laser acceleration.  The simulation, design, and optimization of optical structures using the adjoint method has proven to be both a fruitful area of research and provides a rich theoretical framework that will continue to be worth exploring for years to come.
