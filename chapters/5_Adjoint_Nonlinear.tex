@@ -1,0 +1,373 @@
+%!TEX root = ../main.tex
+
+As we discussed, there has been significant interest in using computational optimization tools to design novel nanophotonic devices with a wide range of applications \cite{lalau-keraly_adjoint_2013,wang_adjoint-based_2018,elesin_design_2012,piggott_fabrication-constrained_2017,piggott_inverse_2015,kao_maximizing_2005,hughes_method_2017, molesky_outlook_2018,sigmund_systematic_2003,matzen_systematic_2011,jensen_topology_2005,frellsen_topology_2016, shen_integrated-nanophotonics_2015,shen_design_2003, Minkov2014, Minkov2015, shi_optimization_2018,veronis_method_2004}. Much of this progress \cite{lalau-keraly_adjoint_2013,wang_adjoint-based_2018,elesin_design_2012,piggott_fabrication-constrained_2017,piggott_inverse_2015,kao_maximizing_2005,hughes_method_2017, molesky_outlook_2018,sigmund_systematic_2003,matzen_systematic_2011,jensen_topology_2005,frellsen_topology_2016} is made possible by the adjoint method \cite{giles2000introduction, veronis_method_2004}, a technique which allows the gradient of an objective function to be computed with respect to an arbitrarily large number of degrees of freedom using only two full-field simulations.  This method
+makes large-scale gradient-based design of electromagnetic structures possible. When
+compared to brute force searching through the parameter space \cite{shen_integrated-nanophotonics_2015}, and other commonly used design methods,
+like stochastic global optimization algorithms \cite{shen_design_2003, Minkov2014, Minkov2015, shi_optimization_2018}, gradient-based design has a number of practical advantages. For example, a very large number of design parameters can be adjusted simultaneously, and the number of structures one is required to evaluate in order to reach a high-performing structure can be far smaller compared with the total number of structures in the search space. 
+
+Up to now \cite{hughes2018adjoint}, in photonics the adjoint method has been mostly applied to gradient-based optimization of linear optical devices. The generalization of the adjoint method to nonlinear optical devices would create new possibilities in several exciting fields such as on-chip lasers \cite{yamashita_raman_2015}, frequency combs \cite{okawachi_octave-spanning_2011}, spectroscopy \cite{moon_absolute_1997}, neural computing \cite{khoram2018stochastic}, and quantum information processing \cite{guo_-chip_2016}.  To this end, several recent works \cite{lin_cavity-enhanced_2016,lin_topology_2017,bravo-abad_enhanced_2007} have applied adjoint methods to engineer \textit{linear} devices to display favorable properties for nonlinear optical applications, such as high quality factors, small mode volume, or large field overlap between the modes of interest.  However, these works do not directly optimize the nonlinear systems.
+
+To solve for the adjoint sensitivity of a nonlinear system, the standard option is to work within a time-domain adjoint formalism, which entails simulating an additional linear system with a time-varying permittivity \cite{elesin_design_2012}.  However, as this formalism requires the storage of the fields at each time step, it has substantial memory requirements.  Furthermore, because in many cases the steady-state behavior of the system is of interest, a frequency-domain approach is preferred as the steady state response can be obtained directly, without the need for going through a large number of time steps as in a time-domain simulation.  The general mathematical formalism for the adjoint method in nonlinear systems is known in the applied mathematics literature \cite{Strang2007}. But, with the exception of a very recent preprint that seeks to design a nonlinear element in an optical neural network  \cite{khoram2018stochastic}, such a formalism has not been previously applied to nonlinear photonic device optimizations.
+
+In this work we outline, in detail, how the adjoint method may be used to optimize the steady-state response of a nonlinear optical device in the frequency domain. We first outline a formalism for generalizing adjoint problems to arbitrary nonlinear problems.  Then, as a demonstration, we use our method to inverse-design photonic switches with Kerr nonlinearity.  Our results may be applied more generally to other objective functions and sources of nonlinearity and provides new possibilities for designing novel nonlinear optical devices.
+
+We first outline the formulation of the adjoint method for the inverse design of nonlinear optical devices.  The goal of inverse design is to find a set of real-valued design variables $\bm{\varphi}$ that maximize a real-valued objective function $\mathbf{\Lcal} = \mathbf{\Lcal}(\mathbf{e}, \mathbf{e}^*, \bm{\varphi})$, where the complex-valued vector $\mathbf{e}$ is given by the solution to the equation
+%
+\begin{align}
+\mathbf{f}(\mathbf{e}, \mathbf{e}^*, \bm{\varphi}) &= 0
+\label{eq:constraints}.
+\end{align}
+%
+For example, eq. (\ref{eq:constraints}) may represent the steady-state Maxwell's equations with an intensity-dependent permittivity distribution where $\mathbf{e}$ is the electric field distribution.  The solution to eq. (\ref{eq:constraints}) may be found with any nonlinear equation solver, such as with the Newton-Raphson method \cite{press2007numerical}.  We further note that the treatment of $\mathbf{e}$ and its complex conjugate as independent variables is necessary for differentiation as will be shown later.
+
+The aim of the optimization is to maximize the objective function with respect to the design variables $\bm{\varphi}$. For this purpose, it is essential to compute the sensitivity of $\Lcal$ with respect to each element of $\bm{\varphi}$.  For simplicity, we derive the derivative of the objective function with respect to a single parameter $\varphi$, which is written
+%
+\begin{equation}
+\frac{d\mathcal{L}}{d\varphi} = \frac{\partial\mathcal{L}}{\partial\varphi} + \frac{\partial\mathcal{L}}{\partial\mathbf{e}}\frac{d\mathbf{e}}{d\varphi} + \frac{\partial\mathcal{L}}{\partial\mathbf{e}^*}\frac{d\mathbf{e}^*}{d\varphi}.
+\end{equation}
+%
+Or, in matrix form as
+\begin{equation}
+\frac{d\mathcal{L}}{d\varphi} = \frac{\partial\mathcal{L}}{\partial\varphi} + 
+\begin{bmatrix}
+\partial\mathcal{L} / \partial\mathbf{e} &
+\partial\mathcal{L} / \partial\mathbf{e}^*
+\end{bmatrix}
+\begin{bmatrix}
+d\mathbf{e} / d\varphi \\ d\mathbf{e}^* / d\varphi
+\end{bmatrix}.
+\label{eq:dLdphi_matrix}
+\end{equation}
+To compute $d\mathbf{e}/d\varphi$ and $d\mathbf{e}^*/d\varphi$, we differentiate eq. (\ref{eq:constraints}):
+%
+\begin{align}
+\frac{d\mathbf{f}}{d\varphi} &= 0 = \frac{\partial \mathbf{f}}{\partial \varphi} + \frac{\partial \mathbf{f}}{\partial \mathbf{e}}\frac{d \mathbf{e}}{d\varphi} + \frac{\partial \mathbf{f}}{\partial \mathbf{e}^*}\frac{d \mathbf{e}^*}{d\varphi}. \label{eq:dfdphi}
+\end{align}
+%
+Eq. (\ref{eq:dfdphi}) together with its complex conjugate then yields
+%
+\begin{equation}
+\begin{bmatrix}
+\partial \mathbf{f} / \partial \mathbf{e} &
+\partial \mathbf{f} / \partial \mathbf{e}^* \\
+\partial \mathbf{f}^* / \partial \mathbf{e} &
+\partial \mathbf{f}^* / \partial \mathbf{e}^*
+\end{bmatrix}
+\begin{bmatrix}
+d\mathbf{e} / d\varphi \\ d\mathbf{e}^* / d\varphi
+\end{bmatrix} = -\begin{bmatrix}
+\partial \mathbf{f} / \partial \varphi \\ \partial \mathbf{f}^* / \partial \varphi
+\end{bmatrix}.
+\end{equation}
+%
+Thus, formally we can rewrite eq. (\ref{eq:dLdphi_matrix}) as
+%
+\begin{align}
+& \frac{d\mathcal{L}}{d\varphi} = \frac{\partial\mathcal{L}}{\partial\varphi} - \label{eq:dLdphi}\\
+& \begin{bmatrix}
+\partial\mathcal{L} / \partial\mathbf{e} &
+\partial\mathcal{L} / \partial\mathbf{e}^*
+\end{bmatrix}
+\begin{bmatrix}
+\partial \mathbf{f} / \partial \mathbf{e} &
+\partial \mathbf{f} / \partial \mathbf{e}^* \\
+\partial \mathbf{f}^* / \partial \mathbf{e} &
+\partial \mathbf{f}^* / \partial \mathbf{e}^*
+\end{bmatrix}^{-1}
+\begin{bmatrix}
+\partial \mathbf{f} / \partial \varphi \\ \partial \mathbf{f}^* / \partial \varphi
+\end{bmatrix}.
+\nonumber
+\end{align}
+
+In analogy with the linear adjoint method, we can now compute the gradient by solving an additional linear system.  We define a complex-valued adjoint field $\eaj$ as the solution to
+%
+\begin{align}
+\begin{bmatrix}
+\partial \mathbf{f} / \partial \mathbf{e} &
+\partial \mathbf{f} / \partial \mathbf{e}^* \\
+\partial \mathbf{f}^* / \partial \mathbf{e} &
+\partial \mathbf{f}^* / \partial \mathbf{e}^*
+\end{bmatrix}^{T}
+\begin{bmatrix}
+\eaj \\ \eaj^*
+\end{bmatrix} = - \begin{bmatrix}
+{\partial\mathcal{L} / \partial\mathbf{e}}^T \\
+{\partial\mathcal{L} / \partial\mathbf{e}^*}^T
+\end{bmatrix}, 
+\label{eq:eaj}
+\end{align}
+%
+and the gradient of the objective function is then
+%
+\begin{align}
+\frac{d\mathcal{L}}{d\varphi} = \frac{\partial\mathcal{L}}{\partial\varphi} + 2\mathcal{R}\left(
+\eaj^T
+\frac{\partial \mathbf{f}} { \partial \varphi} \right)
+\label{eq:dLdphi_eaj},
+\end{align}
+%
+where $\mathcal{R}$ denotes taking the real part. In deriving eq. (\ref{eq:dLdphi_eaj}), we have used the fact that both $\Lcal$ and $\varphi$ are real.  In the case of multiple parameters $\bm{\varphi}$, we can simply replace $\partial \mathbf{f} / \partial \varphi$ with the matrix $\partial \mathbf{f} / \partial \bm{\varphi}$. Since $\eaj$ only needs to be solved once regardless of the number of parameters, gradients may be computed with very little marginal cost for an arbitrary number of free parameters, making large-scale, gradient-based optimization possible.
+
+We now apply the general formalism as discussed above to the  optimization of nonlinear optical systems. Since the formalism is applicable to linear optical systems as well, for illustration purposes here we use it to treat both the linear and the nonlinear cases, in order to highlight aspects that are unique to nonlinear systems.   A schematic outlining the two cases is presented in Fig. \ref{fig:avm}.  For a linear system, Maxwell's equations for the steady-state at a frequency $\omega_0$ may be written as 
+%
+\begin{align}
+\mu_0^{-1}  \nabla &\times \nabla \times \mathbf{E}(\mathbf{r}) - \omega_0^2 \epsilon_0 \epsilon_r(\mathbf{r}) \mathbf{E}(\mathbf{r})  = -i \omega_0 \mathbf{J}(\mathbf{r}),
+\label{eq:fdfd_lin}
+\end{align}
+where $\mathbf{E}(\mathbf{r})$ is the electric field, $\mathbf{J}(\mathbf{r})$ is the electric current source, $\epsilon_r(\mathbf{r})$ is the relative dielectric permittivity, and we have assumed relative permeability $\mu_r = 1$ everywhere. Compactly, and to make connection to the general formalism in the previous section, this can be written in matrix form as
+%
+\begin{equation}
+\mathbf{f}(\mathbf{e}, \mathbf{e}^*, \bm{\varphi}) = A(\bm{\epsilon}_r) \mathbf{e} - \mathbf{b} = 0,
+\label{eq:lin_forward}
+\end{equation}
+%
+where $A$ is a linear operator, vectors $\mathbf{e}$ and $\bm{\epsilon}_r$ now contain the electric fields and the relative permittivity, respectively, and $\mathbf{b}$ is a vector proportional to the current source. The design parameters $\bm{\varphi}$ in this case is the permittivity distribution $\bm{\epsilon}_r$. Eq. (\ref{eq:lin_forward}) can be solved to obtain the electric fields $\mathbf{e}$, as diagrammed by Fig. \ref{fig:avm}(a).
+
+We assume an objective function $\mathcal{L}$ that depends on the field solution to eq. (\ref{eq:lin_forward}) and we take the linear relative permittivity distribution as the set of design variables.  Because $\partial \mathbf{f} / \partial \mathbf{e} = A$ and $\partial \mathbf{f} / \partial \mathbf{e}^* = 0$ for the linear system, from eq. (\ref{eq:eaj}), the adjoint field may be written simply as the solution to the equation
+%
+\begin{equation}
+A^T(\bm{\epsilon}_r) \eaj = -\left( \partial \mathcal{L}/\partial \mathbf{e}\right)^T,
+\end{equation}
+%
+as shown in Fig. \ref{fig:avm}(b).  For a reciprocal system, $A^T = A$, thus the original and the adjoint fields are solutions to the same linear problem but with different source terms. Note that the source for the adjoint field, $-\left( \partial \mathcal{L}/\partial \mathbf{e}\right)^T$ depends on both the objective function and the original solution. 
+
+Once the adjoint field is computed, the gradient of the objective function with respect to the permittivity distribution is given, through eq. (\ref{eq:dLdphi_eaj}), by 
+%
+\begin{align}
+\frac{d\mathcal{L}}{d\bm{\epsilon}_r} &= \frac{\partial\mathcal{L}}{\partial \bm{\epsilon}_r} + 2\mathcal{R}\left(
+\eaj^T
+\frac{\partial A} { \partial \bm{\epsilon}_r} \mathbf{e} \right) \\
+ &= \frac{\partial\mathcal{L}}{\partial \bm{\epsilon}_r} - 2 \omega_0^2 \epsilon_0 \mathcal{R}\left(
+\eaj^T
+ \mathbf{e} \right).
+\label{eq:dLdphi_lin}
+\end{align}
+%
+
+\begin{figure}[t]
+\includegraphics[width=\columnwidth]{figures/angler_avm_illustration_2.pdf}
+\caption{\label{fig:avm} Illustration of the adjoint field computation for a linear and a nonlinear system. (a) The linear system driven by a point source $\mathbf{b}$ with an objective function $\mathcal{L}$  given by the field intensity at a measuring point. (b)  The adjoint problem for the linear system: the same system driven by a point source given by $-\partial\mathcal{L}/\partial \mathbf{e}$ located at the measuring point.  (c) The nonlinear system containing a medium with Kerr nonlinearity (red).  The electric fields are the solution to a nonlinear equation. (d) The adjoint problem for the nonlinear system, which is a \textit{linear} system of equations for the adjoint field and its complex conjugate. The Kerr medium is replaced by a linear region whose permittivity depends on the nonlinear fields.}
+\end{figure}
+
+Having reviewed the adjoint formalism for linear optical systems we now consider nonlinear optical systems. As an example, we introduce Kerr nonlinearity into the system \cite{Boyd__2008}, which corresponds to an intensity-dependent permittivity
+%
+\begin{equation}
+\tilde{\epsilon}_r(\mathbf{r}) = \epsilon_r(\mathbf{r}) + 3\omega_0^2 \epsilon_0\chi^{(3)}(\mathbf{r}) \left|\mathbf{E}(\mathbf{r}) \right|^2,
+\label{eq:eps_mod}
+\end{equation}
+%
+where $\chi^{(3)}(\mathbf{r})$ is the nonlinear susceptibility distribution. Other types of nonlinear terms can also be treated with the formalism outlined above. Replacing $\epsilon_r(\mathbf{r})$ in Eq. (\ref{eq:fdfd_lin}) with $\tilde{\epsilon}_r(\mathbf{r})$ in Eq. (\ref{eq:eps_mod}), our system is then described by the equation:
+%
+\begin{equation}
+\mathbf{f}(\mathbf{e}, \mathbf{e}^*, \bm{\varphi}) = A_{nl}(\bm{\epsilon}_r, \bm{\chi}, \mathbf{e}) \mathbf{e} - \mathbf{b} = 0,
+\label{eq:nl_forward}
+\end{equation}
+%
+where $A_{nl} \equiv \left[ A(\bm{\epsilon}_r) - \textrm{diag}\left( \bm{\chi} \odot |
+\mathbf{e}|^2 \right) \right]$.  Here, $\odot$ is element-wise vector multiplication and $\textrm{diag}(\mathbf{v})$ represents a diagonal matrix with vector $\mathbf{v}$ on the main diagonal.  The vector $\bm{\chi}$ corresponds to the term $3\omega_0^2\epsilon_0 \chi^{(3)}(\mathbf{r})$ and
+$|\mathbf{e}|^2 \equiv \mathbf{e} \odot \mathbf{e}^*$.  Again, for concreteness, the design parameters $\bm{\varphi}$ correspond to the permittivity $\bm{\epsilon}_r$. The solution to this problem is diagrammed in Fig. \ref{fig:avm}(c).
+
+From eq. (\ref{eq:eaj}) we may now compute the partial derivatives of $\mathbf{f}$ with respect to the electric fields $\mathbf{e}$, which is needed to construct the adjoint problem.
+%
+\begin{align}
+\partial \mathbf{f} / \partial \mathbf{e} &= A - 2 \textrm{diag}\left( \bm{\chi} \odot |\mathbf{e}|^2  \right)\\
+\partial \mathbf{f}^* / \partial \mathbf{e} &= -\textrm{diag}\left( \bm{\chi} \odot \mathbf{e}^* \odot \mathbf{e}^* \right).
+\end{align}
+%
+With this, we then express the adjoint field as a solution to the linear system
+%
+\begin{equation}
+\left( \partial \mathbf{f} / \partial \mathbf{e} \right)^T \mathbf{e}_{aj} + \left( \partial \mathbf{f}^* / \partial \mathbf{e} \right)^T \mathbf{e}_{aj}^* = -\left( \partial \Lcal/\partial \mathbf{e}\right)^T,
+\label{eq:adjoint_nonlin}
+\end{equation}
+%
+which is diagrammed in Fig. \ref{fig:avm}(d).
+
+For a nonlinear system, to obtain the field $\mathbf{e}$, one will need to solve a nonlinear equation (e.g. eq. (\ref{eq:nl_forward})). However, we emphasize that the adjoint problem, as required to determine the derivative of the objective function, is a \textit{linear} problem. The size of the adjoint problem is twice as large as the corresponding linear problem of Eq. (\ref{eq:lin_forward}), but it is of a similar form, with the source dependent upon the solution $\mathbf{e}$.   
+
+Once the adjoint field is computed, the gradient $d\Lcal/d\bm{\epsilon}_r$ is evaluated from eq. (\ref{eq:dLdphi_lin}) as in the linear case.  Here for simplicity we do not assume any explicit dependence of the nonlinearity on the design variable. However, the formalism is straightforward to extend to that case.
+
+With our assumption, the nonlinear susceptibility vector $\bm{\chi}$ may be written in terms of the scalar magnitude of the nonlinear susceptibility $\chi^{(3)}$ and the relative permittivity vector $\bm{\epsilon}_r$ explicitly as
+%
+\begin{equation}
+\bm{\chi} = 3\omega_0^2\epsilon_0 \chi^{(3)}\frac{\bm{\epsilon}_r - \mathbf{1}}{\epsilon_m - 1}
+\label{eqn:X3_density}
+\end{equation}
+%
+where $\mathbf{1}$ is a vector of all ones and $\epsilon_m$ is the maximum relative permittivity allowed in the optimization, corresponding to the material relative permittivity.
+
+When choosing to relative permittivity distribution as the set of design variables, $\bm{\varphi} = \bm{\epsilon}_r$, the nonlinear adjoint problem requires the calculation of the partial derivatives $\partial \mathbf{f} / \partial \mathbf{e}$, $\partial \mathbf{f}^* / \partial \mathbf{e}$, and $\partial \mathbf{f} / \partial \bm{\epsilon}_r$.  When choosing the form of $\bm{\chi}$ from eq. (\ref{eqn:X3_density}), the partial derivatives $\partial \mathbf{f} / \partial \mathbf{e}$ and $\partial \mathbf{f}^* / \partial \mathbf{e}$ are the same as derived in the main text.  However, the term $\partial \mathbf{f} / \partial \bm{\epsilon}_r$ takes on a more complicated form given by
+%
+\begin{align}
+\frac{\partial \mathbf{f}}{\partial \bm{\epsilon}_r} &= \frac{\partial}{\partial \bm{\epsilon}_r} \left[ A(\bm{\epsilon}_r)\mathbf{e} - 3\omega_0^2\epsilon_0 \chi^{(3)}\frac{\bm{\epsilon}_r - \mathbf{1}}{\epsilon_m - 1} \odot \mathbf{e} \odot \mathbf{e} \odot \mathbf{e}^* - b \right] \\ 
+&= \frac{\partial A}{\partial \bm{\epsilon}_r}\mathbf{e}  - 3\omega_0^2\epsilon_0 \chi^{(3)}\frac{1}{\epsilon_m - 1} \textrm{diag}\left( \mathbf{e} \odot |\mathbf{e}|^2 \right) \\
+&= \textrm{diag}\left( \mathbf{e} \right)  - 3\omega_0^2\epsilon_0 \chi^{(3)}\frac{1}{\epsilon_m - 1} \textrm{diag}\left( \mathbf{e} \odot |\mathbf{e}|^2 \right),
+\label{eqn:prop_dfdp}
+\end{align}
+where we make use of the fact that $\left(\frac{\partial A}{\partial \bm{\epsilon}_r}\right)_{ijk} = \delta_{ij}\delta_{jk}$, where $\delta$ is the Kronecker delta.
+
+Thus, while the adjoint field $\mathbf{e}_{aj}$ will have the same form as in the main text, when computing the sensitivity as in eq. (8) in the main text, one must insert the form of $\partial \mathbf{f} / \partial \bm{\epsilon}_r$ from eq. (\ref{eqn:prop_dfdp}).  This is in contrast to the usual case where the nonlinear susceptibility is fixed, $\partial \mathbf{f} / \partial \bm{\epsilon}_r = \textrm{diag}\left( \mathbf{e} \right)$.
+
+
+%%%%%%%%%%
+
+We now demonstrate the use of this nonlinear adjoint formalism to inverse design optical switches with desired power-dependent performance characteristics.  In Figs. \ref{fig:2_port} and \ref{fig:t_port}, we show the optimization procedures and performance characteristics of a 1 $\to$ 1 and 1 $\to$ 2 port device, respectively. The operating frequency for both devices correspond to a free-space wavelength of 2$\mu$m. 
+
+For each device, we seek to maximize the corresponding objective function with respect to the permittivity distribution within a fixed design region.  To perform the numerical optimization of the structure, we use the finite-difference frequency-domain method (FDFD) \cite{shin2012choice}, where the fields and operators of Eq. (\ref{eq:fdfd_lin}) are spatially discretized using a Yee lattice \cite{yee1966numerical}. For simplicity, we restrict our study to two-dimensional structures (i.e. structures with infinite extent in the third dimension), and transverse-magnetic polarization, which has only non-zero out-of-plane electric field components. In the optimization process, we start with an initial relative permittivity in the design region.  We solve the electric field distribution in the structure by solving the nonlinear equation (eq. (\ref{eq:nl_forward})).  Then, we compute the gradient of $\mathcal{L}$ with respect to the relative permittivity distribution in this region using eq. (\ref{eq:dLdphi_lin}).  With the gradient information, we perform updates of the design variables using the limited-memory BFGS \cite{byrd1995limited} algorithm, although a simple gradient ascent algorithm would also suffice.  This procedure is repeated until convergence on a final structure. 
+
+We choose optimization parameters corresponding to a device made from chalcogenide glass (Al$_2$S$_3$), which exhibits a strong $\chi^{(3)}$ response and high damage threshold \cite{White_OptLett_2011,Lamont_OptExpress_2008,Boyd__2008}.  During the optimization, the relative permittivity was constrained to lie between $1$ (air) and $5.95$ (Al$_2$S$_3$).  We further assume that the materials exhibit nonlinearity only within the design regions outlined in Fig. \ref{fig:2_port}(a) and \ref{fig:t_port}(a).
+
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/angler_2_port_11_1.pdf}
+\caption{\label{fig:2_port} \textbf{Inverse design demonstration of a $1 \to 1$ port switch.}  (a) Optical power is input into the left port (purple arrow). The goal of optimizing the design region (blue square) is to maximize power transmission in the linear regime (blue arrow) and minimize transmission in the nonlinear regime (red arrow).  The final permittivity distribution after optimizing is also shown. The black regions are chalcogenide with a relative permittivity of 5.95 and a $\chi^{(3)}$ of $4.1\times 10^{-19}$ m$^2/$V$^{2}$. The waveguide regions outside the design region have a width of $0.3 \mu$m. The operating wavelength is $2\mu$m. (b) The transmission as a function of input power, demonstrating the switching behavior at around $10^{-3}$ W/$\mu$m.  The dashed black line indicates the input power used for the high-power regime in the optimization. (c-d) The amplitude of the simulated electric field of the final structure, in the linear (c) and nonlinear (d) regimes, respectively -- with input power of $10^{-9}$ W/$\mu$m and $0.157$ W/$\mu$m, respectively. $E_z$ corresponds to the out-of-plane electric field in the 2D simulation.}
+\end{figure*}
+%
+
+To create a more realistic final structure, the strength of the nonlinear susceptibility was assumed to be proportional to the "density" of material, $\rho$, defined as 
+\begin{equation}
+\rho(\mathbf{r})= \frac{\epsilon_r(\mathbf{r}) - 1}{\epsilon_m - 1 },
+\label{eq:rho_def}
+\end{equation}
+where $\epsilon_m$ is the permittivity of the material. This assumption ensures that air regions do not exhibit a nonlinear refractive index. Eq. (\ref{eq:rho_def}) adds an $\epsilon_r$ dependence in the nonlinear susceptibility, which is straightforwardly treated in the adjoint method.  Low-pass spatial filtering and projection techniques \cite{zhou2015minimum} were applied during optimization to create binarized (air and chalcogenide) final structures with large, smoothed features.
+
+To create realistic devices with sufficiently large minimum feature sizes and binarized permittivity distributions, we employed filtering and projection schemes during our optimization.  These schemes are discussed in great detail in \cite{zhou2015minimum} and related works.  
+
+Rather than updating the permittivity distribution directly, one may instead choose to update a design density $\bm{\rho}$, which varies between 0 and 1 within the design region.  To create a structure with larger feature sizes, a low pass filter can be applied to $\bm{\rho}$ to created a filtered density, labelled $\tilde{\bm{\rho}}$:
+%
+\begin{equation}
+\tilde{\rho}_i = \frac{\sum_{j\in \mathcal{D}} W_{ij} \rho_j}{\sum_{j\in \mathcal{D}} W_{ij}},
+\end{equation}
+%
+where $\mathcal{D}$ denotes the design region, and $W$ is the spatial filter, defined for a feature size of $R$ as 
+\begin{equation}
+  W_{ij} = 
+  \begin{cases}
+    R - | r_{i} - r_{j} | & \text{if }  | r_{i} - r_{j} | \leq R \\
+    0, & \text{otherwise } 
+  \end{cases}
+\end{equation}
+with $|r_{i} - r_{j}|$ being the distance between points $i$ and $j$.  This defines a low-pass spatial filter on $\bm{\rho}$ with the effect of smoothing out features with length scale below $R$.
+
+
+Now, for binarization of the structure, a projection scheme is used to recreate the final permittivity from the filtered density.  For this we define $\bar{\bm{\rho}}$ as the projected density, which is created from $\tilde{\bm{\rho}}$ as
+\begin{equation}
+\bar{\rho}_i = \frac{\tanh{\left( \beta \eta \right)} + \tanh{\left( \beta \left[ \tilde{\rho}_i - \eta \right] \right)}}{\tanh{\left( \beta \eta  \right)} + \tanh{\left( \beta \left[ 1 - \eta \right] \right)}}.
+\end{equation}
+Here, $\eta$ is a parameter between 0 and 1 that controls the mid-point of the projection, typically 0.5, and $\beta$ controls the strength of the projection, typically around 100.
+
+% \documentclass[10pt,a4paper]{article}
+% \usepackage[demo]{graphicx}
+% \usepackage{subfig}
+% \begin{document}
+% \begin{figure}%
+%     \centering
+%     \subfloat{{\includegraphics[width=0.45\textwidth]{figures/angler_response.pdf} }}%
+%     \qquad
+%     \subfloat{{\includegraphics[width=0.45\textwidth]{figures/angler_project.pdf} }}%
+%     \caption{(left) Response of the low-pass filter operating on a single pixel at the mid-point of the spatial region.  The feature size chosen is $R = 10$ pixels. (right) Projection from $\tilde{\rho}$ to $\bar{\rho}$ for several values of $\beta$.  The mid-point of the projection, $\eta$, was set to 0.5.}%
+%     \label{fig:example}%
+% \end{figure}
+% \end{document}
+
+The relative permittivity can then be determined from $\bm{\bar{\rho}}$ as
+\begin{equation}
+\bm{\epsilon}_r = (\epsilon_m - 1)\bm{\bar{\rho}} + 1,
+\end{equation}
+where $\epsilon_m$ is the maximum permittivity. 
+
+The effect of these filtering and the binarization techniques on a sample permittivity set is illustrated in Fig. \ref{fig:filter}. In the optimizations of the main text, these techniques were performed only within the design region and required minimal modifications to the adjoint sensitivity.  The determination of $\partial \bm{\epsilon}_r / \partial \bm{\bar{\rho}}$, $\partial \bm{\bar{\rho}} / \partial \bm{\tilde{\rho}}$, and $\partial \bm{\tilde{\rho}} / \partial \bm{\rho}$ were required to compute the derivatives of the objective function with respect to the underlying $\bm{\rho}$.  For more details, see the software package accompanying this work \cite{hughes2018fdfdpy}.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/angler_filter.pdf}
+\caption{\label{fig:filter} Filtering and projection of an example design density, $\rho$. (top left) the original density $\rho$ before processing.  (top right) the density after applying a low pass filter, $\tilde{\rho}$.  (bottom left) the density $\bar{\rho}$ after applying projection.  (bottom right) the final relative permittivity distribution $\epsilon_r$. The parameters used are $R = 200$nm, $\beta = 100$, $\eta = 0.5$.}
+\end{figure}
+
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/angler_T_port_11_1.pdf}
+\caption{\label{fig:t_port} \textbf{Inverse design demonstration of a $1 \to 2$ port switch.}  (a) Optical power is input into the left port (purple arrow). The goal of optimizing the design region (blue square) is to maximize the power transmission to the right port (blue arrow) in the linear regime and maximize transmission to the bottom port (red arrow) in the nonlinear regime. The final permittivity distribution after optimizing is also shown. (b) The transmission in the right (blue) and bottom (red) ports as a function of input power, demonstrating the switching behavior at around $2\times10^{-2}$ W/$\mu$m.  The dashed black line indicates the input power used for the high-power regime in the optimization. (c-d) The amplitude of the simulated electric field of the final structure, in the linear (c) and nonlinear (d) regimes, respectively -- with input power of $10^{-9}$ W/$\mu$m and $0.057$ W/$\mu$m, respectively.}
+\end{figure*}
+
+Our first device, as shown in Fig. \ref{fig:2_port}, consists of a waveguide-fed 1 $\to$ 1 port geometry with a central design region.  We optimize this design region to maximize power transmission in the linear regime when the incident power is sufficiently low such that the nonlinear terms do not affect the transmission, and minimize transmission in the nonlinear regime when the incident power is at a specific high value such that the nonlinearity plays a significant role.  This corresponds to an objective function of the form
+%
+\begin{equation}
+    \Lcal(\mathbf{e}_{\textrm{low}}, \mathbf{e}_{\textrm{high}}) = \left|\mathbf{m}^T \mathbf{e}_{\textrm{low}}\right|^2 - \left|\mathbf{m}^T \mathbf{e}_{\textrm{high}}\right|^2,
+\end{equation}
+%
+where $\mathbf{e}_{\mathrm{low}}$ and $\mathbf{e}_{\mathrm{high}}$ are the simulated fields with a low and a high input power, respectively, $\mathbf{m}$ is the modal profile of the electric field for the waveguide in the output port, and the objective function is normalized such that its maximum value is 1.  The optimization setup and the optimized structure are diagrammed in Fig. \ref{fig:2_port}(a). The final structure resembles a resonator between two Bragg mirrors, effectively acting like a bistable switch \cite{soljacic2002optimal, yanik_all-optical_2003}. Fig. \ref{fig:2_port}(b) shows the transmission as a function of the input power, and it clearly switches from high to low as the input power increases. This is also illustrated in panels (c)-(d), where we plot the field amplitude distributions in the low-power (high-transmission) regime and in the high-power (low-transmission) regime, respectively. The computed power transmission coefficients for these two panels are 98.2\% and 3.1\%, respectively. The value of the input power used in the optimization and in panel (d) is shown by a dashed line in panel (b). At this input power, the device exhibits a maximum nonlinear refractive index shift of $4.0 \times 10^{-3}$, which is below the damage threshold for Al$_2$S$_3$ using sub-nanosecond pulses \cite{chorel2018robust}.
+
+Here we estimate the maximum nonlinear index shift of chalcogenide (Al$_2$S$_3$) materials.  Based on \cite{Boyd__2008, Lamont_OptExpress_2008, White_OptLett_2011}, Al$_2$S$_3$ has a nonlinear index ($n_2$) between $3 \times 10^{-14}$ and $2 \times 10^{-13}$ cm$^2$/W.
+From \cite{chorel2018robust}, the damage threshold is 2.5 J/cm$^2$.  At a pulse duration of 100 ps, this damage threshold corresponds to $2.5 \times 10^{10}$ W/cm$^2$.  Together with the nonlinear refractive index, the maximum refractive index shift sustainable by the material is approximately
+\begin{equation}
+\Delta n = n_2~I_{damage} \approx 7.5\times10^{-4} - 5\times10^{-3}
+\end{equation}
+with a corresponding pulse bandwidth (for a bandwidth-limited Gaussian pulse) of $\approx 4.5$ GHz.  
+
+
+
+Our final structures exhibit maximum refractive index shifts below $5\times10^{-3}$ and their objective functions have FWHM bandwidths above 10 GHz.  This suggests that they should exhibit their desired switching effects without damage using pulse durations on the order of 100 ps and input powers on the order of 100 mW/$\mu$m.
+
+Table \ref{tb:params} contains the parameters used in the inverse design demonstrations of Fig. 2 and Fig. 3. The values of the objective function vs. iteration are shown in Fig. \ref{fig:objfns} for both the 2-port and 3-port devices.
+
+\begin{center}
+\begin{table}[h]
+\begin{tabular}{ |c|c|c|c|c| } 
+ \hline
+  parameter & symbol & value (2-port) & value (3-port) & units \\ 
+  \hline
+  \hline
+ max relative permittivity & $\epsilon_\textrm{m}$ & 5.95 & 5.95 & - \\ 
+ nonlinear susceptibility &  $\chi^{(3)}$ & $4.1\times 10^{-19}$ & $4.1\times 10^{-19}$ & m$^2$ V$^{-2}$ \\ 
+ input power & $P_0$ & 157 & 57 & mW/$\mu$m \\
+ free space wavelength & $\lambda_0$ & 2 & 2 & $\mu$m \\ 
+ design region length & $L$ & 10 & 6 & $\mu \textrm{m}$ \\ 
+ design region height & $H$ & 1.6 & 6 & $\mu \textrm{m}$ \\ 
+ waveguide width & $w$ & 300 & 300 & $ \textrm{nm}$ \\ 
+ grid size & g & 40 & 40 & nm \\
+ low-pass filter feature size & R & 160 & 200 & nm \\
+ projection strength & $\beta$ & 100 & 500 & - \\
+ projection mid-point & $\eta$ & 0.5 & 0.5 & - \\
+ \hline
+\end{tabular}
+\caption{\label{table:params} Parameters used in the optimization study.  Column `2-port' refers to the device from Fig. 2. Column `3-port' refers to the device from Fig. 3}.
+\label{tb:params}
+\end{table}
+\end{center}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/angler_objfns_11_1.pdf}
+\caption{\label{fig:objfns} Objective function vs. iteration of the optimization for (a) 2-port device of Fig. 2 and (b) 3-port device of Fig. 3 of the main text.}
+\end{figure}
+Reaching the final optimized structure shown in Fig. \ref{fig:2_port} required the evaluation of 2000 structures, but a reasonably high-performing structure is already reached after only a few hundred iterations.  
+
+We also use the same technique for the inverse design of a 1 $\to$ 2 port switch where light is guided to the right port in the linear regime and to the bottom port in the nonlinear regime.  To achieve this design, we define the objective function as
+%
+\begin{align}
+    \Lcal(\mathbf{e}_\textrm{low}, \mathbf{e}_\textrm{high}) =~ & \left|\mathbf{m}_\textrm{r}^T \mathbf{e}_\textrm{low}\right|^2 - \left|\mathbf{m}_\textrm{r}^T \mathbf{e}_\textrm{high}\right|^2 \\ \nonumber
+    - &\left|\mathbf{m}_\textrm{b}^T \mathbf{e}_\textrm{low}\right|^2 + \left|\mathbf{m}_\textrm{b}^T \mathbf{e}_\textrm{high}\right|^2 ,
+\end{align}
+%
+where $\mathbf{m}_\textrm{r}$ and $\mathbf{m}_\textrm{b}$ denote the mode profiles of the waveguides in the right and bottom ports, respectively. These are normalized such that the objective function has a maximum value of 1 for a perfect switching operation.  The setup of the optimization problem and the final design are diagrammed in Fig. \ref{fig:t_port}(a). We note that the device displays a non-intuitive geometry while retaining large features and good binarization.
+
+In Fig. \ref{fig:t_port}(b), we plot the transmission through the right and through the bottom ports as a function of input power. This clearly shows the switching of power from the right port to the bottom port in the linear and nonlinear regimes, respectively.  Specifically, in the linear regime, the device has a power transmission of 81.8\% and 5.9\% to the right and bottom ports, respectively, while in the nonlinear regime, at the input power marked by the dashed line in Fig. \ref{fig:t_port}(b), these values are 6.1\% and 80.8\%, respectively. The electric field amplitudes for linear and nonlinear regimes are displayed in \ref{fig:t_port}(c)-(d). The operational bandwidth for this device is approximately 90 GHz.  The device exhibits a maximum nonlinear refractive index shift of $3.9 \times 10^{-3}$, which is also below the acceptable damage threshold for Al$_2$S$_3$ using sub-nanosecond pulses \cite{chorel2018robust}.
+
+
+The transmission vs. frequency for the two devices is shown in Fig. \ref{fig:spectra} in the linear regime.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.6\textwidth]{figures/angler_spectra_11_2.pdf}
+\caption{\label{fig:spectra} (a) Transmission spectrum through the 2-port device for the low power (linear) regime. (b) Transmission spectrum through the right (blue) and bottom (red) ports of the 3-port device in the low power (linear) regime.  The x-axis represents the difference in frequency with respect to the design frequency.}
+\end{figure}
+
+We have presented an extension to the adjoint variable method applied to the optimization of an electromagnetic system with Kerr nonlinearity. Our approach can be straightforwardly applied to other types of nonlinearities which do not mix frequencies, such as saturable gain or absorption. Moreover, the methods here should be straightforwardly generalizable to treat nonlinear problems involving frequency mixing. For example, one can imagine implementing a similar adjoint method in combination with the multi-frequency finite-difference frequency-domain implementations for nonlinear wave interactions \cite{Shi2016multi}. 
+
+In addition to the design of optical switches, our formalism may prove useful for many other interesting problems in nonlinear photonics.  For example, one could apply our approach to design nonlinear elements in optical neural networks \cite{shen2017deep} with specific forms of activation functions.  Another interesting application is power regulation in photonic networks.  For example, as photonic networks for laser-driven particle accelerators \cite{hughes2018chip} must be able to handle large input powers, it may be of interest to use our approach to design compact optical limiters in these networks. For the purposes of exploring these and many other potential applications, we have made publicly available a software package that implements the algorithms discussed here \cite{hughes2018fdfdpy}.
+
+To summarize this paper, we have developed an adjoint method, which enables gradient optimization of nonlinear photonic devices. Our work broadens the capability of inverse design for producing novel nonlinear devices. 
