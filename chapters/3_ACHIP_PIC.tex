@@ -6,7 +6,7 @@ Here, we will describe the use of integrated optics to power and control such a 
 \section{On-Chip Laser Coupling Device}
 
 As mentioned, since DLA structures are already driven at their damage thresholds, apart from finding methods to increase material damage thresholds, achieving high total energy gain from DLA will fundamentally require extending the interaction length between the incoming laser pulse and the particle beam.
-This interaction length is limited not only by the longitudinal and transverse stability of the electron beam \cite{niedermayer2017beam, naranjo2012stable}, but also by the laser delivery system, which is the focus of this work.
+This interaction length is limited not only by the longitudinal and transverse stability of the electron beam \cite{niedermayer2017beam, naranjo2012stable}, but also by the laser delivery system, which we will focus on in this Chapter.
 Several proof of principle DLA experiments \cite{wootton2017recent, peralta2013demonstration} have demonstrated high acceleration gradients using free-space manipulation of the laser pulse, including lensing, pulse-front-tilting \cite{hebling1996derivation, akturk2004pulse, cesar2018optical}, or multiple driving lasers \cite{kenleedle, mcneur2016elements}.
 However, these techniques require extensive experimental effort to perform and the system is exceedingly sensitive to angular alignment, thermal fluctuations, and mechanical noise.
 By replacing free-space manipulation with precise nano-fabrication techniques, an on-chip laser power delivery system would allow for orders of magnitude increases in the achievable interaction lengths and energy gains from DLA.
@@ -15,7 +15,7 @@ In designing any laser power delivery system for DLA, there are a few major requ
 (1) The optical power spatial profile must have good overlap with the electron beam side profile.
 (2) The laser pulses must be appropriately delayed along the length of the accelerator to arrive at the same time as the moving electron bunches.
 (3) The optical fields along each section of the accelerator must, ideally, be of the correct phase to avoid dephasing between the electrons and incoming laser fields.
-To accomplish all three of these requirements, we introduce a method for on-chip power delivery, which is based on a fractal \textit{tree-network} geometry.
+To accomplish all three of these requirements, here we discuss a method for on-chip power delivery, which is based on a fractal \textit{tree-network} geometry.
 Furthermore, we provide a systematic study of the structure's operating principles, the optimal range of operating parameters, and the fundamental trade-offs that must be considered for any on-chip laser coupling strategy of the same class \cite{hughes_-chip_2018}.
 Through detailed numerical modeling of this design, we estimate that the proposed structure may achieve 1\,MeV of energy gain over a distance less than 1\,cm by sequentially illuminating 49 identical structures.
 
@@ -42,17 +42,16 @@ The entire device is mirrored over the center plane and is driven by laser input
 Two stages of the structure are shown in \fig{struct}, although several more may be implemented in series, assuming availability of several phase-locked laser sources.
 Electron beam focusing elements may be implemented between stages as needed.
 
-We will now discuss the individual components involved in the on-chip laser coupling system.
-
 \subsection{Device Components}
 
-\paragraph{Input Coupling}
+We will now discuss the individual components involved in the on-chip laser coupling system.
+
+\paragraph{Input Coupling:}
 
 The proposed structure first requires a strategy to couple light from the pump laser to the on-chip optical waveguides.
 We focus on free-space coupling to the input facet via a surface grating, eliminating the need for single mode fiber delivery.
 Our laser and macroscopic optical components are capable of handling pulse energies far beyond enough to cause damage to the structure.
 Bare single mode fibers also have damage thresholds high enough to withstand these laser pulses, but the large amount of dispersion introduced (associated with the relatively long length of $>$ 1 mm) will make them unsuitable for delivery to the chip.
- 
 
 In general, couplers must have (1) high coupling efficiency, (2) a bandwidth large enough to couple entire pulse spectrum, and (3) high power handling and minimized hot spots.
 Input coupling may be accomplished by use of end coupling, focusing the laser beam directly onto the waveguide cross section, or vertical coupling schemes, such as grating couplers.
@@ -61,11 +60,11 @@ Vertical couplers provide the benefit of relative flexibility in alignment and p
 The coupling efficiency of these devices varies drastically depending on the complexity of the grating coupler design, from an efficiency of $>30\%$ to $>90\%$ \cite{taillaert2006grating}.
 However, highly efficient broadband couplers capable of sustaining large bandwidths still provide design challenges, with the state-of-the-art fully-etched structures able to provide $67\%$ coupling efficiency with a 3 dB bandwidth of 60 nm at 1550 nm \cite{ding2013ultrahigh}.
 
-In this study, we assume a coupling power efficiency of $60\%$ with a substantially wide bandwidth to accommodate that of our pulse (up to about 117 nm for a 50 fs pulse), which is reasonably achievable with end coupling.
+In the following parameter study, we assume a coupling power efficiency of $60\%$ with a substantially wide bandwidth to accommodate that of our pulse (up to about 117 nm for a 50 fs pulse), which is reasonably achievable with end coupling.
 Additional investigation into the design of ultra-broadband vertical couplers must be considered to guarantee coupling of the femtosecond pulsed lasers.
 
 % Waveguides
-\paragraph{Waveguides}
+\paragraph{Waveguides:}
 
 Waveguides are a critical component of laser coupling.
 Schematics of the waveguide cross-sections and their field distributions are shown in \fig{waveguides}.
@@ -120,22 +119,20 @@ N^2=\frac{L_{\rm{D}}}{L_{\rm{NL}}}=\frac{\gamma P_0 \tau^2}{|\beta_2|},
 
 where $\tau$ is the pulse duration. When the dispersion length, $L_{\rm{D}}$, is larger than nonlinear length, $L_{\rm{NL}}$, SPM is dominant over dispersion and $N^2 > 1$. SPM is typically large in strongly-guiding and high $n_2$ materials, such as the strongly-guiding SOI waveguide. For the weakly-guiding, lower $n_2$ SiN waveguides, SPM will be less prominent, yet still larger than dispersive effects for the range of peak powers we consider. Using typical experimental parameters and examining the material considered in this study with the lowest nonlinearity $(\rm{SiO_2})$, we have: $n_2(\rm{SiO_2})=2.6\:m^2/W$, $A_{\rm{eff}}\sim 7\rm{\mu m^2}$, $|\beta_2| = 76\:\rm{fs^2/mm}$ and a peak power of $P_0=80\:\rm{kW}$, the corresponding $N^2=758$, indicating that SPM is highly dominant over dispersion. 
 
-Alternatively, by turning on and off each term in Eq. \ref{eq:NLS} to investigate its contribution, we find that for both SOI and SiN cases, SPM is indeed the dominant contribution to the nonlinearity, other terms does not yield a significant difference to the results for a propagation distance on the order of hundreds of $\rm{\mu m}$. Hence, our choice of using SPM as the dominant nonlinearity in the parameter study is justified.
+Alternatively, by turning on and off each term in Eq. \ref{eq:NLS} to investigate its contribution, we find that for both SOI and SiN cases, SPM is the dominant contribution to the nonlinearity, other terms does not yield a significant difference to the results for a propagation distance on the order of hundreds of $\rm{\mu m}$.
 
-% Splitters
-\paragraph{Splitters}
+\paragraph{Splitters:}
 
 After the initial input coupling step, splitters are used to distribute the laser power along the DLA structure.
-Splitters further contribute to insertion loss.
-Experimental characterization of Y-splitters indicate losses on the order of $1\;\text{dB}$ \cite{zhang2013compact}.
-However, recent advances in topology optimization techniques have allowed for new designs with much higher efficiencies.
-Using \textit{particle swarm optimization} \cite{eberhart1995new}, devices have been produced with theoretical insertion losses of $0.13\;\text{dB}$ and an experimentally determined value of $0.28 \pm 0.02\;\text{dB}$ \cite{zhang2013compact}.
+Splitters further contribute to insertion loss, with experimental characterization of Y-splitters indicating losses on the order of $1\;\text{dB}$ \cite{zhang2013compact}.
+However, recent advances in inverse design and optimization techniques have allowed for new designs with much higher efficiencies.
+Using particle swarm optimization \cite{eberhart1995new}, devices have been produced with theoretical insertion losses of $0.13\;\text{dB}$ and an experimentally determined value of $0.28 \pm 0.02\;\text{dB}$ \cite{zhang2013compact}.
 As even more sophisticated techniques of optimization have been developed, the insertion loss of simulated designs has reached $0.07\;\text{dB}$ \cite{lalau2013adjoint}.
 Adjoint-based optimization methods have been further expanded to enforce fabrication constraints on the permitted designs, thus allowing one to expect greater agreement between simulated and fabricated structures \cite{piggott2017fabrication}.
-As a consequence of the rapid progress made in this field and the efforts to ensure robustness of device to fabrication tolerance, we have used an insertion loss per splitter of $0.22\;\text{dB}$, or $95\%$ efficiency, for the parameter study.
+As a consequence of the rapid progress made in this field and the efforts to ensure robustness of device to fabrication tolerance, we have used an insertion loss per splitter of $0.22\;\text{dB}$, or $95\%$ efficiency, for the following parameter study.
 
 % Bends
-\paragraph{Bends}
+\paragraph{Bends:}
 
 Waveguide bends are necessary to provide group delay to the laser pulses to ensure their arrival at the accelerator gap at the same time as a moving electron beam.
 Here, using the circular bending scheme drawn in \fig{circle}, we calculate the required geometry  needed to satisfy this condition.
@@ -222,7 +219,7 @@ Many of these issues may be reconciled by choosing a hybrid waveguide system, as
 We did not consider these options directly in our following parameter study.
 
 % Phase Shifters
-\paragraph{Phase Shifters}
+\paragraph{Phase Shifters:}
 
 Phase shifters are an essential component in the DLA system for ensuring proper phase matching between the electrons and photons.
 While it is simple to do phase tuning in free-space for a single stage DLA with macroscopic delay stages, waveguide-integrated phase shifters for long interaction or multi-stage DLAs will be experimentally complicated.
@@ -247,7 +244,7 @@ Furthermore, some degree of relative fixed phase between output ports may be acc
 To further mitigate the challenges associated with operating these multiple phase shifters during acceleration, we may implement a feedback control loop, which is described in \fig{phase}.
 In this setup, the quantity of interest, such as electron energy gain, can be measured at the end of a section and optimized with respect to the individual phase shifters in the power delivery system without explicit knowledge of the electron beam dynamics.
 
-\paragraph{DLA Structures}
+\paragraph{DLA Structures:}
 
 \figdef{tree_DLA}{tree_DLA}{
     (a) A schematic of the waveguide to DLA connection.
@@ -261,7 +258,7 @@ In this setup, the quantity of interest, such as electron energy gain, can be me
     As computed following the derivation in \cite{plettner2006proposed}, but with the waveguide mode impedance and effective area in place of the plane wave values, this structure has a shunt impedance, $Z_S$, of 449.1 $\Omega$ over 3 periods and a $Z_S/Q$ value of 2.95 $\Omega$.
 }
 
-We assume silicon dual-pillar DLA structures in the parameter study, but the choice is arbitrary and can be changed to other materials or designs depending on the fabrication constraints.
+We assume silicon dual-pillar DLA structures in the following parameter study, but the choice is arbitrary and can be changed to other materials or designs depending on the fabrication constraints.
 In \fig{tree_DLA}, we show an example of the setup considered in the parameter study, simulated with FDFD.
 The pillar radius is 981 nm and the gap width is 400 nm.
 3 periods of DLA are powered by a single waveguide and periodic boundary conditions are used in the z direction.
@@ -269,8 +266,7 @@ Wakefields and transverse deflections are ignored for simplicity as these simula
 The waveguide refractive index was approximated using \cite{smotrova2005cold}.
 
 Resonant enhancement in the dual pillars is clearly visible and can be accomplished by optimizing the spacing and radius parameters.
-
-In this part, we derive the analytical form of the resonant field enhancement in the accelerator gap and verify that it is approximately proportional to $\sqrt{Q}$. The resonant nature of the acceleration structure can by described by coupled mode theory \cite{haus1984waves, suh2004temporal}. We denote the amplitude of the resonant mode as $s$, where $|s|^2$ represents the energy stored in the resonant mode, and the amplitudes of incoming and outgoing waves as $\boldsymbol{a}$ and $\boldsymbol{b}$ respectively, where $\boldsymbol{a}^{\dagger}\boldsymbol{a}$ and $\boldsymbol{b}^{\dagger}\boldsymbol{b}$ represent the power of incoming and outgoing waves. The dynamics of the resonant mode can be described as
+To investigate the effect of resonance in the DLA structures, here we derive the analytical form of the resonant field enhancement in the accelerator gap and verify that it is approximately proportional to $\sqrt{Q}$. The resonant nature of the acceleration structure can by described by coupled mode theory \cite{haus1984waves, suh2004temporal}. We denote the amplitude of the resonant mode as $s$, where $|s|^2$ represents the energy stored in the resonant mode, and the amplitudes of incoming and outgoing waves as $\boldsymbol{a}$ and $\boldsymbol{b}$ respectively, where $\boldsymbol{a}^{\dagger}\boldsymbol{a}$ and $\boldsymbol{b}^{\dagger}\boldsymbol{b}$ represent the power of incoming and outgoing waves. The dynamics of the resonant mode can be described as
 \begin{subequations}
 \label{eq:CMT}
 \begin{align}
@@ -290,7 +286,7 @@ where $\omega_0$ is the resonant frequency of the acceleration mode, $\gamma_s$ 
 The periodic acceleration structure has two channels for incoming and outgoing propagation waves to couple to the resonant mode. As the acceleration mode is an even mode which has non-vanishing longitudinal electric field at the mirror plane, the incident wave from the left and right should have equal amplitude and phase to efficiently excite the acceleration mode. Thus, $\boldsymbol{a} = [1, 1]^T a_1$, where $|a_1|^2$ represents the power of incoming waves from the left channel. The even mode also couples equally to the left and right channel. As a result, $\boldsymbol{d} = [1, 1]^T d_1$, where $d_1$ is the coupling coefficient for the outgoing waves in the left channel and $|d_1|^2 = \gamma_s$ according to Eq. \ref{eq:CMT_recip}.
 
 From Eq. \ref{eq:CMT} we obtain $s(\omega) = 
-\frac{\boldsymbol{\kappa}^T \boldsymbol{a}^+(\omega)}{-i(\omega - \omega_0) + \gamma_s}$ for each frequency component. Base on the preceding analysis, the spectrum of energy stored in the resonant mode is
+\frac{\boldsymbol{\kappa}^T \boldsymbol{a}^+(\omega)}{-i(\omega - \omega_0) + \gamma_s}$ for each frequency component. Based on the preceding analysis, the spectrum of energy stored in the resonant mode is
 \begin{equation}
 |s(\omega)|^2 = \frac{ 4\gamma |a_1^+(\omega)|^2}{(\omega - \omega_0)^2 + \gamma_s^2}.
 \end{equation}
@@ -302,37 +298,38 @@ To give an explicit expression about the field enhancement, we denote the maximu
 |E_\textrm{mat}(\omega)| = \Big(\frac{8cS}{\epsilon_r \omega_0 V}\Big)^{1/2} \Big[ \frac{\gamma_s^2}{(\omega - \omega_0)^2 + \gamma_s^2} \Big]^{1/2} \sqrt{Q} |E_\textrm{out}(\omega)|,
 \end{equation}
 where the quality factor Q is inversely proportional to the resonant mode leakage rate, i.e. $Q = \frac{\omega_0}{2\gamma_s}$. Eq. \ref{eq:sqrtQ} shows that the field enhancement in the resonant accelerator structure is proportional to $\sqrt{Q}$ and has a bandwidth that decreases with increasing Q, where the frequency dependence is the square root of a Lorentzian line shape.
-
-It is also clear that the two surrounding DLA cells are slightly out of phase with the center cell.
-This effect is caused by the lack of translational symmetry in the input optical beam in the z direction and will lower the acceleration gradient.
 From our Lorentzian fit, a Q value of $152 \pm 29$ was determined.
+
+From the field plots of \fig{tree_DLA}, it is also clear that the two surrounding DLA cells are slightly out of phase with the center cell.
+This effect is caused by the lack of translational symmetry in the input optical beam in the z direction and will lower the acceleration gradient.
 
 Coupling efficiently from waveguides to DLA structures may be done by optimizing the structure parameters.
 For an optimized structure, back reflection may be minimized.
-It will be of great importance in future experiments to integrate the waveguide system and the DLA structure on the same chip.
-Thus, the height of the pillar structure may be constrained to be equal to that of the waveguide core and 500 nm thick SOI platforms may be a good starting point for testing these integrated systems.
-
-One waveguide is able to serve multiple DLA periods.
+Furthermore, one waveguide is generally able to power multiple DLA periods.
 However, simulations suggest that additional periods of DLA per waveguide do not significantly increase the total energy gain achievable from a single waveguide.
 Thus, the spacing between waveguides must be large enough to eliminate cross-talk, but small enough to ensure high acceleration gradients.
 
-Here we formalize the calculation of the acceleration gradient used in the parameter study.  In two following subsections, we show how to deal with both arbitrary, finite-duration input pulses and finite stage length structures.  In both derivations, we assume an input pulse $E_0(t)$, which leads to the creation of an accelerating field in the gap of a unit cell $E_z(z,t)$ through the convolution with the corresponding impulse response function $f(z,t)$. In the frequency domain, this is done via multiplication of the pulse spectrum $E_0(\omega)$ with the transfer function $F(z,\omega)$
+It will be of great importance in future experiments to integrate the waveguide system and the DLA structure on the same chip.
+Thus, the height of the pillar structure may be constrained to be equal to that of the waveguide core and 500 nm thick SOI platforms may be a good starting point for testing these integrated systems.
+
+\subsection{Practical Considerations}
+
+Here we discuss practical considerations of this system and formalize the calculation of the acceleration gradient used in the following parameter study.  First, we show how to reason about the acceleration gradient with both arbitrary, finite-duration input pulses and finite stage length structures.  In both derivations, we assume an input pulse $E_0(t)$, which leads to the creation of an accelerating field in the gap of a unit cell $E_z(z,t)$ through the convolution with the corresponding impulse response function $f(z,t)$. In the frequency domain, this is done via multiplication of the pulse spectrum $E_0(\omega)$ with the transfer function $F(z,\omega)$
 \begin{align}
  E_z(z,t) &= E_0(t) \ast f(z,t)\\
  E_z(z,\omega) &= E_0(\omega) F(z,\omega).
 \end{align}
 
-\subsection{Practical Considerations}
+\paragraph{Finite pulse duration:}
 
-\paragraph{Finite pulse duration}
-We wish to derive the correspondence between the time-domain description of the acceleration gradient, given an arbitrary input pulse, and the frequency domain approach that is used in this work and others~\cite{hughes_method_2017, plettner2006proposed}. 
+Here we wish to derive the correspondence between the time-domain description of the acceleration gradient, given an arbitrary input pulse, and the frequency domain approach that is used in the previous Chapter and other works~\cite{hughes_method_2017, plettner2006proposed}. 
 
 In the time domain, the acceleration gradient is expressed as an integral over the accelerating electric field over the particle's trajectory.
 
 \begin{equation}
 G = \frac{1}{L}\int_{-L/2}^{L/2}dz\ E_z(z, t(z)).
 \end{equation}
-
+%
 If the electron moves uniformly in $\hat{z}$ with speed $\beta c_0$, then $z(t) = z_0 + \beta c_0 t$ and we may express the acceleration gradient as a function of the starting time, $t_0$, as
 \begin{align}
 \begin{split}
@@ -342,7 +339,7 @@ G(t_0) &= \frac{1}{L}\int_{-L/2}^{L/2} dz\ E_z(z,t_0 + z/\beta c_0) \\
  \end{split}
 \end{align}
 
-In previous works, such as Ref.~\cite{plettner2006proposed}, the acceleration gradient is computed by first performing a Finite-Difference Time-Domain (FDTD) simulation to record $E_z(z,t)$ along the gap for a series of time, and then maximizing the integral in Eq.~\ref{eq:t0_integral} with respect to $t_0$. However, we may equivalently do the computation in the frequency domain by Fourier transforming this equation with respect to $t_0$, which yields
+In previous works, such as Ref.~\citenum{plettner2006proposed}, the acceleration gradient is computed by first performing a \textit{finite-difference time-domain} (FDTD) simulation to record $E_z(z,t)$ along the gap for a series of time, and then maximizing the integral in Eq.~\ref{eq:t0_integral} with respect to $t_0$. However, we may equivalently do the computation in the frequency domain by Fourier transforming this equation with respect to $t_0$, which yields
 \begin{align}
 \begin{split}
     G(\omega) &= \frac{1}{L}\int_{-L/2}^{L/2} dz\ \int_{-\infty}^{\infty}dt\ E_z(z,t) e^{i\omega (t - z/\beta c_0)} \\
@@ -357,7 +354,7 @@ Now, by performing a series of FDFD simulations at discrete frequencies, we may 
     G = \max_{t_0}|\mathcal{F}^{-1}\{ g(\omega) E_0(\omega)\}|.
 \end{equation}
 
-\paragraph{Finite stage length}
+\paragraph{Finite stage length:}
 
 %\section{\label{appx:length}Finite length DLA structure bandwidth}
 %\textcolor{red}{Combine this section with previous and get rid of transfer function definition (repetitive) for reviewer 3.15}
@@ -409,8 +406,9 @@ L < \tau \beta c_0.
 \end{equation}
 This scales with $\tau$, $\beta$, and $c_0$ in the same fashion as Eq.~\ref{eq:L_tau}, which serves as a sanity check.  However, the full expression in Eq.~\ref{eq:finiteLength} can be used to rigorously compute the effect that a finite stage length structure will have on the acceleration gradient.
 
-\paragraph{Beam Loading and Longitudinal Wakes}
+\paragraph{Beam Loading and Longitudinal Wakes:}
 
+Here we consider the effect of feedback from electron radiation in the device.
 The fundamental unit cell of the proposed accelerator design, depicted in \fig{tree_DLA}, consists of a structure segment of three periods $\Delta z = 3 \lambda$ fed by a single laser pulse of the multi-branch network with duration $\tau$ = 250 fs.
 It is shown in Ref.
 \citenum{plettner2006proposed} that the coupling efficiency of the laser field to a point charge $q$ for the side-coupled geometry used here is analogous to Eq.
@@ -430,17 +428,18 @@ where $Z_C$ is the characteristic impedance and $Z_H$ is the Cherenkov wake impe
     q_\text{opt} = \frac{G_0 \lambda^2}{2 c Z_H}\ \ \ , \ \ \ \eta_{q_\text{opt}} = \frac{1}{4} \frac{\Delta z}{c \tau} \frac{Z_C}{Z_H} .
 }
 For the present case, with $Z_C$ = 149\,$\Omega$, $Z_H$ = 7402\,$\Omega$, $G_0$ = 108\,MV/m, we obtain $q_\text{opt} \approx 0.1$\,fC and $\eta_{q_\text{opt}} \approx 0.04 \%$, corresponding to a retarding gradient  $G_H$ = 54 MV/m and thus a beam loaded gradient $G = G_0/2$.
- The optimal charge corresponds to 608 electrons, which is consistent with achieved laser-triggered emission from nanotip electron sources.
- As shown in \cite{Siemann:PRSTB05} under multi-bunch operation with structures designed for higher gradients, efficiencies can theoretically be in the tens of percents.
- The structure design considered here was intended to illustrate the basic principles of constructing a multi-guided wave system and was not optimized for efficient beam coupling.
- Even so, efficiencies this order are still acceptable for possible near-term applications, such as a 1 to 10 MeV medical linac, where requisite beam powers are less than 1 Watt.
+The optimal charge corresponds to 608 electrons, which is consistent with achieved laser-triggered emission from nanotip electron sources.
+As shown in \cite{Siemann:PRSTB05} under multi-bunch operation with structures designed for higher gradients, efficiencies can theoretically be in the tens of percents.
+The structure design considered here was intended to illustrate the basic principles of constructing a multi-guided wave system and was not optimized for efficient beam coupling.
+Even so, efficiencies this order are still acceptable for possible near-term applications, such as a 1 to 10 MeV medical linac, where requisite beam powers are less than 1 Watt.
  
-\paragraph{Heat Dissipation}
+\paragraph{Heat Dissipation:}
 
 For the pulse parameters used in the following parameter study, the laser input pulse energy at each stage of length $L$ = 192 $\mu$m is $E_p$ = 11 nJ.
 We assume a repetition rate $f_\text{rep}$ = 10 MHz, which is consistent with commercially available solid state fiber lasers at micro-Joule pulse energies.
 Given that there are two input laser couplings per stage of length $L$ in the configuration of Fig.
 \ref{fig:struct}, the average laser power per unit length of accelerator is $dP/dz \approx$ 11 W/cm.
+
 Making a conservative assumption that all of this power passes through solid silicon, which has an absorption coefficient of $\alpha_\text{Si}$ = 0.027 $\text{cm}^{-1}$ at $\lambda$ = 2 $\mu$m, the corresponding absorbed power is of order 6 mW/$\text{cm}^2$.
 This is more than 5 orders of magnitude lower than the technological limit for heat dissipation from planar surfaces where 1 kW/$\text{cm}^2$ is typical \cite{eggleston:1984,rutherford:2000}.
 Prior work has shown that near-critical coupling to silicon dielectric accelerator structures using SOI waveguides is possible with appropriate phase adjustment to produce a traveling wave match between input and output couplers \cite{wu:2014}.
