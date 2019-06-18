@@ -32,11 +32,12 @@ The laser field may also be treated with a pulse front tilt \cite{hebling1996der
 
 \section{Adjoint Method for Accelerator}
 
-\subsection{Mathematical Definition}
 
 To achieve high energy gain in a compact size, it is of principle interest to design structures that may produce the largest acceleration gradients possible without exceeding their respective damage thresholds.
 Here we will discuss the use of the adjoint method and inverse design to design such a structure, as explained originally in Ref. \citenum{hughes_method_2017}.
 To begin, we must first define the optimization figure of merit and design parameters.
+
+\subsection{Mathematical Definition}
 
 We first seek to maximize the \textit{acceleration gradient} of the device, which is defined as the amount of energy gain per unit length achieved by a particle that is phased correctly with the driving field.
 For acceleration to occur, the dielectric structure must be designed such that the particle feels an electric field that is largely parallel to its trajectory over many optical periods.
@@ -73,11 +74,11 @@ Since we have arbitrarily control over our input laser phase, this does not impo
 To simplify the following derivations, we define the following inner product operation involving the integral over two vector quantities $\va$ and $\vb$ over a single period volume $V'$
 %
 \eqdef{}{
-    \bracket{\va}{\vb} = \int_{V'} dv .
+    \bracket{\va}{\vb} = \int_{V'} dv
     \left(\va \cdot \vb \right) = \int_0^{\beta\lambda}dx\int_{-\infty}^\infty dy \left(\va\cdot\vb\right).
 }
 %
-With this definition, we then have the gradient
+With this definition, we then may express the gradient simply as
 %
 \eqdef{G}{
     G = \real{\bracket{\vE}{\veta}},

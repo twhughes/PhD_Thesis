@@ -4,19 +4,19 @@ The field of photonics is concerned with the study and manipulation of light.
 This endeavor has given rise to countless technologies of great scientific and practical interest.
 Perhaps most prominently, the use of light as an information carrier has enabled high speed and low loss communications \cite{agrawal_fiber-optic_2012}.
 Light is also used extensively for precise detection and measurement in scientific studies.  
-For example, X-ray radiation is now used to observe femtosecond dynamics in chemical reactions \cite{kern_structures_2018}, and laser interferometry was recently used to measure gravitational waves emitted from black hole mergers \cite{ligo_scientific_collaboration_and_virgo_collaboration_observation_2016}.
+For example, X-ray radiation is now used to observe femtosecond dynamics in chemical reactions \cite{kern_structures_2018}, and laser interferometry was recently used to measure gravitational waves emitted from the merging of black holes \cite{ligo_scientific_collaboration_and_virgo_collaboration_observation_2016}.
 Apart from these examples, there are many applications of photonics with significant practical importance ranging from renewable energy \cite{carlson_amorphous_1976,yu_fundamental_2010} to passive refrigeration \cite{raman_passive_2014,hsu_radiative_2016}.
 
 One of the most important achievements of photonics in the past few decades has been the development of \textit{integrated} photonic devices \cite{pollock_integrated_2010}.
 In this paradigm, rather than constructing devices using macroscopic components, such as lenses and mirrors, they are created on the surface of a chip using techniques common to the semiconductor industry.
 Such an approach is appealing as it allows for compact, low-cost, and highly functional devices that are also easier to integrate with existing electronic platforms based on composite metal on semiconductor (CMOS) technology \cite{weste_principles_1985}.
-The field of \textit{silicon photonics} has especially generated much interest in recent years, in which photonic devices integrated on Silicon are employed in applications ranging from optical interconnects for fast data transfer between microchips to large scale integrated photonic circuits \cite{jalali_silicon_2006}.
+The field of \textit{silicon photonics}, in particular, has generated much interest in recent years, in which photonic devices integrated on Silicon are employed in applications ranging from optical interconnects for fast data transfer between microchips to large scale integrated photonic circuits \cite{jalali_silicon_2006}.
 
 Here, we will primarily explore two emerging technologies based on integrated photonics, (1) Laser-driven particle accelerators on a chip, and (2) optical hardware for machine learning applications.
 The approach to laser-driven particle acceleration examined here is referred to as \textit{dielectric laser acceleration}, in which charged particles are accelerated by the near field of a patterned dielectric structure driven by an external laser.
 As we will show, this technology may benefit greatly from the use of integrated photonic platforms for its eventual practical applications.
 Integrated photonics is also a promising candidate for building hardware platforms specialized for performing machine learning computation.
-As the transmission of an image through an optical lens applies a Fourier transform with minimal energy consumption, one may design reconfigurable integrated photonic devices, which perform arbitrary linear operations through the passive propagation of optical signals through their domain.
+As the transmission of an image through an optical lens applies a Fourier transform with minimal energy consumption, one may engineer reconfigurable integrated photonic devices to perform arbitrary linear operations through the passive propagation of optical signals through their domain.
 As machine learning models are often dominated by linear operations, this technology may provide a platform with higher processing speed, lower energy usage when compared to conventional digital electronics.
 
 \section{Photonic Device Design}
@@ -26,14 +26,14 @@ As machine learning models are often dominated by linear operations, this techno
 In any of these applications, it is of critical importantce to design the photonic device to perform the desired functionality.
 The typical approach to such a process is to use physical intuition to propose a device design.
 This device may be parameterized by several \textit{design variables}, such as geometric or material parameters.
-Then, these parameters may optimized, using numerical simulation or experiment, until they converge on a final design that performs well on the given task, while satisfying other constraints, such as minimum achievable feature size, for example.
+Then these parameters may optimized, using numerical simulation or experiment, until they converge on a final design that performs well on the given task, while satisfying other constraints, such as minimum achievable feature size, for example.
 As an example, if one is interested in designing a device routes input light to different ports for different input wavelengths, one such approach would be to combine several wavelength filters into one device and tune their parameters until the functionality is achieved.
 Such an approach, while intuitive, has a number of potential drawbacks.
 First, it is dependent on the designer having significant physical intuition about the problem, which is not always available, especially in novel applications.
 Second, the method of tuning parameters by hand is tedious and the time needed to complete such a task generally has poor scaling with the number of design variables.
 This fact means that the designer is practically limited to examining a small number of design variables or only a few select combinations.
 The use of few design variables further limits the designer to consider devices within a fixed parameterization.
-For example, if one were to designing a device for tailored diffraction or transmission characteristics, he or she may decide to explore grating structures parameterized by tooth height, width, and duty cycle, while ignoring other possible designs.
+For example, if one were to design a device for tailored diffraction or transmission characteristics, he or she may decide to explore grating structures parameterized by tooth height, width, and duty cycle, while ignoring other possible designs.
 
 \subsection{Inverse Design Approach}
 
@@ -52,9 +52,9 @@ For a thorough overview of the progress of inverse design in photonics at the ti
 
 As we will explore in detail, the ability to perform inverse design is largely enabled by the ability to efficiently search such a large parameter space.
 Typically, this is performed using \textit{gradient-based optimization} techniques, which use local gradient information to iteratively progress through the design space.
-In design problems with several degrees of freedom, gradient-based methods typically converge on local minima much faster than more general optimization techniques such as particle swarm optimization \cite{noauthor_particle_nodate} or genetic algorithms \cite{whitley_genetic_1994}, which don't typically use local gradient information.
+In design problems with several degrees of freedom, gradient-based methods typically converge on local minima much faster than more general optimization techniques such as particle swarm optimization \cite{noauthor_particle_nodate} or genetic algorithms \cite{whitley_genetic_1994}, which typically do not use local gradient information.
 
-In problems constrained by physics described by linear systems or differential equations, the \textit{adjoint method} is typically used to compute these gradients.
+In problems constrained by physics described by linear systems or differential equations, the \textit{adjoint method} is commonly used to compute these gradients.
 The adjoint method allows one to compute gradients of the objective function with respect to each of the design parameters in a complexity that is, in practice, independent of the size of the design space.
 As such, it is the cornerstone of the inverse design works in photonics and other fields.
 
@@ -77,10 +77,10 @@ The thesis is organized as follows:
 In Chapter 2, we will introduce the mathematical details behind adjoint-based optimization.  
 To give a concrete example, we will focus on its application to laser-driven particle accelerators on a chip.
 To continue this discussion, in Chapter 3, we will explore the use of photonic integrated circuits to scale laser-driven particle accelerators to longer length scales and practical applications.
-This discussion will motivate the need to use inverse design for new components, and we will discuss efforts to use such techniques to build these systems experimentally.
+This discussion will suggest the need to use inverse design for new components, and we will discuss efforts to use such techniques to build these systems experimentally.
 In Chapter 4, we will discuss optical hardware platforms for machine learning applications.
 The adjoint method will be explored in the context of training an optical neural network, and we will show that its implementation corresponds to the backpropagation algorithm of conventional neural networks.
 A novel method for experimentally measuring the gradients obtained through the adjoint method will be introduced in the context of machine learning hardware and we will also discuss our exploration of nonlinear optical activation functions.
 In Chapter 5, the use of time-domain adjoint methods will then be introduced in the context of using wave physics to perform analog machine learning on raw time-series signals.
-Then, in Chapter 6, we will explore the extension of the adjoint method to general systems, in particular those described by a nonlinear system of equations.
+Then, in Chapter 6, we will explore the extension of the adjoint method to general optical systems, in particular those described by a nonlinear system of equations.
 We will conclude and provide an outlook of these methods in Chapter 7.
