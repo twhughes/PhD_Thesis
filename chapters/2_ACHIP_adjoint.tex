@@ -12,7 +12,7 @@ The largest current particle accelerators reach several of kilometers in length,
 Dielectric laser acceleration (DLA) is an emerging method that seeks to revolutionize particle accelerator technology by exploiting the decades of progress in nanofabrication, materials science, and laser technology.
 In DLA, instead of using metal structures driven by microwaves, dielectric structures are illuminated with infrared laser light, which creates an electromagnetic field pattern in their vicinity that may accelerate electrically charged particles, such as electrons.
 When compared to metal surfaces at microwave frequencies, dielectric materials have very high damage thresholds at short pulse durations and infrared wavelengths \cite{mcneur2016elements, soong2012laser}.
-This fact allows DLAs to acieve energy gains per length that are between 10 to 100 times higher than those found in conventional radio frequency (RF) accelerators.
+This fact allows DLAs to achieve energy gains per length that are between 10 to 100 times higher than those found in conventional radio frequency (RF) accelerators.
 
 Experimental demonstrations of these acceleration gradients have been made practical in recent years by the availability of robust nanofabrication techniques combined with modern solid state laser systems \cite{dawson2008analysis}.
 As a result, the development of DLA may lead to compact particle accelerators that enable new applications.
@@ -69,7 +69,7 @@ In the limit of an infinitely long structure (or equivalently, $T \to \infty $) 
 %
 Here the quantity $\phi_0 = \frac{2\pi x_0}{\beta\lambda}$ is representative of the phase of the particle as it enters the spatial period.
 In further calculations, we set $\phi_0 = 0$, only examining the acceleration gradients experienced by particles entering the accelerator with this specific phase.
-Since we have arbitrarily control over our input laser phase, this does not impose any constraint on the acceleration gradient attainable.
+Since we have arbitrary control over our input laser phase, this does not impose any constraint on the acceleration gradient attainable.
 
 To simplify the following derivations, we define the following inner product operation involving the integral over two vector quantities $\va$ and $\vb$ over a single period volume $V'$
 %
@@ -113,11 +113,11 @@ Our problem then becomes finding the permittivity of each cell that will maximiz
 To accomplish this, the most naive approach would involve performing a direct search over the full design space.
 For example, one could label each cell within the design region with an identifier `0' or `1' corresponding to `vaccuum' and `material', respectively.
 Then, one would generate all possible structures and check their respective acceleration gradients.
-However, as one can imagine, this method would be far too computationally expensive to perform in practice.
+However, this method would be far too computationally expensive to perform in practice.
 For example, even considering a very small design region consisting of 10 $\times$ 10 = 100 grid cells would result in $2^{100} \approx 10^{30}$ device simulations, which is far too many to realistically perform.
-While one may consider smart ways of searching through this device space without checking each structure, for example using global optimization approaches such as genetic algorithms \cite{whitley_genetic_1994} or particle swarm optimization \cite{noauthor_particle_nodate}, this problem is still quite computationally expensive and the size of design space becomes exponentially larger as the number of design parameters are increased.
+While one may consider more efficient ways of searching through this device space without checking each structure, for example using global optimization approaches such as genetic algorithms \cite{whitley_genetic_1994} or particle swarm optimization \cite{noauthor_particle_nodate}, this problem is still quite computationally expensive and the size of design space becomes exponentially larger as the number of design parameters are increased.
 
-As mentioned, a smarter approach involves performing $\textit{gradient-based optimization}$, in which we search the design space according to the local gradient of the figure of merit with respect to each of the parameters.
+As mentioned, a more effective approach involves performing $\textit{gradient-based optimization}$, in which we search the design space according to the local gradient of the figure of merit with respect to each of the parameters.
 For example, we may start with an initially random device, compute how the performance will change with respect to a change in the permittivity of each cell in the design region, and make a small update.
 This process may be repeated until convergence on a locally optimal solution.
 If the design space contains several local optima, then this whole process may be repeated several times with different initial conditions.

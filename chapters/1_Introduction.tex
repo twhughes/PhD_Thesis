@@ -26,7 +26,7 @@ As machine learning models are often dominated by linear operations, this techno
 In any of these applications, it is of critical importantce to design the photonic device to perform the desired functionality.
 The typical approach to such a process is to use physical intuition to propose a device design.
 This device may be parameterized by several \textit{design variables}, such as geometric or material parameters.
-Then these parameters may optimized, using numerical simulation or experiment, until they converge on a final design that performs well on the given task, while satisfying other constraints, such as minimum achievable feature size, for example.
+Then these parameters may optimized, using numerical simulation or experiment, until they converge on a final design that performs well on the given task while satisfying other constraints, such as minimum achievable feature size, for example.
 As an example, if one is interested in designing a device routes input light to different ports for different input wavelengths, one such approach would be to combine several wavelength filters into one device and tune their parameters until the functionality is achieved.
 Such an approach, while intuitive, has a number of potential drawbacks.
 First, it is dependent on the designer having significant physical intuition about the problem, which is not always available, especially in novel applications.
@@ -52,7 +52,7 @@ For a thorough overview of the progress of inverse design in photonics at the ti
 
 As we will explore in detail, the ability to perform inverse design is largely enabled by the ability to efficiently search such a large parameter space.
 Typically, this is performed using \textit{gradient-based optimization} techniques, which use local gradient information to iteratively progress through the design space.
-In design problems with several degrees of freedom, gradient-based methods typically converge on local minima much faster than more general optimization techniques such as particle swarm optimization \cite{noauthor_particle_nodate} or genetic algorithms \cite{whitley_genetic_1994}, which typically do not use local gradient information.
+In design problems with several degrees of freedom, gradient-based methods generally converge on local minima much faster than more general optimization techniques such as particle swarm optimization \cite{noauthor_particle_nodate} or genetic algorithms \cite{whitley_genetic_1994}, which typically do not use local gradient information.
 
 In problems constrained by physics described by linear systems or differential equations, the \textit{adjoint method} is commonly used to compute these gradients.
 The adjoint method allows one to compute gradients of the objective function with respect to each of the design parameters in a complexity that is, in practice, independent of the size of the design space.

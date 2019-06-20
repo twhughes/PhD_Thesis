@@ -119,7 +119,7 @@ These matrices define injection and measuring points within the spatial domain.
 Unlike the standard RNN, where the input and output matrices are dense, the input and output matrices of the wave equation are usually sparse and, moreover, unchanged by the training process.
 The nonlinear relationship between the hidden state, $\bvec{h}_t$, and the output, $\bvec{y}_t$, of the wave equation is typical in wave physics since the output usually corresponds to a measurement of the wave intensity.
 
-To more explicitly define the input and output of this RNN, we introdue the linear operators, $\Min$ and $\Mout$, each column of which define the respective spatial distributions of the injection and measurement points in this flattened basis.
+To more explicitly define the input and output of this RNN, we introduce the linear operators, $\Min$ and $\Mout$, each column of which define the respective spatial distributions of the injection and measurement points in this flattened basis.
 With this, we can write the injection of the input vector ($\bvec{x}_t$) as a matrix-vector multiplication
 %
 \begin{equation}
@@ -244,7 +244,7 @@ Therefore, the vowel recognition task learned by the system in the main text is 
   \label{fig:s_spectrum}
 \end{figure*}
 
-To validate the perfromance of our system, the full dataset of (3 classes) $\times$ (45 males + 48 females) = 272 vowel samples is divided into 5 groups of approximately equal size.
+To validate the performance of our system, the full dataset of (3 classes) $\times$ (45 males + 48 females) = 272 vowel samples is divided into 5 groups of approximately equal size.
 Cross validated training is performed with 4 out of the 5 sample groups forming a training set and 1 out of the 5 sample groups forming a testing set.
 Independent training runs are performed with each of the 5 groups serving as the testing set, with results being averaged over all training runs. 
 During each epoch, every sample vowel sequence from the training set is windowed to a length of 1000, taken from the center of the sequence, but the testing is performed on the full sequence.
