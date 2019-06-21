@@ -1,4 +1,4 @@
-In the previous Chapter, we demonstrated the use of the adjoint method to compute the gradient of a device that is parameterized by optical phase shifters.  We showed that this formalism allows one to train a common class of optical neural network based on MZI meshes.  In this Chapter, we will continue to explore the use of the adjoint method in training of optical machine learning hardware, but will take a more general approach.  Specifically, we will discuss the use of an optical system (or a wave system, more generally), as an analog computing platform for processing time series signals.  As we will show, this capability is made possible by the use of the adjoint method, which allows one to come up with a structure to solve a particular machine learning task through inverse design and optimization.
+In the previous Chapter, we demonstrated the use of the adjoint method to compute the gradient of a device that is parameterized by optical phase shifters.  We showed that this formalism allows one to train a common class of optical neural network based on MZI meshes.  In this Chapter, we will continue to explore the use of the adjoint method in training of optical machine learning hardware, but will take a more general approach.  Specifically, we will discuss the use of an optical system (or a wave system, more generally), as an analog computing platform for processing time series signals.  As we will show, this capability is made possible by the use of the adjoint method, which allows one to come up with a structure to solve a particular machine learning task through inverse design and optimization \cite{hughes_wave_2019}
 
 % In this framework, rather than using reflections or feedback circuits, the recurrence relationship occurs naturally in the time dynamics of the physics itself and the memory and information processing is provided by the waves as they propagate through space.
 
@@ -9,7 +9,7 @@ In the previous Chapter, we demonstrated the use of the adjoint method to comput
 
 \section{Wave Physics as a Recurrent Neural Network}
 
-Analog computing platforms, which use the natural evolution of a continuous physical system to perform calculations, are emerging as important direction for the implementation of machine learning models \cite{shen_deep_2017, biamonte_quantum_2017, laporte2018numerical, lin2018all, khoram_stochastic_2018}.
+Analog computing platforms, which use the natural evolution of a continuous physical system to perform calculations, are emerging as important direction for the implementation of machine learning models \cite{shen2017deep, biamonte_quantum_2017, laporte2018numerical, lin2018all, Khoram_2019}.
 Such a scheme has a number of potential benefits. Namely, they are able to \textit{passively} process signals and information in their native domain, without analog-to-digital conversion, which should result in a significant gain in speed and a reduction in power consumption.
 
 Here, we identify a mapping between the dynamics of wave-based physical phenomena, such as acoustics and optics, and the computation in a recurrent neural network (RNN).
@@ -21,7 +21,7 @@ Memory of previous time steps is encoded into the RNN's \textit{hidden state}, w
 The information in the hidden state allows for the RNN to learn temporal structure and long-range dependencies in data \cite{elman1990finding, jordan1997serial}.
 At a given time step, $t$, the RNN operates on the current input vector in the sequence, $\bvec{x}_t$, and the hidden state vector from the previous step, $\bvec{h}_{t-1}$, to produce an output vector, $\bvec{y}_t$, as well as an updated hidden state, $\bvec{h}_t$. 
 %
-While many variations of RNNs exist, a common implementation \cite{Goodfellow-et-al-2016} is described by the following update equations
+While many variations of RNNs exist, a common implementation \cite{goodfellow2016deep} is described by the following update equations
 %
 \begin{align}
     \bvec{h}_t &= \sigh \left(\Wh \cdot \bvec{h}_{t-1} + \Wx \cdot \bvec{x}_t \right)
@@ -104,7 +104,7 @@ Equation \ref{eq:tmp1} therefore represents the discretized update equation for 
 \end{equation}
 
 Nonlinearity may be introduced into the system by assuming an intensity-dependent wave speed of the form $c{(x,y)} = c_{\text{linear}} + c_{\text{nonlinear}} \cdot \vert u_t{(x,y)} \vert^2$, where $c_{\text{nonlinear}}$ is exhibited in regions containing nonlinear materials.
-In practice, this class of nonlinearity is encountered in a variety of wave physics, such as shallow water waves \cite{ursell_long-wave_1953} or nonlinear optics via the Kerr effect \cite{boyd_nonlinear_2008}.
+In practice, this class of nonlinearity is encountered in a variety of wave physics, such as shallow water waves \cite{ursell_long-wave_1953} or nonlinear optics via the Kerr effect \cite{Boyd__2008}.
 
 To make the connection to the standard RNN more apparent, we define the wave system's \textit{hidden state} as the concatenation of the field distributions at the current and immediately preceding time steps, $\bvec{h}_t \equiv [\bvec{u}_t,~\bvec{u}_{t-1}]^T$, where $\bvec{u}_t$ and $\bvec{u}_{t-1}$ are vectors representing the \textit{flattened} fields, $u_t$ and $u_{t-1}$, discretized in the spatial domain.  With this, we may express the update of the wave equation from Eq. (\ref{eq:update_damped}) as
 %
@@ -219,7 +219,7 @@ where $c_0$ and $c_1$ are the background and optimized material wave speed, resp
 
 To train the system, we perform backpropagation through the model of the wave equation to compute the gradient of the cross entropy loss function of the measured outputs with respect to the density of material in each pixel of the trainable region.
 As we discussed to in the previous Chapter, this process is mathematically equivalent performing the adjoint method.
-Then, we use this gradient information update the material density using the the Adam optimization algorithm \cite{kingma2014adam}, repeating until convergence on a final structure (Fig. \ref{fig:train}D).
+Then, we use this gradient information to update the material density until convergence on a final structure (Fig. \ref{fig:train}D).
 
 Numerical modeling and simulation of the wave equation physics was performed using a custom software package written in Python \cite{wavetorch}.
 The software package was developed on top of the popular machine learning library, \texttt{pytorch}, to compute the gradients of the loss function with respect to the material distribution via reverse-mode automatic differentiation.
@@ -346,5 +346,5 @@ This conceptual connection opens up the opportunity for a new class of analog ha
 % In particular, we demonstrated that, on a vowel classification problem, train and test accuracies of \result{93}\% and \result{86}\% can be attained, which are comparable to those from a standard RNN with a comparable number of free parameters.
 % More broadly, our results point toward several exciting directions in analog computing for machine learning.
 While we have focused on a specific example of the scalar wave equation, our results apply broadly to other wave-like physics.
-Such an approach of using physics to perform computation \cite{silva_performing_2014, hermans_trainable_2015, guo_photonic_2018, lin2018all, kwon_nonlocal_2018, estakhri_inverse-designed_2019} may inspire a new platform for analog machine learning devices, with the potential to perform computation far more naturally and efficiently than their digital counterparts.
+Such an approach of using physics to perform computation \cite{silva_performing_2014, Hermans2015, guo_photonic_2018, lin2018all, kwon_nonlocal_2018, estakhri_inverse-designed_2019} may inspire a new platform for analog machine learning devices, with the potential to perform computation far more naturally and efficiently than their digital counterparts.
 The generality of the approach further suggests that many physical systems may be attractive candidates for performing RNN-like computation on naturally occurring sequences, such as optical, acoustic, or seismic signals.
