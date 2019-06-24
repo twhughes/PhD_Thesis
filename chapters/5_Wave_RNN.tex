@@ -183,7 +183,7 @@ In practice, the wave speeds would be modified to correspond to different materi
 For example, in an acoustic setting the material distribution could consist of air, where the sound speed is 331 m/s, and porous silicone rubber, where the sound speed is 150 m/s \cite{ba_soft_2017}.
 The initial distribution of the wave speed consists of a uniform region of material with a speed which is midway between those of the two materials (Fig. \ref{fig:train}D).
 
-To create realistic devices with sufficiently large minimum feature sizes and binarized materials, we utilized spatial filtering and thresholding schemes.  A material density parameter $\rho(x,y)$ is defined for the structure, which may vary from 0 to 1.  Then, we apply a low pass spatial filter to $\rho(x,y)$, which gives a filtered density, labelled $\tilde{\rho}(x,y)$
+To create realistic devices with sufficiently large minimum feature sizes and binarized materials, we utilized spatial filtering and thresholding schemes.  A material density parameter $\rho(x,y)$ is defined for the structure, which may vary from 0 to 1.  Then, we apply a low pass spatial filter to $\rho(x,y)$, which gives a filtered density, labeled $\tilde{\rho}(x,y)$
 %
 % \begin{equation}
 % \tilde{\rho}(x,y) = 
@@ -203,8 +203,9 @@ To create realistic devices with sufficiently large minimum feature sizes and bi
 0 & 1/8 & 0
 \end{bmatrix}
 *
-\rho(x,y).
+\rho(x,y),
 \end{equation}
+where $*$ is a spatial convolution operation.
 For binarization of the resulting structure, a projection scheme is used to recreate the final wave speed from the filtered density.  We define $\bar{\rho}(x,y)$ as the projected density, which is created from $\tilde{\rho}(x,y)$ as
 \begin{equation}
 \bar{\rho}_i = \frac{\tanh{\left( \beta \eta \right)} + \tanh{\left( \beta \left[ \tilde{\rho}_i - \eta \right] \right)}}{\tanh{\left( \beta \eta  \right)} + \tanh{\left( \beta \left[ 1 - \eta \right] \right)}}.

@@ -16,18 +16,18 @@ Here, we will primarily explore two emerging technologies based on integrated ph
 The approach to laser-driven particle acceleration examined here is referred to as \textit{dielectric laser acceleration}, in which charged particles are accelerated by the near field of a patterned dielectric structure driven by an external laser.
 As we will show, this technology may benefit greatly from the use of integrated photonic platforms for its eventual practical applications.
 Integrated photonics is also a promising candidate for building hardware platforms specialized for performing machine learning computation.
-As the transmission of an image through an optical lens applies a Fourier transform with minimal energy consumption, one may engineer reconfigurable integrated photonic devices to perform arbitrary linear operations through the passive propagation of optical signals through their domain.
+Similar to the fact that the transmission of an image through an optical lens applies a Fourier transform with minimal energy consumption, one may engineer reconfigurable integrated photonic devices to perform arbitrary linear operations through the passive propagation of optical signals through their domain.
 As machine learning models are often dominated by linear operations, this technology may provide a platform with higher processing speed, lower energy usage when compared to conventional digital electronics.
 
 \section{Photonic Device Design}
 
 \subsection{Traditional Design Approach}
 
-In any of these applications, it is of critical importantce to design the photonic device to perform the desired functionality.
+In any of the photonic applications as mentioned above, it is of critical importance to design the photonic device to perform the desired functionality.
 The typical approach to such a process is to use physical intuition to propose a device design.
 This device may be parameterized by several \textit{design variables}, such as geometric or material parameters \cite{hughes_plasmonic_2016}.
-Then these parameters may optimized, using numerical simulation or experiment, until they converge on a final design that performs well on the given task while satisfying other constraints, such as minimum achievable feature size, for example.
-As an example, if one is interested in designing a device routes input light to different ports for different input wavelengths, one such approach would be to combine several wavelength filters into one device and tune their parameters until the functionality is achieved.
+Then these parameters may be optimized, using numerical simulation or experiment, until they converge on a final design that performs well on the given task while satisfying other constraints, such as minimum achievable feature size, for example.
+As an example, if one is interested in designing a device to route input light to different ports for different input wavelengths, one such approach would be to combine several wavelength filters into one device and tune their parameters until the functionality is achieved.
 Such an approach, while intuitive, has a number of potential drawbacks.
 First, it is dependent on the designer having significant physical intuition about the problem, which is not always available, especially in novel applications.
 Second, the method of tuning parameters by hand is tedious and the time needed to complete such a task generally has poor scaling with the number of design variables.
@@ -39,11 +39,11 @@ For example, if one were to design a device for tailored diffraction or transmis
 
 \textit{Inverse design} is a radically different approach that has become popular in photonics within the past decade \cite{molesky_inverse_2018}.  
 In this scheme, the overall performance of the device is defined mathematically through an \textit{objective function}, which is then either maximized or minimized using computational and mathematical optimization techniques.
-This approach allows for automated design of photonic devices that are often more compact and more performant than their traditionally-designed alternatives.
+This approach allows for automated design of photonic devices that are often more compact and better performing than their traditionally-designed alternatives.
 Furthermore, this approach allows one to search through a much larger parameter space, typically on the order of thousands to millions of design variables, which enables the design algorithms to often find complex structures that are beyond the reach of human intuition.
 
 The use of inverse design has a long history in other fields, such as mechanics \cite{tanaka_inverse_1998}, aerodynamics \cite{jameson_aerodynamic_nodate}, and heat transfer \cite{ozisik_inverse_2018}.
-However, its introduction to photonics has only occured relatively recently.
+However, its introduction to photonics has only occurred relatively recently.
 A few early examples include the use of inverse design to engineer wavelength splitters \cite{piggott_inverse_2015}, perfect 90 degree bends in dielectric waveguides \cite{jensen_topology_2005}, or the design of photonic crystals \cite{borel_topology_2004}.
 More recently, it was applied to engineer more exotic phenomena, nonlinear optical responses \cite{lin_cavity-enhanced_2016}, and metamaterials \cite{sigmund_systematic_2009}.
 For a thorough overview of the progress of inverse design in photonics at the time of publishing, we refer the reader to Ref. \citenum{molesky_inverse_2018}.

@@ -136,7 +136,7 @@ In the frequency domain, Maxwell's equations may be written as
 }
 %
 Here, $\vE(\vr)$ and $\vJ(\vr)$ are the electric field and electric current distributions, respectively. $k_0 = \omega/c_0$, $\eps_r$ is the relative permittivity and a non-magnetic material is assumed ($\mu = \mu_0$).
-This formalism is referred to as \textit{finite-difference frequency-domain} (FDFD) \cite{shin2012choice, taflove2000computational}.
+\eq{FDFD_analytical} can be solved with the \textit{finite-difference frequency-domain} (FDFD) method \cite{shin2012choice, taflove2000computational}, where both the structure and the fields are discretized on a finite-difference grid.
 
 More abstractly, we may write \eq{FDFD_analytical} as
 %
@@ -180,7 +180,7 @@ Then, the field solution, $\bfx_\aj = -A^{-1}\pfrac{J}{\bfx}^T$, can be easily i
 The only quantity in this expression that depends on the parameter $\bfphi$ is $\pfrac{A}{\bfphi}$.
 As we will soon discuss, this quantity will generally be trivial to compute.
 On the other hand, the full field calculations of $\bfx$ and $\bfx_\aj$ are computationally expensive, but may be computed once and used for an arbitrarily large set of parameters $\bfphi_i$.
-This gives the adjoint method significant scaling advantage with respect to traditional direct sensitivity methods, such as finite difference, which require a separate full-field calculation for each parameter being investigated.
+This gives the adjoint method a significant scaling advantage with respect to traditional direct sensitivity methods, such as the numerical, 'finite-difference' differentiation approach, in which each parameter is independently perturbed a small amount and the resulting change in objective function is measured.
 
 Previously, we expressed the acceleration gradient as the inner product of the electric fields $\vE(\vr)$ and our vector field $\veta(\vr)$ as
 %
@@ -428,11 +428,7 @@ Furthermore, the structures that we design are fabricable.
 %3. How does it compare with literature?
 Although no DLA structures have been tested at the proposed wavelength of $2\, \mu$m, both simulations \cite{plettner2006proposed} and experimental results from other wavelengths \cite{leedle2015dielectric} show gradients far below those presented here.
 %4. What are the limitations?
-We had limited success designing DLA structures in the relativistic ($\beta \approx 1$) regime, especially for higher index materials, such as Si.
-We believe this is largely due to the stronger coupling between electron beam and incident plane wave at this energy.
-The characteristics of the adjoint source change dramatically at the $\beta = 1$ point.
-Whereas in the sub-relativistic regime, the adjoint source generates an evanescent near-field extending from the gap particle position, at $\beta \geq 1$, the adjoint fields become propagating by process of Cherenkov radiation. Upon using the above described algorithm, the gradients diverge before returning to low values, no matter the step size $\alpha$.
-The only way to mitigate this problem is to choose prohibitively small design regions or low index materials, such as SiO$_2$.
+We had limited success designing DLA structures in the regime of $\beta > 1 / n$, where $n$ is the refractive index of the DLA structure.  In this regime, the electron is moving faster than the speed of light in the material region, which leads to stronger coupling between the electron beam and incident plane wave.  This fact causes optimizations that are more unstable and do not converge on the same structure for several starting parameters.
 
 In addition to the side-incident geometry explored, this technique is applicable to designing other dielectric-based accelerator structures.
 This includes particle-laser co-propagating schemes \cite{cowan2008three} and dielectric wakefield acceleration
