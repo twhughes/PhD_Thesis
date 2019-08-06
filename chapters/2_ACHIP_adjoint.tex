@@ -41,6 +41,7 @@ To begin, we must first define the optimization figure of merit and design param
 
 We first seek to maximize the \textit{acceleration gradient} of the device, which is defined as the amount of energy gain per unit length achieved by a particle that is phased correctly with the driving field.
 For acceleration to occur, the dielectric structure must be designed such that the particle feels an electric field that is largely parallel to its trajectory over many optical periods.
+Here we consider framing an optimization problem to maximize the acceleration gradient, which take as our figure of merit (labelled $J$ in previous discussions).
 In a general DLA device, the acceleration gradient `$G$' over a time period `$T$' is defined mathematically as
 %
 \eqdef{Gintro}{
@@ -57,6 +58,7 @@ For an approximately monochromatic input laser source with angular frequency $\o
     \vE(\vr,t) = \real{\tE(\vr)e^{i\omega t}},
 }
 where $\tE$ is complex-valued.
+In the following chapter we discuss the generalization of this analysis to broadband light.
 
 Let us assume the particle we wish to accelerate is moving on the line $y=0$ with velocity $\vec{v} = \beta c_0 \hat{x}$, where $c_0$ is the speed of light in vacuum and $\beta \leq 1$.
 The $x$ position of the particle as a function of time is given by $x(t) = x_0 + \beta c_0 t$, where $x_0$ represents an arbitrary choice of initial starting position.
@@ -341,12 +343,14 @@ These findings together suggest that the proposed structures may be close to the
 
 \figdef{DLA_Similarity.png}{DLA_sim}{Similarity between DLA structures designed using adjoint method (left) and those independently proposed using human intuition.}
 
-It was further found that convergence could be achieved faster by a factor of about ten by including a `momentum' term in the update equation.
-This term corresponds to the sensitivity calculated at the last iteration multiplied by a constant, $\alpha' < 1$. Explicitly, for iteration number `$j$' and pixel `$i$' 
+There are several variants of gradient descent which speed up the optimization in most cases. ‘Momentum’ is one such technique in which the design parameters are updated not only from the gradient information at the current iteration, but also a weighted sum of previous gradients.
+Intuitively, this means if an optimization has been trending in a given direction, it will be more likely to continue in this direction, which can improve speed and stability.
+Specifically, the momentum term term corresponds to the sensitivity calculated at the last iteration multiplied by a constant, $\alpha' < 1$. For iteration number `$j$' and pixel `$i$' the update is defined as
 
 \eqdef{}{
     \epsilon_i^{ (j+1) } := \epsilon_i^{ (j) } + \alpha\Bigg[ \ddfrac{G}{\epsilon_i}^{ (j) } + \alpha'\ddfrac{G}{\epsilon_i}^{ (j-1) }\Bigg].
 }
+
 
 \subsection{Maximization of Acceleration Factor}
 
